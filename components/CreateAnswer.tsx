@@ -1,13 +1,11 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { use } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const CreateQuestion = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [prize, setPrize] = useState(0);
+const CreateAnswer = ({ questionId }) => {
+  const [text, setText] = useState("");
   const { data: session, status } = useSession();
   const userId = session?.user?.id;
   const router = useRouter();
@@ -16,12 +14,12 @@ const CreateQuestion = () => {
     event.preventDefault();
     // Post data to the server
     try {
-      const response = await fetch("/api/questions", {
+      const response = await fetch("/api/answers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content, authorId: userId, prize }),
+        body: JSON.stringify({ text, authorId: userId, questionId }),
       });
 
       if (!response.ok) {
@@ -30,7 +28,6 @@ const CreateQuestion = () => {
       if (response.ok) {
         // Handle success - e.g., redirecting to a new page or showing a success message
         const data = await response.json();
-        router.push(`/${data.result.id}`);
         router.refresh();
       }
 
@@ -43,32 +40,15 @@ const CreateQuestion = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="title">Title:</label>
-      <input
-        id="title"
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-
       <label htmlFor="content">Content:</label>
       <textarea
         id="content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
       />
-
-      <label htmlFor="prize">Prize:</label>
-      <input
-        id="prize"
-        type="integer"
-        value={prize}
-        onChange={(e) => setPrize(e.target.value)}
-      />
-
-      <button type="submit">Create Question</button>
+      <button type="submit">Create Answer</button>
     </form>
   );
 };
 
-export default CreateQuestion;
+export default CreateAnswer;
