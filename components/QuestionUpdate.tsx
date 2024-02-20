@@ -1,25 +1,22 @@
 "use client";
-import React, { use } from "react";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
+import React from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-const CreateAnswer = ({ questionId }) => {
+const QuestionUpdate = ({ questionId }) => {
   const [text, setText] = useState("");
-  const { data: session, status } = useSession();
-  const userId = session?.user?.id;
   const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Post data to the server
     try {
-      const response = await fetch("/api/answer", {
+      const response = await fetch("/api/questionUpdate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text, authorId: userId, questionId }),
+        body: JSON.stringify({ content: text, questionId }),
       });
 
       if (!response.ok) {
@@ -38,18 +35,6 @@ const CreateAnswer = ({ questionId }) => {
     }
   };
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  if (!session) {
-    return (
-      <div>
-        <p>Please sign in to answer the question</p>
-      </div>
-    );
-  }
-
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="content">Content:</label>
@@ -58,9 +43,9 @@ const CreateAnswer = ({ questionId }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <button type="submit">Create Answer</button>
+      <button type="submit">Update Question</button>
     </form>
   );
 };
 
-export default CreateAnswer;
+export default QuestionUpdate;

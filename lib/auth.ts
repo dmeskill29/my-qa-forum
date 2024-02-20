@@ -23,6 +23,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email
         session.user.image = token.picture
         session.user.username = token.username
+        session.user.roles = token.roles
       }
 
       return session
@@ -51,12 +52,37 @@ export const authOptions: NextAuthOptions = {
         })
       }
 
+      if (dbUser.email === process.env.ADMIN_EMAIL_1 || dbUser.email === process.env.ADMIN_EMAIL_2) {
+        await db.user.update({
+          where: {
+            id: dbUser.id,
+          },
+          data: {
+            roles: {
+              set: ['admin', "user"],
+            },
+          },
+        })
+      } else {
+        await db.user.update({
+          where: {
+            id: dbUser.id,
+          },
+          data: {
+            roles: {
+              set: ['user'],
+            },
+          },
+        })
+      }
+
       return {
         id: dbUser.id,
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
         username: dbUser.username,
+        roles: dbUser.roles,
       }
     },
     redirect() {

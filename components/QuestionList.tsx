@@ -3,19 +3,6 @@ import Link from "next/link";
 import React from "react";
 import Question from "./Question";
 
-// const QuestionList = ({ questions = [] }) => {
-//   return (
-//     <div>
-//       {questions.map((question) => (
-//         <div key={question.id}>
-//           <h2>{question.title}</h2>
-//           <p>{question.content}</p>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
 const QuestionList = ({ questions }) => {
   // Check if questions is an array before using map
   if (!Array.isArray(questions)) {
@@ -25,11 +12,9 @@ const QuestionList = ({ questions }) => {
   return (
     <div>
       {questions.map((question) => (
-        <div>
-          <Link href={`/${question.id}`} key={question.id}>
-            <Question questionId={question.id} />
-          </Link>
-        </div>
+        <Link href={`/${question.id}`} key={question.id}>
+          <Question questionId={question.id} />
+        </Link>
       ))}
     </div>
   );

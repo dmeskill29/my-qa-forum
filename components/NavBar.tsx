@@ -11,15 +11,17 @@ const NavBar = async () => {
     <div>
       <Link href="/">Home</Link>
       {session?.user ? (
-        <>
-          <p>Logged in as {session.user.username}</p>
+        <div>
+          <Link href={`/user/${session.user.username}`}>
+            {session.user.username}
+          </Link>
           <SignOutButton />
-        </>
+        </div>
       ) : (
-        <>
-          <p>Not logged in</p>
+        <div>
+          <p>Not signed in</p>
           <Link href="/sign-in">Sign In</Link>
-        </>
+        </div>
       )}
     </div>
   );

@@ -51,9 +51,9 @@ model User {
   image             String?
   email             String?        @unique
   emailVerified     DateTime?
-  roles             String[]
-  walletId          String?         @unique
-  wallet            Wallet?         @relation(fields: [walletId], references: [id])
+  roles             String[]       @default(["user"])
+  walletId          String?        @unique
+  wallet            Wallet?        @relation(fields: [walletId], references: [id])
   accounts          Account[]
   sessions          Session[]
   questions         Question[]
@@ -69,16 +69,17 @@ model Wallet {
 }
 
 model Question {
-  id          String    @id @default(cuid())
-  title       String
-  content     Json?
-  createdAt   DateTime  @default(now())
-  prize       Int
-  updatedAt   DateTime  @updatedAt
-  author      User      @relation(fields: [authorId], references: [id])
-  authorId    String
-  answers     Answer[] 
-  votes       QuestionVote[]
+  id             String    @id @default(cuid())
+  title          String
+  content        Json?
+  createdAt      DateTime  @default(now())
+  prize          Int
+  updatedAt      DateTime  @updatedAt
+  author         User      @relation(fields: [authorId], references: [id])
+  authorId       String
+  questionUpdate QuestionUpdate[]
+  answers        Answer[] 
+  votes          QuestionVote[]
 }
 
 model QuestionVote {
@@ -89,6 +90,15 @@ model QuestionVote {
   type   VoteType
 
   @@id([userId, questionId])
+}
+
+model QuestionUpdate {
+  id          String    @id @default(cuid())
+  content     Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  question    Question  @relation(fields: [questionId], references: [id])
+  questionId  String
 }
 
 model Answer {

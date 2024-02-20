@@ -16,7 +16,7 @@ const CreateQuestion = () => {
     event.preventDefault();
     // Post data to the server
     try {
-      const response = await fetch("/api/questions", {
+      const response = await fetch("/api/question", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,6 +41,18 @@ const CreateQuestion = () => {
     }
   };
 
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (!session) {
+    return (
+      <div>
+        <p>Please sign in to ask a question</p>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="title">Title:</label>
@@ -61,9 +73,9 @@ const CreateQuestion = () => {
       <label htmlFor="prize">Prize:</label>
       <input
         id="prize"
-        type="integer"
+        type="number"
         value={prize}
-        onChange={(e) => setPrize(e.target.value)}
+        onChange={(e) => setPrize(Number(e.target.value))}
       />
 
       <button type="submit">Create Question</button>
