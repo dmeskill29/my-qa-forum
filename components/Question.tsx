@@ -10,7 +10,25 @@ const Question = async ({ questionId }) => {
     where: {
       id: questionId,
     },
+    include: {
+      votes: true,
+    },
   });
+
+  const upVotes = await db.questionVote.findMany({
+    where: {
+      questionId: question.id,
+      type: "UP",
+    },
+  });
+
+  const downVotes = await db.questionVote.findMany({
+    where: {
+      questionId: question.id,
+      type: "DOWN",
+    },
+  });
+
   const createdAt = new Date(question.createdAt).toLocaleString();
   const user = await db.user.findUnique({
     where: {
@@ -27,6 +45,7 @@ const Question = async ({ questionId }) => {
       <p>At {createdAt}</p>
       <p>{question.content}</p>
       <p>Prize: {question.prize}</p>
+      <p>Votes: {upVotes.length - downVotes.length}</p>
       {session?.user?.roles.includes("admin") && (
         <DeleteQuestionButton questionId={questionId} />
       )}

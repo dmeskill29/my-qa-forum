@@ -7,6 +7,9 @@ const AnswerList = async ({ questionId }) => {
     where: {
       questionId: questionId,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return (

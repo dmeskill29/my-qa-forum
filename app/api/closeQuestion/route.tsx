@@ -1,17 +1,13 @@
 import { db } from "@/lib/db";
 
-export async function POST(req: Request) {
+export async function PUT(req: Request) {
   const body = await req.json();
 
-  // const { title, content, subredditId } = PostValidator.parse(body)
-
-  const { text, answerId } = body;
-
-  // Validate data...
-
+  const { questionId } = body;
   try {
-    const result = await db.AnswerUpdate.create({
-      data: { text, answerId },
+    const result = await db.question.update({
+      where: { id: questionId },
+      data: { open: false },
     });
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code

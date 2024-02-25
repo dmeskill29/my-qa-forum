@@ -5,7 +5,9 @@ import { authOptions } from "@/lib/auth";
 
 export default async function Feed() {
   const session = await getServerSession(authOptions);
-  const questions = await db.question.findMany();
+  const questions = await db.question.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <div>
