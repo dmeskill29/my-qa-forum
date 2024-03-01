@@ -71,7 +71,8 @@ model Wallet {
 model Question {
   id             String    @id @default(cuid())
   title          String
-  content        Json?
+  content        String?
+  tags           String?
   createdAt      DateTime  @default(now())
   prize          Int
   updatedAt      DateTime  @updatedAt
@@ -85,18 +86,18 @@ model Question {
 }
 
 model QuestionVote {
-  user   User     @relation(fields: [userId], references: [id])
-  userId String
-  question   Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  questionId String
-  type   VoteType
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+  question      Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId    String
+  type          VoteType
 
   @@id([userId, questionId])
 }
 
 model QuestionUpdate {
   id          String    @id @default(cuid())
-  content     Json?
+  content     String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   question    Question  @relation(fields: [questionId], references: [id])
@@ -104,21 +105,21 @@ model QuestionUpdate {
 }
 
 model Answer {
-  id        String   @id @default(cuid())
-  text      String
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
+  id            String   @id @default(cuid())
+  content       String
+  createdAt     DateTime @default(now())
+  author        User     @relation(fields: [authorId], references: [id])
+  authorId      String
   question      Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId    String
 
   answerUpdate AnswerUpdate[]
-  replyToId String?
-  replyTo   Answer?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  replies   Answer[] @relation("ReplyTo")
+  replyToId     String?
+  replyTo       Answer?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies       Answer[] @relation("ReplyTo")
 
-  votes     AnswerVote[]
-  answerId String?
+  votes         AnswerVote[]
+  answerId      String?
 }
 
 model AnswerVote {
@@ -132,10 +133,10 @@ model AnswerVote {
 }
 
 model AnswerUpdate {
-  id          String    @id @default(cuid())
-  text        String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  answer      Answer  @relation(fields: [answerId], references: [id])
-  answerId    String
+  id              String    @id @default(cuid())
+  content         String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  answer          Answer  @relation(fields: [answerId], references: [id])
+  answerId        String
 }

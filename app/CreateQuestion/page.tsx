@@ -8,6 +8,7 @@ const CreateQuestion = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [prize, setPrize] = useState(0);
+  const [tags, setTags] = useState("");
   const { data: session, status } = useSession();
   const userId = session?.user?.id;
   const router = useRouter();
@@ -21,7 +22,7 @@ const CreateQuestion = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, content, authorId: userId, prize }),
+        body: JSON.stringify({ title, content, authorId: userId, prize, tags }),
       });
 
       if (!response.ok) {
@@ -68,6 +69,14 @@ const CreateQuestion = () => {
         id="content"
         value={content}
         onChange={(e) => setContent(e.target.value)}
+      />
+
+      <label htmlFor="tags">Tags:</label>
+      <input
+        id="tags"
+        type="text"
+        value={tags}
+        onChange={(e) => setTags(e.target.value)}
       />
 
       <label htmlFor="prize">Prize:</label>

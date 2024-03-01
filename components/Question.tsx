@@ -40,10 +40,11 @@ const Question = async ({ questionId }) => {
 
   return (
     <div>
-      <h1>{question.title}</h1>
+      <h1>Title: {question.title}</h1>
       <p>By {username} </p>
       <p>At {createdAt}</p>
-      <p>{question.content}</p>
+      <p>Content: {question.content}</p>
+      <p>Tags: {question.tags}</p>
       <p>Prize: {question.prize}</p>
       <p>Votes: {upVotes.length - downVotes.length}</p>
       {session?.user?.roles.includes("admin") && (

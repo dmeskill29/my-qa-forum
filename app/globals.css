@@ -1,11 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 0,0,0;
+  --background-start-rgb: 243, 106, 91;
+  --background-end-rgb: 243, 106, 91;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -18,6 +18,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
+  background-color: #e1ebf7;
   /* background: linear-gradient(
       to bottom,
       transparent,
