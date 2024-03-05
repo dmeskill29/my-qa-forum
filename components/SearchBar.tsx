@@ -16,7 +16,7 @@ const SearchBar = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center max-w-md mx-auto mt-4"
+      className="flex items-center max-w-md mx-auto mt-3 mb-2 mr-18"
     >
       <input
         type="text"

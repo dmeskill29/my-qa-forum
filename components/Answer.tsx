@@ -40,7 +40,7 @@ const Answer = async ({ answer }) => {
   const username = user.username;
   return (
     <div>
-      <p>{answer.text}</p>
+      <p>{answer.content}</p>
       <Link href={`/user/${username}`}>{username}</Link>
       <p>At {new Date(answer.createdAt).toLocaleString()}</p>
       <AnswerUpdateList answerId={answer.id} />

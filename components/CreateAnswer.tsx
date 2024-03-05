@@ -19,7 +19,7 @@ const CreateAnswer = ({ questionId }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text, authorId: userId, questionId }),
+        body: JSON.stringify({ content: text, authorId: userId, questionId }),
       });
 
       if (!response.ok) {

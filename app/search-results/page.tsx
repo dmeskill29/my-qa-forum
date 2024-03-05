@@ -6,7 +6,6 @@ import { db } from "@/lib/db";
 const SearchResultsPage = async ({ searchParams }) => {
   const search = searchParams;
   const query = search.query;
-  const baseURL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const data = await db.question.findMany({
     where: {

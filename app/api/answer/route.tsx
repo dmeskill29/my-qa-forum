@@ -7,12 +7,12 @@ export async function POST(req: Request) {
 
   // const { title, content, subredditId } = PostValidator.parse(body)
 
-  const { text, authorId, questionId } = body;
+  const { content, authorId, questionId } = body;
   // Validate data...
 
   try {
     const result = await db.answer.create({
-      data: { text, authorId, questionId },
+      data: { content, authorId, questionId },
     });
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code
