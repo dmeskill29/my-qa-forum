@@ -10,9 +10,13 @@ const QuestionList = ({ questions }) => {
     return <div>No questions available</div>;
   }
   return (
-    <div>
+    <div className="space-y-4">
       {questions.map((question) => (
-        <Link href={`/${question.id}`} key={question.id}>
+        <Link
+          href={`/${question.id}`}
+          key={question.id}
+          className="block bg-white shadow hover:shadow-lg transition rounded-lg p-4"
+        >
           <Question questionId={question.id} />
         </Link>
       ))}

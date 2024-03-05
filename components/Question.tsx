@@ -39,16 +39,20 @@ const Question = async ({ questionId }) => {
   const username = user.username;
 
   return (
-    <div>
-      <h1>Title: {question.title}</h1>
-      <p>By {username} </p>
-      <p>At {createdAt}</p>
-      <p>Content: {question.content}</p>
-      <p>Tags: {question.tags}</p>
-      <p>Prize: {question.prize}</p>
-      <p>Votes: {upVotes.length - downVotes.length}</p>
+    <div className="border p-4 mb-4">
+      <h1 className="text-2xl font-bold mb-4">Title: {question.title}</h1>
+      <p className="text-lg mb-2">By {username}</p>
+      <p className="text-sm text-gray-600 mb-2">At {createdAt}</p>
+      <p className="text-base mb-4">Content: {question.content}</p>
+      <p className="text-sm text-blue-600 mb-2">Tags: {question.tags}</p>
+      <p className="text-lg font-semibold mb-2">Prize: {question.prize}</p>
+      <p className="text-lg font-semibold mb-4">
+        Votes: {upVotes.length - downVotes.length}
+      </p>
       {session?.user?.roles.includes("admin") && (
-        <DeleteQuestionButton questionId={questionId} />
+        <div className="mt-4">
+          <DeleteQuestionButton questionId={questionId} />
+        </div>
       )}
     </div>
   );

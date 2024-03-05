@@ -8,17 +8,29 @@ export default async function Home() {
 
   if (!session) {
     return (
-      <div>
-        <h1>Home</h1>
-        <p>You need to be logged in to see the feed</p>
-        <Link href="/api/auth/signin">Login</Link>
+      <div className="space-y-4">
+        <h1 className="text-2xl font-bold text-gray-900">Home</h1>
+        <p className="text-sm text-gray-700">
+          You need to be signed in to create a question or answer.
+        </p>
+        <Link
+          href="/api/auth/signin"
+          className="text-indigo-600 hover:text-indigo-900"
+        >
+          Sign in
+        </Link>
       </div>
     );
   } else {
     return (
-      <div>
-        <h1>Home</h1>
-        <Link href="/CreateQuestion">Create Question</Link>
+      <div className="space-y-4">
+        <h1 className="text-2xl font-bold text-gray-900">Home</h1>
+        <Link
+          href="/CreateQuestion"
+          className="text-indigo-600 hover:text-indigo-900"
+        >
+          Create Question
+        </Link>
         <Feed />
       </div>
     );

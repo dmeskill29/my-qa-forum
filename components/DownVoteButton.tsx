@@ -34,8 +34,13 @@ const DownVoteButton = ({ questionId }) => {
     }
   };
   return (
-    <div>
-      <button onClick={handleSubmit}>DownVote</button>
+    <div className="inline-block">
+      <button
+        onClick={handleSubmit}
+        className="inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+      >
+        DownVote
+      </button>
     </div>
   );
 };

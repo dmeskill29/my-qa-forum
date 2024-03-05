@@ -9,9 +9,11 @@ const QuestionUpdateList = async ({ questionId }) => {
   });
 
   return (
-    <div>
+    <div className="space-y-4">
       {questionUpdates.map((update) => (
-        <div key={update.id}>{update.content}</div>
+        <div key={update.id} className="border p-4 rounded shadow">
+          {update.content}
+        </div>
       ))}
     </div>
   );

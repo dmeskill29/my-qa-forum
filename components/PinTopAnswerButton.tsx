@@ -33,8 +33,13 @@ const PinTopAnswerButton = ({ answerId, questionId }) => {
   };
 
   return (
-    <div>
-      <button onClick={handleSubmit}>Pin to top</button>
+    <div className="inline-block">
+      <button
+        onClick={handleSubmit}
+        className="inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      >
+        Pin to top
+      </button>
     </div>
   );
 };
