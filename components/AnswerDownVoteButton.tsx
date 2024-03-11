@@ -34,8 +34,13 @@ const AnswerDownVoteButton = ({ answerId }) => {
     }
   };
   return (
-    <div>
-      <button onClick={handleSubmit}>DownVote</button>
+    <div className="flex items-center">
+      <button
+        onClick={handleSubmit}
+        className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700"
+      >
+        DownVote
+      </button>
     </div>
   );
 };

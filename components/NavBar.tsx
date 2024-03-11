@@ -9,23 +9,32 @@ const NavBar = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="container mx-auto flex justify-between items-center py-4">
-      <Link href="/" className="text-blue-500 absolute left-0 ml-4">
-        <img src="/SolveSuiteLogo.png" alt="SolveSuite" className="h-12" />
+    <div className="container mx-auto flex items-center justify-between py-4 px-4 sm:px-6 lg:px-8">
+      <Link
+        href="/"
+        className="flex items-center text-blue-500 hover:text-blue-600 transition duration-150 ease-in-out"
+      >
+        <img src="/SolveSuiteLogo.png" alt="SolveSuite" className="h-16" />
       </Link>
-      {session?.user ? (
-        <div className="flex items-center justify-between max-w-md mx-auto space-x-4">
-          <SearchBar />
+
+      {/* Search Bar centered */}
+      <div className="flex-1 mx-4">
+        <SearchBar />
+      </div>
+
+      {/* Profile Button or Sign In Link on the right */}
+      <div>
+        {session?.user ? (
           <ProfileMenu session={session} />
-        </div>
-      ) : (
-        <div className="flex items-center justify-between max-w-md mx-auto space-x-4">
-          <SearchBar />
-          <Link href="/sign-in" className="text-red-500 mr-8 absolute right-4">
+        ) : (
+          <Link
+            href="/sign-in"
+            className="text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded px-4 py-2 transition duration-150 ease-in-out"
+          >
             Sign In
           </Link>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

@@ -27,6 +27,20 @@ export async function POST(req: Request) {
   }
 }
 
+export async function GET(req: Request) {
+  const questions = await db.question.findMany({
+    // where: { subredditId },
+    // include: { author: true, subreddit: true },
+    orderBy: { createdAt: "desc" },
+  });
+  return new Response(JSON.stringify(questions), {
+    status: 200, // HTTP status code
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 export async function DELETE(req: Request) {
   const body = await req.json();
   const { questionId } = body;

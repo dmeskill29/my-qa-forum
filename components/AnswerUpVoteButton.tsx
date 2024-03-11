@@ -35,8 +35,13 @@ const AnswerUpVoteButton = ({ answerId }) => {
   };
 
   return (
-    <div>
-      <button onClick={handleSubmit}>UpVote</button>
+    <div className="flex items-center">
+      <button
+        onClick={handleSubmit}
+        className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700"
+      >
+        UpVote
+      </button>
     </div>
   );
 };

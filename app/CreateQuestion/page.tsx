@@ -31,7 +31,7 @@ const CreateQuestion = () => {
       if (response.ok) {
         // Handle success - e.g., redirecting to a new page or showing a success message
         const data = await response.json();
-        router.push(`/${data.result.id}`);
+        router.push(`/question/${data.result.id}`);
         router.refresh();
       }
 
@@ -55,62 +55,77 @@ const CreateQuestion = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <label
-        htmlFor="title"
-        className="block text-sm font-medium text-gray-700"
-      >
-        Title:
-      </label>
-      <input
-        id="title"
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-      />
-
-      <label
-        htmlFor="content"
-        className="block text-sm font-medium text-gray-700"
-      >
-        Content:
-      </label>
-      <textarea
-        id="content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-      />
-
-      <label htmlFor="tags" className="block text-sm font-medium text-gray-700">
-        Tags:
-      </label>
-      <input
-        id="tags"
-        type="text"
-        value={tags}
-        onChange={(e) => setTags(e.target.value)}
-        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-      />
-
-      <label
-        htmlFor="prize"
-        className="block text-sm font-medium text-gray-700"
-      >
-        Prize:
-      </label>
-      <input
-        id="prize"
-        type="number"
-        value={prize}
-        onChange={(e) => setPrize(Number(e.target.value))}
-        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-      />
-
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-lg mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 space-y-6"
+    >
+      <div>
+        <label
+          htmlFor="title"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Title:
+        </label>
+        <input
+          id="title"
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter your question title"
+          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="content"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Content:
+        </label>
+        <textarea
+          id="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          rows="4"
+          placeholder="Describe your question in detail"
+          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        ></textarea>
+      </div>
+      <div>
+        <label
+          htmlFor="tags"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Tags:
+        </label>
+        <input
+          id="tags"
+          type="text"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+          placeholder="Add tags separated by commas"
+          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="prize"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Prize:
+        </label>
+        <input
+          id="prize"
+          type="number"
+          value={prize}
+          onChange={(e) => setPrize(Number(e.target.value))}
+          placeholder="Set a prize amount (if any)"
+          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        />
+      </div>
       <button
         type="submit"
-        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        className="inline-flex justify-center w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
       >
         Create Question
       </button>

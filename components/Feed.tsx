@@ -11,16 +11,8 @@ export default async function Feed() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-gray-900">
-        Question and Answer Forum
-      </h1>
-
       <p className="text-sm text-gray-700">
-        {session?.user?.roles.includes("admin")
-          ? "You are an admin"
-          : session?.user?.roles.includes("user")
-          ? "You are a user"
-          : "You are not a user"}
+        {session?.user?.roles.includes("admin") ? "You are an admin" : ""}
       </p>
 
       <QuestionList questions={questions} />
