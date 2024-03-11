@@ -83,6 +83,7 @@ model Question {
   questionUpdate QuestionUpdate[]
   answers        Answer[] 
   votes          QuestionVote[]
+  voteSum        Int       @default(0)
 }
 
 model QuestionVote {

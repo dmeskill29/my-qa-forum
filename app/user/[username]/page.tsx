@@ -38,7 +38,7 @@ const ProfilePage = async ({ params }) => {
         <div className="space-y-6">
           {questions.map((question) => (
             <Link
-              href={`/${question.id}`}
+              href={`/question/${question.id}`}
               key={question.id}
               className="block p-4 bg-white shadow rounded-lg hover:shadow-md transition-shadow duration-200 ease-in-out"
             >
@@ -65,7 +65,7 @@ const ProfilePage = async ({ params }) => {
         <div className="space-y-4">
           {answers.map((answer) => (
             <Link
-              href={`/${answer.questionId}`}
+              href={`/question/${answer.questionId}`}
               key={answer.id}
               className="block p-4 bg-white shadow rounded-lg hover:shadow-md transition-shadow duration-200 ease-in-out"
             >

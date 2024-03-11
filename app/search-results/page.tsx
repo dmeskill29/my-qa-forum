@@ -1,6 +1,6 @@
 // pages/search-results/index.js
 import React, { useState } from "react";
-import QuestionList from "@/components/QuestionList"; // Adjust the import path as necessary
+import QuestionList from "@/components/Question/QuestionList"; // Adjust the import path as necessary
 import { db } from "@/lib/db";
 
 const SearchResultsPage = async ({ searchParams }) => {

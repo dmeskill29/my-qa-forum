@@ -1,6 +1,6 @@
 import React from "react";
 import { db } from "@/lib/db";
-import QuestionList from "@/components/QuestionList";
+import QuestionList from "@/components/Question/QuestionList";
 import Link from "next/link";
 
 const page = async () => {

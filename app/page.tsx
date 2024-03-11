@@ -68,7 +68,7 @@ export default async function Home() {
           </Link>
         </div>
 
-        <Feed />
+        <Feed session={session} />
       </div>
     );
   }

@@ -7,7 +7,7 @@ import Question from "./Question";
 
 const PAGE_SIZE = 5; // Number of questions per page
 
-const QuestionList = ({ questions }) => {
+const QuestionList = ({ questions, session }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   if (!Array.isArray(questions)) {
@@ -40,7 +40,7 @@ const QuestionList = ({ questions }) => {
               <div className="text-lg font-medium text-gray-900 hover:text-indigo-600 transition-colors duration-300 ease-in-out">
                 {question.title}
               </div>
-              <Question questionId={question.id} />
+              <Question question={question} session={session} />
             </Link>
           </div>
         ))}

@@ -1,17 +1,17 @@
 import React from "react";
 import { db } from "@/lib/db";
-import Question from "@/components/Question";
-import CreateAnswer from "@/components/CreateAnswer";
-import AnswerList from "@/components/AnswerList";
+import Question from "@/components/Question/Question";
+import CreateAnswer from "@/components/Answer/CreateAnswer";
+import AnswerList from "@/components/Answer/AnswerList";
 import Link from "next/link";
-import QuestionUpdate from "@/components/QuestionUpdate";
+import QuestionUpdate from "@/components/Question/QuestionUpdate";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import QuestionUpdateList from "@/components/QuestionUpdateList";
+import QuestionUpdateList from "@/components/Question/QuestionUpdateList";
 import UpVoteButton from "@/components/UpVoteButton";
 import DownVoteButton from "@/components/DownVoteButton";
-import Answer from "@/components/Answer";
-import CloseQuestionButton from "@/components/CloseQuestionButton";
+import Answer from "@/components/Answer/Answer";
+import CloseQuestionButton from "@/components/Question/CloseQuestionButton";
 
 export default async function QuestionPage({ params }) {
   const session = await getServerSession(authOptions);
@@ -56,7 +56,7 @@ export default async function QuestionPage({ params }) {
         </div>
       )}
 
-      <Question questionId={params.questionId} />
+      <Question question={question} />
       <QuestionUpdateList questionId={params.questionId} />
 
       <div className="flex justify-center space-x-4">
