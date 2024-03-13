@@ -49,6 +49,7 @@ model User {
   name              String?
   username          String?        @unique
   image             String?
+  bio               String?
   email             String?        @unique
   emailVerified     DateTime?
   roles             String[]       @default(["user"])

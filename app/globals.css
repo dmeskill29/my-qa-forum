@@ -3,26 +3,32 @@
 @import 'tailwindcss/utilities';
 
 :root {
-  --foreground-rgb: 0,0,0;
+  --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 243, 106, 91;
   --background-end-rgb: 243, 106, 91;
+  --background-base: #e1ebf7;
 }
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 33, 33, 33;
+    --background-end-rgb: 33, 33, 33;
+    --background-base: #121212;
   }
-} */
+}
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-color: #e1ebf7;
-  /* background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
+  background-color: var(--background-base);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(var(--background-start-rgb), 0.1),
+    rgba(var(--background-end-rgb), 1)
+  );
+}
+
+.break-words {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }

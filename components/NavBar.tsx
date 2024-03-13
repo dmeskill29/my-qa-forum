@@ -1,41 +1,40 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
 import SearchBar from "./SearchBar";
 import ProfileMenu from "./ProfileMenu";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const NavBar = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="container mx-auto flex items-center justify-between py-4 px-4 sm:px-6 lg:px-8">
-      <Link
-        href="/"
-        className="flex items-center text-blue-500 hover:text-blue-600 transition duration-150 ease-in-out"
-      >
-        <img src="/SolveSuiteLogo.png" alt="SolveSuite" className="h-16" />
-      </Link>
+    <nav className="bg-gray-800 text-white">
+      <div className="container mx-auto flex items-center justify-between py-2 px-4 sm:px-6 lg:px-8">
+        <Link
+          href="/"
+          className="flex flex-col items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
+        >
+          <img src="/SolveSuiteLogo.png" alt="SolveSuite" className="h-16" />
+          <span className="text-2xl font-bold text-white">SolveSuite</span>
+        </Link>
 
-      {/* Search Bar centered */}
-      <div className="flex-1 mx-4">
-        <SearchBar />
-      </div>
+        <div className="flex-1 mx-4">
+          <SearchBar session={session} />
+        </div>
 
-      {/* Profile Button or Sign In Link on the right */}
-      <div>
-        {session?.user ? (
+        {session ? (
           <ProfileMenu session={session} />
         ) : (
           <Link
             href="/sign-in"
-            className="text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 rounded px-4 py-2 transition duration-150 ease-in-out"
+            className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md transition duration-150 ease-in-out"
           >
-            Sign In
+            Sign In/Up
           </Link>
         )}
       </div>
-    </div>
+    </nav>
   );
 };
 

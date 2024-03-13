@@ -3,23 +3,45 @@ import Link from "next/link";
 
 const SignUp = () => {
   return (
-    <div className="container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
-      <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight text-gray-900">
-          Sign Up
-        </h1>
-        <p className="text-sm max-w-xs mx-auto text-gray-600">
-          By continuing, you are setting up a SolveSuite account and agree to
-          our User Agreement and Privacy Policy.
-        </p>
+    <div className="container mx-auto flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8 w-full sm:max-w-md">
+      <div className="w-full bg-white rounded-lg shadow-xl overflow-hidden mt-8 md:mt-12 lg:mt-16">
+        <div className="px-10 py-8">
+          <h1 className="text-3xl font-extrabold text-center text-gray-900 mb-4">
+            Sign Up
+          </h1>
+          <p className="text-sm text-center text-gray-600 max-w-md mx-auto">
+            By continuing, you are setting up a SolveSuite account and agree to
+            our
+            <Link
+              href="/user-agreement"
+              className="text-blue-600 hover:underline mx-1"
+            >
+              User Agreement
+            </Link>
+            and
+            <Link
+              href="/privacy-policy"
+              className="text-blue-600 hover:underline mx-1"
+            >
+              Privacy Policy.
+            </Link>
+          </p>
+        </div>
+        <div className="bg-gray-50 px-10 py-6">
+          <UserAuthForm />
+        </div>
+        <div className="bg-gray-100 px-10 py-4">
+          <p className="text-sm text-center text-gray-600">
+            Already own an account?{" "}
+            <Link
+              href="/sign-in"
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
+              Sign in
+            </Link>
+          </p>
+        </div>
       </div>
-      <UserAuthForm />
-      <p className="px-8 text-center text-sm text-gray-500">
-        Already own an account?{" "}
-        <Link href="/sign-in" className="hover:text-blue-500 text-sm underline">
-          Sign in
-        </Link>
-      </p>
     </div>
   );
 };

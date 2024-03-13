@@ -30,21 +30,11 @@ const QuestionList = ({ questions, session }) => {
 
   return (
     <div>
-      <div className="space-y-4">
-        {currentQuestions.map((question) => (
-          <div
-            key={question.id}
-            className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out overflow-hidden"
-          >
-            <Link href={`/question/${question.id}`} className="block p-6">
-              <div className="text-lg font-medium text-gray-900 hover:text-indigo-600 transition-colors duration-300 ease-in-out">
-                {question.title}
-              </div>
-              <Question question={question} session={session} />
-            </Link>
-          </div>
-        ))}
-      </div>
+      {currentQuestions.map((question) => (
+        <Link href={`/question/${question.id}`} className="block p-6">
+          <Question question={question} session={session} />
+        </Link>
+      ))}
       <div className="flex justify-center items-center space-x-2 mt-4">
         <button
           onClick={() => handlePageChange(currentPage - 1)}

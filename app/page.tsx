@@ -35,7 +35,7 @@ export default async function Home() {
     );
   } else {
     return (
-      <div className="space-y-4 max-w-4xl mx-auto py-8 px-4">
+      <div className="space-y-4 max-w-6xl mx-auto py-8 px-4">
         <div className="mb-4">
           <Link
             href="/CreateQuestion"

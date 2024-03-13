@@ -2,8 +2,11 @@ import React from "react";
 import { db } from "@/lib/db";
 import QuestionList from "@/components/Question/QuestionList";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const page = async () => {
+  const session = await getServerSession(authOptions);
   const questions = await db.question.findMany({
     orderBy: { createdAt: "desc" },
   });
@@ -11,7 +14,14 @@ const page = async () => {
   const prizeQuestions = questions.sort((a, b) => {
     return b.prize - a.prize;
   });
-
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
   return (
     <div className="space-y-4 max-w-4xl mx-auto py-8 px-4">
       <div className="mb-4">
