@@ -65,8 +65,9 @@ model User {
 
 model Wallet {
   id          String    @id @default(uuid())
-  balance     Int       @default(0)
-  user        User?      
+  starKeys    Int       @default(0)
+  keys        Int       @default(250)
+  user        User?     
 }
 
 model Question {
@@ -107,20 +108,21 @@ model QuestionUpdate {
 }
 
 model Answer {
-  id            String   @id @default(cuid())
+  id            String       @id @default(cuid())
   content       String
-  createdAt     DateTime @default(now())
-  author        User     @relation(fields: [authorId], references: [id])
+  createdAt     DateTime     @default(now())
+  author        User         @relation(fields: [authorId], references: [id])
   authorId      String
   question      Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId    String
 
   answerUpdate AnswerUpdate[]
   replyToId     String?
-  replyTo       Answer?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  replies       Answer[] @relation("ReplyTo")
+  replyTo       Answer?      @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies       Answer[]     @relation("ReplyTo")
 
   votes         AnswerVote[]
+  voteSum       Int          @default(0)
   answerId      String?
 }
 

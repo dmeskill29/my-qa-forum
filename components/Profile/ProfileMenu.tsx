@@ -7,6 +7,29 @@ const ProfileMenu = ({ session }) => {
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef(null);
   const image = session.user.image;
+  const username = session.user.username;
+
+  const ProfileImage = ({ username }) => {
+    const firstLetter = username.charAt(0).toUpperCase();
+
+    return (
+      <div
+        style={{
+          width: "36px",
+          height: "36px",
+          borderRadius: "50%",
+          backgroundColor: "#307e79", // Your chosen color
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "20px",
+        }}
+      >
+        {firstLetter}
+      </div>
+    );
+  };
 
   // Click outside handler
   useEffect(() => {
@@ -28,11 +51,7 @@ const ProfileMenu = ({ session }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="block h-10 w-10 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
-        <img
-          className="h-full w-full object-cover"
-          src={image}
-          alt="Your Profile"
-        />
+        <ProfileImage username={username} />
       </button>
 
       {/* Dropdown Menu */}

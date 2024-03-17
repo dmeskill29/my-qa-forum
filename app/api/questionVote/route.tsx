@@ -2,34 +2,37 @@ import { db } from "@/lib/db";
 
 export async function PATCH(req: Request) {
   const body = await req.json();
-
   const { questionId, type, userId } = body;
 
-  const existingVote = await db.QuestionVote.findFirst({
+  const existingVote = await db.questionVote.findFirst({
     where: {
       userId: userId,
       questionId: questionId,
     },
   });
 
-  const voteValue = type === "UP" ? 1 : -1;
+  const voteValue = type === "UP" ? 1 : type === "DOWN" ? -1 : 0;
 
   if (existingVote) {
-    // Update the existing vote
-    await db.questionVote.update({
-      where: { userId_questionId: { userId, questionId } },
-      data: { type },
-    });
-
-    // Adjust voteSum only if the vote type is changed
+    // If changing the vote type, we need to adjust the voteSum accordingly
     if (existingVote.type !== type) {
+      const adjustment = type === "UP" ? 2 : -2; // Adjust by 2 because we're reversing the previous vote
+
       await db.question.update({
         where: { id: questionId },
         data: {
           voteSum: {
-            increment: voteValue,
+            increment: adjustment,
           },
         },
+      });
+    }
+
+    // Update the existing vote type only if it's changed
+    if (existingVote.type !== type) {
+      await db.questionVote.update({
+        where: { userId_questionId: { userId, questionId } },
+        data: { type },
       });
     }
   } else {
@@ -49,6 +52,7 @@ export async function PATCH(req: Request) {
     });
   }
 
+  // Assuming you're using some kind of serverless function or similar, adjust the return accordingly
   return new Response(JSON.stringify({ message: "Vote updated" }), {
     status: 200, // HTTP status code
     headers: {

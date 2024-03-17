@@ -5,13 +5,17 @@ export async function POST(req: Request) {
 
   // const { title, content, subredditId } = PostValidator.parse(body)
 
-  const { content, answerId } = body;
+  const { user } = body;
 
   // Validate data...
 
   try {
-    const result = await db.AnswerUpdate.create({
-      data: { content, answerId },
+    const result = await db.wallet.create({
+      data: { user: { connect: { id: user.id } } },
+    });
+    const updateUser = await db.user.update({
+      where: { id: user.id },
+      data: { walletId: result.id },
     });
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code

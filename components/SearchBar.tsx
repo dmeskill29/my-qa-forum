@@ -32,7 +32,10 @@ const SearchBar = ({ session }) => {
       />
       <button
         type="submit"
-        className="bg-blue-500 text-black py-2 px-4 rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-150 ease-in-out" // Changed text-white to text-black
+        className="text-white py-2 px-4 rounded-r-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-150 ease-in-out"
+        style={{ backgroundColor: "#307e79", borderColor: "#307e79" }}
+        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#2b6d6b")}
+        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#307e79")}
       >
         Search
       </button>

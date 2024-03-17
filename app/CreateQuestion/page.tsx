@@ -70,7 +70,6 @@ const CreateQuestion = () => {
       // On success
       const data = await response.json();
       router.push(`/question/${data.result.id}`);
-      router.refresh();
       // Consider using router.push for navigation instead of router.refresh()
     } catch (error) {
       console.error("Failed to submit the question:", error);
@@ -143,9 +142,9 @@ const CreateQuestion = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-lg mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 space-y-6"
+      className="w-2/5 mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 space-y-6 mt-8"
     >
-      <div>
+      <div className="max-w-6xl">
         <label
           htmlFor="title"
           className="block text-sm font-medium text-gray-700"
@@ -159,10 +158,11 @@ const CreateQuestion = () => {
           onChange={(e) => setTitle(e.target.value)}
           required
           placeholder="Enter your question title"
-          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md text-black"
           maxLength={TITLE_LIMIT}
         />
       </div>
+
       <div>
         <label
           htmlFor="content"
@@ -177,10 +177,11 @@ const CreateQuestion = () => {
           required
           rows="4"
           placeholder="Describe your question in detail"
-          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-black block w-full sm:text-sm border-gray-300 rounded-md"
           maxLength={CONTENT_LIMIT}
         ></textarea>
       </div>
+
       <div>
         <label
           htmlFor="tags"
@@ -194,7 +195,7 @@ const CreateQuestion = () => {
           value={tags}
           onChange={handleTagsChange}
           placeholder="Add tags separated by commas"
-          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-black block w-full sm:text-sm border-gray-300 rounded-md"
         />
       </div>
 
@@ -212,7 +213,7 @@ const CreateQuestion = () => {
           value={prize}
           onChange={(e) => setPrize(Math.max(50, Number(e.target.value)))}
           placeholder="Enter amount in keys"
-          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-black block w-full sm:text-sm border-gray-300 rounded-md"
           min="50"
           step="1"
         />
@@ -221,9 +222,12 @@ const CreateQuestion = () => {
       {/* Submit button */}
       <button
         type="submit"
-        className="inline-flex justify-center w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
+        className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
       >
         Create Question
+      </button>
+      <button className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out">
+        Cancel
       </button>
     </form>
   );

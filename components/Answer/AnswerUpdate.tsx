@@ -16,7 +16,7 @@ const QuestionUpdate = ({ answerId }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text, answerId }),
+        body: JSON.stringify({ content: text, answerId }),
       });
 
       if (!response.ok) {
@@ -47,7 +47,7 @@ const QuestionUpdate = ({ answerId }) => {
         id="content"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        className="shadow-sm focus:ring-indigo-500 text-black focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
       />
       <button
         type="submit"

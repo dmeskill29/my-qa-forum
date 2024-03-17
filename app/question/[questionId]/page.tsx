@@ -12,6 +12,7 @@ import UpVoteButton from "@/components/Question/UpVoteButton";
 import DownVoteButton from "@/components/Question/DownVoteButton";
 import Answer from "@/components/Answer/Answer";
 import CloseQuestionButton from "@/components/Question/CloseQuestionButton";
+import QuestionForPage from "@/components/Question/QuestionForPage";
 
 export default async function QuestionPage({ params }) {
   const session = await getServerSession(authOptions);
@@ -106,41 +107,28 @@ export default async function QuestionPage({ params }) {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl p-6 space-y-6">
-      <div className="text-center">
+    <div className="max-w-md mx-auto  rounded-xl overflow-hidden md:max-w-4xl p-6 space-y-4">
+      <div className="flex justify-between items-center p-2">
         <Link
           href={`/user/${asker.username}`}
           className="text-lg text-indigo-600 hover:text-indigo-900 transition duration-300 ease-in-out font-medium"
         >
-          {asker.username}
+          Posted by: {asker.username}
         </Link>
-      </div>
 
-      {question.open && session?.user?.id === asker.id && (
-        <div className="text-right">
+        {question.open && session?.user?.id === asker.id && (
           <CloseQuestionButton questionId={params.questionId} />
-        </div>
-      )}
-
-      <Question question={question} session={session} />
-      <QuestionUpdateList questionId={params.questionId} />
-      <QuestionUpdate questionId={params.questionId} />
-
-      <div className="flex justify-center space-x-4">
-        <UpVoteButton questionId={params.questionId} />
-        <DownVoteButton questionId={params.questionId} />
+        )}
       </div>
+
+      <QuestionForPage question={question} session={session} />
 
       <h2 className="text-xl font-semibold text-gray-800 text-center">
         Top Answer
       </h2>
       {topAnswer && <Answer answer={topAnswer} />}
 
-      {question.open && (
-        <div className="mt-4">
-          <CreateAnswer questionId={params.questionId} />;
-        </div>
-      )}
+      {question.open && <CreateAnswer questionId={params.questionId} />}
 
       <AnswerList questionId={params.questionId} />
     </div>

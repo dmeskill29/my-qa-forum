@@ -31,7 +31,11 @@ const QuestionList = ({ questions, session }) => {
   return (
     <div>
       {currentQuestions.map((question) => (
-        <Link href={`/question/${question.id}`} className="block p-6">
+        <Link
+          href={`/question/${question.id}`}
+          className="block p-2 w-1/2 mx-auto"
+          key={question.id}
+        >
           <Question question={question} session={session} />
         </Link>
       ))}

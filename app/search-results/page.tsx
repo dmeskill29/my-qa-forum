@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import SearchFilters from "@/components/SearchFilters";
 
 const SearchResultsPage = async ({ searchParams }) => {
   const session = await getServerSession(authOptions);
@@ -86,37 +87,7 @@ const SearchResultsPage = async ({ searchParams }) => {
         Search Results for "<span className="text-blue-500">{query}</span>"
       </h1>
 
-      <div className="flex justify-center space-x-4 mb-4">
-        <Link
-          href={`/search-results?query=${encodeURIComponent(query)}&type=all`}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-150 ease-in-out text-center"
-        >
-          All
-        </Link>
-
-        <Link
-          href={`/search-results?query=${encodeURIComponent(query)}&type=title`}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-150 ease-in-out text-center"
-        >
-          Title
-        </Link>
-
-        <Link
-          href={`/search-results?query=${encodeURIComponent(
-            query
-          )}&type=content`}
-          className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition duration-150 ease-in-out text-center"
-        >
-          Content
-        </Link>
-
-        <Link
-          href={`/search-results?query=${encodeURIComponent(query)}&type=tags`}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-150 ease-in-out text-center"
-        >
-          Tags
-        </Link>
-      </div>
+      <SearchFilters query={query} />
 
       <QuestionList questions={data} />
     </div>

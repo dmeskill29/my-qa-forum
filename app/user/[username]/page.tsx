@@ -1,11 +1,13 @@
 import React from "react";
 import { db } from "@/lib/db";
 import Link from "next/link";
-import UsernameUpdate from "@/components/UsernameUpdate";
+import UsernameUpdate from "@/components/Profile/UsernameUpdate";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import QuestionList from "@/components/Question/QuestionList";
-import BioUpdate from "@/components/BioUpdate";
+import BioUpdate from "@/components/Profile/BioUpdate";
+import UserAnswerList from "@/components/Answer/UserAnswerList";
+import CreateWallet from "@/components/Profile/CreateWallet";
 
 const ProfilePage = async ({ params }) => {
   const session = await getServerSession(authOptions);
@@ -29,7 +31,22 @@ const ProfilePage = async ({ params }) => {
     where: {
       authorId: user.id,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
+
+  let keyChain;
+
+  try {
+    keyChain = await db.wallet.findFirst({
+      where: {
+        id: user.walletId,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching key chain:", error);
+  }
 
   if (!user) {
     return (
@@ -108,55 +125,80 @@ const ProfilePage = async ({ params }) => {
   }
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-extrabold text-indigo-700 mb-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8 py-8">
+      <h1 className="text-4xl font-extrabold text-indigo-700 mb-2">
         {user.username}'s Profile
       </h1>
 
-      <div className="bg-white p-6 shadow rounded-lg">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Bio</h2>
-        <p className="text-gray-700 text-base whitespace-pre-line">
-          {user.bio ? (
-            user.bio
-          ) : (
-            <span className="text-gray-400">No bio provided.</span>
-          )}
-        </p>
-      </div>
+      <div className="md:flex md:flex-row justify-between md:space-x-8">
+        {/* Left Column: Questions and Answers */}
+        <div className="md:flex-1">
+          <h2 className="text-xl font-semibold max-w-md mx-auto md:max-w-2xl text-gray-800 mb-4">
+            Questions by {user.username}
+          </h2>
+          <QuestionList questions={questions} session={session} />
 
-      {session?.user?.id === user.id && (
-        <>
-          <UsernameUpdate session={session} />
-          <BioUpdate session={session} />
-        </>
-      )}
+          {/* Answers Section */}
+          <div className="max-w-md mx-auto rounded-xl overflow-hidden md:max-w-2xl  ">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Answers by {user.username}
+            </h2>
+            <UserAnswerList answers={answers} />
+          </div>
+        </div>
 
-      {/* Questions Section */}
-      <div className="bg-white p-6 shadow rounded-lg">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Questions by {user.username}
-        </h2>
-        <QuestionList questions={questions} session={session} />
-      </div>
+        {/* Right Column: Bio and Updates */}
+        {/* This div is given negative margin-top to pull it up towards the top of the container on smaller screens. */}
+        <div className="hidden md:block mt-[-11rem] md:mt-0 w-full md:w-96">
+          <div className="bg-white shadow rounded-lg p-6 mb-4">
+            {/* Username and its update button */}
+            <div className="flex justify-between">
+              <h2 className="text-xl font-semibold text-gray-800">Username</h2>
+              {session?.user?.id === user.id && (
+                <UsernameUpdate session={session} />
+              )}
+            </div>
+            <p className="mb-4 text-gray-700">{user.username}</p>
 
-      {/* Answers Section */}
-      <div className="bg-white p-6 shadow rounded-lg">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Answers by {user.username}
-        </h2>
-        <div className="space-y-4">
-          {answers.map((answer) => (
-            <Link
-              href={`/question/${answer.questionId}`}
-              key={answer.id}
-              className="block hover:bg-gray-50 p-4 rounded-lg transition duration-150 ease-in-out"
-            >
-              <p className="text-gray-700">{answer.content}</p>
-              <p className="mt-2 text-sm text-gray-500">
-                Answered at {new Date(answer.createdAt).toLocaleString()}
-              </p>
-            </Link>
-          ))}
+            {/* Bio and its update button */}
+            <div className="flex justify-between">
+              <h2 className="text-xl font-semibold text-gray-800">Bio</h2>
+              {session?.user?.id === user.id && <BioUpdate session={session} />}
+            </div>
+            <p className="text-gray-700 text-base whitespace-pre-line">
+              {user.bio ? (
+                user.bio
+              ) : (
+                <span className="text-gray-400">No bio provided.</span>
+              )}
+            </p>
+          </div>
+          {/* Wallet Section */}
+          <div className="bg-white shadow rounded-lg p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-800">Wallet</h2>
+              {/* Optionally, add a button or link for managing the wallet */}
+              {/* {session?.user?.id === user.id && (
+                <a
+                  href="/wallet-manage"
+                  className="text-blue-600 hover:underline"
+                >
+                  Manage
+                </a>
+              )} */}
+            </div>
+            {keyChain ? (
+              <div>
+                <p className="text-gray-700">Balance: {keyChain.keys} Keys</p>
+                <p className="text-gray-700">
+                  Balance: {keyChain.starKeys} Star Keys
+                </p>
+              </div>
+            ) : (
+              <CreateWallet user={user} />
+            )}
+            {/* Optionally, add more wallet-related information or actions here */}
+          </div>
         </div>
       </div>
     </div>

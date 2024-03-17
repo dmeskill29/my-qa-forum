@@ -44,29 +44,14 @@ export async function GET(req: Request) {
 export async function DELETE(req: Request) {
   const body = await req.json();
   const { questionId } = body;
-  const answers = await db.answer.findMany({
-    where: { questionId },
-  });
-  const votes = await db.questionVote.findMany({
-    where: { questionId },
-  });
-  const updates = await db.questionUpdate.findMany({
-    where: { questionId },
-  });
   try {
-    const deleteAnswers = answers.map(async (answer) => {
-      await db.answer.delete({ where: { id: answer.id } });
-    });
-    const deleteVotes = votes.map(async (vote) => {
-      await db.questionVote.delete({ where: { questionId } });
-    });
-    const deleteUpdates = updates.map(async (update) => {
-      await db.questionUpdate.delete({ where: { id: update.id } });
-    });
-    const result = await db.question.delete({
-      where: { id: questionId },
-    });
-    return new Response(JSON.stringify({ message: "OK", result }), {
+    await Promise.all([
+      db.answer.deleteMany({ where: { questionId } }),
+      db.questionVote.deleteMany({ where: { questionId } }),
+      db.questionUpdate.deleteMany({ where: { questionId } }),
+      db.question.delete({ where: { id: questionId } }),
+    ]);
+    return new Response(JSON.stringify({ message: "OK" }), {
       status: 200, // HTTP status code
       headers: {
         "Content-Type": "application/json",

@@ -21,7 +21,7 @@ const page = async () => {
     };
   }
   return (
-    <div className="space-y-4 max-w-4xl mx-auto py-8 px-4">
+    <div className="space-y-4 w-1/3 mx-auto py-4">
       <div className="mb-4">
         <Link
           href="/CreateQuestion"
@@ -30,25 +30,27 @@ const page = async () => {
           Create Question
         </Link>
       </div>
-
       <div className="flex justify-center space-x-4">
         <Link
           href="/new"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-150 ease-in-out text-center"
+          className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
+          style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
         >
           New
         </Link>
 
         <Link
           href="/open"
-          className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition duration-150 ease-in-out text-center"
+          className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
+          style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
         >
           Open
         </Link>
 
         <Link
           href="/prize"
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-150 ease-in-out text-center"
+          className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
+          style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
         >
           Prize
         </Link>

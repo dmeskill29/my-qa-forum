@@ -1,25 +1,23 @@
 import React from "react";
 import { db } from "@/lib/db";
 
-const QuestionUpdateList = async ({ questionId }) => {
-  const questionUpdates = await db.QuestionUpdate.findMany({
-    where: {
-      questionId,
-    },
+const QuestionUpdateList = async ({ question }) => {
+  const questionUpdates = await db.questionUpdate.findMany({
+    where: { questionId: question.id },
   });
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">
-        Question Updates
-      </h2>
       {questionUpdates.map((update) => (
-        <div
-          key={update.id}
-          className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
-        >
-          <div className="p-8">
-            <p className="text-gray-700">{update.content}</p>
+        <div key={update.id} className="p-8 border-t border-gray-200">
+          <div className="flex justify-between items-start">
+            <div className="flex-1">
+              <p className="text-gray-500 break-words">{update.content}</p>
+            </div>
+            <p className="text-sm text-gray-500 whitespace-nowrap">
+              {new Date(update.updatedAt).toLocaleDateString()} at{" "}
+              {new Date(update.updatedAt).toLocaleTimeString()}
+            </p>
           </div>
         </div>
       ))}
