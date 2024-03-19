@@ -22,7 +22,10 @@ const Question = ({ question, session }) => {
 
         {/* Prize in top right */}
         <div className="text-lg font-bold text-black">
-          {question.prize} Keys
+          {question.prizeInKeys} Keys
+        </div>
+        <div className="text-lg font-bold text-black">
+          {question.prizeInStarKeys} Star Keys
         </div>
       </div>
 

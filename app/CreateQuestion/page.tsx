@@ -12,16 +12,77 @@ const CreateQuestion = () => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [prize, setPrize] = useState(50); // Start with the minimum prize value
+  const [prizeInKeys, setPrizeInKeys] = useState(0);
+  const [prizeInStarKeys, setPrizeInStarKeys] = useState(0);
   const [tags, setTags] = useState("");
   const { data: session, status } = useSession();
   const router = useRouter();
+
   const handleTagsChange = (e) => {
     const newTags = e.target.value
       .split(",")
       .map((tag) => tag.trim().slice(0, INDIVIDUAL_TAG_LIMIT))
       .join(", ");
     setTags(newTags);
+  };
+
+  const handleCreateWithStarKeys = async (event) => {
+    event.preventDefault();
+
+    // Split tags by commas, trim whitespace, and check each tag's length
+    const tagsArray = tags.split(",").map((tag) => tag.trim());
+    const invalidTag = tagsArray.some(
+      (tag) => tag.length > INDIVIDUAL_TAG_LIMIT
+    );
+
+    if (invalidTag) {
+      alert(`Each tag must be under ${INDIVIDUAL_TAG_LIMIT} characters.`);
+      return;
+    }
+
+    if (
+      title.length > TITLE_LIMIT ||
+      content.length > CONTENT_LIMIT ||
+      tags.length > TAGS_LIMIT
+    ) {
+      alert(
+        `Please ensure your title is under ${TITLE_LIMIT} characters, your content under ${CONTENT_LIMIT} characters, and your tags under ${TAGS_LIMIT} characters.`
+      );
+      return;
+    }
+
+    const body = {
+      title,
+      content,
+      userId: session?.user?.id,
+      feeInKeys: 0,
+      feeInStarKeys: 50, // [2]
+      prizeInKeys,
+      prizeInStarKeys,
+      tags,
+    };
+
+    try {
+      const response = await fetch("/api/question", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      // if (!response.ok) {
+      //   throw new Error("Network response was not ok");
+      // }
+
+      // On success
+      const data = await response.json();
+      alert(data.message);
+      router.push(`/question/${data.result.id}`);
+      router.refresh();
+      // Consider using router.push for navigation instead of router.refresh()
+    } catch (error) {
+      console.error("Failed to submit the question:", error);
+      // Handle error
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -49,12 +110,16 @@ const CreateQuestion = () => {
       return;
     }
 
-    if (prize < 50) {
-      alert("Minimum prize is 50 keys.");
-      return;
-    }
-
-    const body = { title, content, authorId: session?.user?.id, prize, tags };
+    const body = {
+      title,
+      content,
+      userId: session?.user?.id,
+      feeInKeys: 50,
+      feeInStarKeys: 0,
+      prizeInKeys,
+      prizeInStarKeys,
+      tags,
+    };
 
     try {
       const response = await fetch("/api/question", {
@@ -70,6 +135,7 @@ const CreateQuestion = () => {
       // On success
       const data = await response.json();
       router.push(`/question/${data.result.id}`);
+      router.refresh();
       // Consider using router.push for navigation instead of router.refresh()
     } catch (error) {
       console.error("Failed to submit the question:", error);
@@ -200,35 +266,55 @@ const CreateQuestion = () => {
       </div>
 
       {/* Prize input */}
-      <div className="mt-4">
+      <div>
         <label
-          htmlFor="prize"
+          htmlFor="prizeInKeys"
           className="block text-sm font-medium text-gray-700"
         >
           Prize in Keys:
         </label>
         <input
-          id="prize"
           type="number"
-          value={prize}
-          onChange={(e) => setPrize(Math.max(50, Number(e.target.value)))}
-          placeholder="Enter amount in keys"
-          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-black block w-full sm:text-sm border-gray-300 rounded-md"
-          min="50"
-          step="1"
+          id="prizeInKeys"
+          value={prizeInKeys}
+          onChange={(e) => setPrizeInKeys(Number(e.target.value))}
+          className="input-field"
+          min="0"
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="prizeInStarKeys"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Prize in Star Keys:
+        </label>
+        <input
+          type="number"
+          id="prizeInStarKeys"
+          value={prizeInStarKeys}
+          onChange={(e) => setPrizeInStarKeys(Number(e.target.value))}
+          className="input-field"
+          min="0"
         />
       </div>
 
       {/* Submit button */}
-      <button
-        type="submit"
-        className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
-      >
-        Create Question
-      </button>
-      <button className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out">
-        Cancel
-      </button>
+      <div className="flex space-x-2">
+        <button
+          type="submit"
+          className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
+        >
+          Ask with Keys
+        </button>
+        <button
+          onClick={handleCreateWithStarKeys}
+          type="button"
+          className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition duration-300 ease-in-out"
+        >
+          Ask with Star Keys
+        </button>
+      </div>
     </form>
   );
 };

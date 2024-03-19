@@ -12,8 +12,24 @@ const page = async () => {
   });
 
   const prizeQuestions = questions.sort((a, b) => {
-    return b.prize - a.prize;
+    // Determine the key values to compare, preferring prizeInKeys when available.
+    const aValue =
+      a.prizeInKeys !== undefined
+        ? a.prizeInKeys
+        : a.prizeInStarKeys !== undefined
+        ? a.prizeInStarKeys
+        : 0;
+    const bValue =
+      b.prizeInKeys !== undefined
+        ? b.prizeInKeys
+        : b.prizeInStarKeys !== undefined
+        ? b.prizeInStarKeys
+        : 0;
+
+    // Return the difference for sorting in descending order.
+    return bValue - aValue;
   });
+
   if (!session) {
     return {
       redirect: {
@@ -23,7 +39,7 @@ const page = async () => {
     };
   }
   return (
-    <div className="space-y-4 w-1/3 mx-auto py-4">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
       <div className="mb-4">
         <Link
           href="/CreateQuestion"

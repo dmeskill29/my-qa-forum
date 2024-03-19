@@ -21,7 +21,7 @@ const page = async () => {
     };
   }
   return (
-    <div className="space-y-4 w-1/3 mx-auto py-4">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
       <div className="mb-4">
         <Link
           href="/CreateQuestion"

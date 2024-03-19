@@ -16,7 +16,7 @@ const NavBar = async () => {
           className="flex flex-col items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
         >
           <img src="/SolveSuiteLogo.png" alt="SolveSuite" className="h-16" />
-          <span className="text-2xl font-bold text-white">SolveSuite</span>
+          <span className="text-2xl font-bold text-white">SolveCircle</span>
         </Link>
 
         <div className="flex-1 mx-4">

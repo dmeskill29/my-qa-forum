@@ -107,30 +107,32 @@ export default async function QuestionPage({ params }) {
   }
 
   return (
-    <div className="max-w-md mx-auto  rounded-xl overflow-hidden md:max-w-4xl p-6 space-y-4">
-      <div className="flex justify-between items-center p-2">
-        <Link
-          href={`/user/${asker.username}`}
-          className="text-lg text-indigo-600 hover:text-indigo-900 transition duration-300 ease-in-out font-medium"
-        >
-          Posted by: {asker.username}
-        </Link>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
+      <div className="w-1/2 mx-auto  rounded-xl overflow-hidden md:max-w-4xl p-6 space-y-4">
+        <div className="flex justify-between items-center p-2">
+          <Link
+            href={`/user/${asker.username}`}
+            className="text-lg text-indigo-600 hover:text-indigo-900 transition duration-300 ease-in-out font-medium"
+          >
+            Posted by: {asker.username}
+          </Link>
 
-        {question.open && session?.user?.id === asker.id && (
-          <CloseQuestionButton questionId={params.questionId} />
-        )}
+          {question.open && session?.user?.id === asker.id && (
+            <CloseQuestionButton questionId={params.questionId} />
+          )}
+        </div>
+
+        <QuestionForPage question={question} session={session} />
+
+        <h2 className="text-xl font-semibold text-gray-800 text-center">
+          Top Answer
+        </h2>
+        {topAnswer && <Answer answer={topAnswer} />}
+
+        {question.open && <CreateAnswer questionId={params.questionId} />}
+
+        <AnswerList questionId={params.questionId} />
       </div>
-
-      <QuestionForPage question={question} session={session} />
-
-      <h2 className="text-xl font-semibold text-gray-800 text-center">
-        Top Answer
-      </h2>
-      {topAnswer && <Answer answer={topAnswer} />}
-
-      {question.open && <CreateAnswer questionId={params.questionId} />}
-
-      <AnswerList questionId={params.questionId} />
     </div>
   );
 }

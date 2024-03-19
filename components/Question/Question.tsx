@@ -15,8 +15,14 @@ const Question = ({ question, session }) => {
         >
           {question.open ? "Open" : "Closed"}
         </div>
-        <div className="text-lg font-bold text-black">
-          {question.prize} Keys
+        {/* Wrap the Keys and Star Keys in a div and use flex-col for vertical stacking */}
+        <div className="flex flex-col justify-center items-end">
+          <div className="text-lg font-bold text-black">
+            {question.prizeInKeys} Keys
+          </div>
+          <div className="text-lg font-bold text-black">
+            {question.prizeInStarKeys} Star Keys
+          </div>
         </div>
       </div>
 

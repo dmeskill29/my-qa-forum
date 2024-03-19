@@ -71,21 +71,22 @@ model Wallet {
 }
 
 model Question {
-  id             String    @id @default(cuid())
-  title          String
-  content        String?
-  tags           String?
-  createdAt      DateTime  @default(now())
-  prize          Int
-  updatedAt      DateTime  @updatedAt
-  author         User      @relation(fields: [authorId], references: [id])
-  authorId       String
-  topAnswer      String?
-  open           Boolean   @default(true)
-  questionUpdate QuestionUpdate[]
-  answers        Answer[] 
-  votes          QuestionVote[]
-  voteSum        Int       @default(0)
+  id                String    @id @default(cuid())
+  title             String
+  content           String?
+  tags              String?
+  createdAt         DateTime  @default(now())
+  prizeInKeys       Int
+  prizeInStarKeys   Int
+  updatedAt         DateTime  @updatedAt
+  author            User      @relation(fields: [authorId], references: [id])
+  authorId          String
+  topAnswer         String?
+  open              Boolean   @default(true)
+  questionUpdate    QuestionUpdate[]
+  answers           Answer[] 
+  votes             QuestionVote[]
+  voteSum           Int       @default(0)
 }
 
 model QuestionVote {
@@ -99,12 +100,14 @@ model QuestionVote {
 }
 
 model QuestionUpdate {
-  id          String    @id @default(cuid())
-  content     String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  question    Question  @relation(fields: [questionId], references: [id])
-  questionId  String
+  id              String    @id @default(cuid())
+  content         String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  keysAdded       Int
+  starKeysAdded   Int
+  question        Question  @relation(fields: [questionId], references: [id])
+  questionId      String
 }
 
 model Answer {

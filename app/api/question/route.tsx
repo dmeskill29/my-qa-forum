@@ -7,13 +7,56 @@ export async function POST(req: Request) {
 
   // const { title, content, subredditId } = PostValidator.parse(body)
 
-  const { title, content, authorId, prize, tags } = body;
+  const {
+    title,
+    content,
+    userId,
+    feeInKeys,
+    feeInStarKeys,
+    prizeInKeys,
+    prizeInStarKeys,
+    tags,
+  } = body;
 
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    include: { wallet: true },
+  });
+
+  const keyCost = feeInKeys + prizeInKeys;
+  const starKeyCost = feeInStarKeys + prizeInStarKeys;
+  console.log("keyCost", keyCost);
+  console.log("starKeyCost", starKeyCost);
+
+  const wallet = user.wallet;
+
+  if (wallet.keys < keyCost || wallet.starKeys < starKeyCost) {
+    return new Response(JSON.stringify({ message: "Insufficient funds" }), {
+      status: 400, // HTTP status code
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
   // Validate data...
 
   try {
     const result = await db.question.create({
-      data: { title, content, authorId, prize, tags },
+      data: {
+        title,
+        content,
+        authorId: userId,
+        prizeInKeys,
+        prizeInStarKeys,
+        tags,
+      },
+    });
+    const postCost = await db.wallet.update({
+      where: { id: wallet.id },
+      data: {
+        keys: { decrement: keyCost },
+        starKeys: { decrement: starKeyCost },
+      },
     });
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code
