@@ -38,7 +38,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const wallet = await db.wallet.update({
+    const walletUpdate = await db.wallet.update({
       where: { id: user?.walletId },
       data: {
         keys: { decrement: keysAdded },
