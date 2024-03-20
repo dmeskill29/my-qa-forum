@@ -2,6 +2,7 @@ import React from "react";
 import { db } from "@/lib/db";
 import CreateWallet from "@/components/Profile/CreateWallet";
 import AddStarKeysButton from "@/components/Profile/AddStarKeysButton";
+import Image from "next/image";
 
 const page = async ({ params }) => {
   const user = await db.user.findUnique({
@@ -32,11 +33,16 @@ const page = async ({ params }) => {
         <div>
           <p className="text-gray-700">
             Balance: {keyChain.keys}{" "}
-            <img src="/CircleKey.png" className="h-7 w-8" />
+            <Image
+              src="/CircleKey.png"
+              alt="Circle Key"
+              width={28}
+              height={28}
+            />
           </p>
           <p className="text-gray-700">
             Balance: {keyChain.starKeys}{" "}
-            <img src="/StarKey.png" className="h-7 w-8" />
+            <Image src="/StarKey.png" alt="Star Key" width={28} height={28} />{" "}
           </p>
           <AddStarKeysButton user={user} keyChain={keyChain} />
         </div>

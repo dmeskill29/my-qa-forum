@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Correct import path for useRouter
+import Image from "next/image";
 
 const QuestionUpdate = ({ questionId }) => {
   const [text, setText] = useState("");
@@ -78,7 +79,13 @@ const QuestionUpdate = ({ questionId }) => {
                 htmlFor="prizeInKeys"
                 className="block text-sm font-medium text-gray-700"
               >
-                Add <img src="/CircleKey.png" className="h-7 w-8 inline mr-2" />
+                Add{" "}
+                <Image
+                  src="/CircleKey.png"
+                  alt="Circle Key"
+                  width={20}
+                  height={20}
+                />
               </label>
               <input
                 type="number"
@@ -94,7 +101,13 @@ const QuestionUpdate = ({ questionId }) => {
                 htmlFor="prizeInStarKeys"
                 className="block text-sm font-medium text-gray-700"
               >
-                Add <img src="/StarKey.png" className="h-7 w-8 inline mr-2" />
+                Add{" "}
+                <Image
+                  src="/StarKey.png"
+                  alt="Star Key"
+                  width={20}
+                  height={20}
+                />
               </label>
               <input
                 type="number"

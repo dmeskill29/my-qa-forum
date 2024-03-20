@@ -13,59 +13,17 @@ const SearchResultsPage = async ({ searchParams }) => {
   const query = search.query;
   const type = search.type; // Assuming 'type' can be 'all', 'title', 'content', or 'tags'
 
-  let whereCondition;
-
-  switch (type) {
-    case "title":
-      whereCondition = {
-        title: {
-          contains: query,
-          mode: "insensitive", // Assumes case-insensitive search
-        },
-      };
-      break;
-    case "content":
-      whereCondition = {
-        content: {
-          contains: query,
-          mode: "insensitive",
-        },
-      };
-      break;
-    case "tags":
-      whereCondition = {
-        tags: {
-          contains: query,
-          mode: "insensitive",
-        },
-      };
-      break;
-    case "all":
-    default:
-      whereCondition = {
-        OR: [
-          {
-            title: {
-              contains: query,
-              mode: "insensitive",
-            },
-          },
-          {
-            content: {
-              contains: query,
-              mode: "insensitive",
-            },
-          },
-          {
-            tags: {
-              contains: query,
-              mode: "insensitive",
-            },
-          },
-        ],
-      };
-      break;
-  }
+  const whereCondition = {
+    title: { contains: query, mode: "insensitive" },
+    content: { contains: query, mode: "insensitive" },
+    tags: { contains: query, mode: "insensitive" },
+  }[type] ?? {
+    OR: [
+      { title: { contains: query, mode: "insensitive" } },
+      { content: { contains: query, mode: "insensitive" } },
+      { tags: { contains: query, mode: "insensitive" } },
+    ],
+  };
 
   const data = await db.question.findMany({
     where: whereCondition,

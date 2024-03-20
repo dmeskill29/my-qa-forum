@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useState } from "react";
+import Image from "next/image";
 
 const AddStarKeysButton = () => {
   const [prizeInStarKeys, setPrizeInStarKeys] = useState(0);
@@ -52,7 +53,7 @@ const AddStarKeysButton = () => {
         type="submit"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
       >
-        Add <img src="/StarKey.png" className="h-7 w-8 inline mr-2" />
+        Add <Image src="/starkey.png" alt="Star Key" className="h-4" />
       </button>
     </form>
   );

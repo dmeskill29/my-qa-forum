@@ -8,6 +8,7 @@ import QuestionList from "@/components/Question/QuestionList";
 import BioUpdate from "@/components/Profile/BioUpdate";
 import UserAnswerList from "@/components/Answer/UserAnswerList";
 import CreateWallet from "@/components/Profile/CreateWallet";
+import Image from "next/image";
 
 const ProfilePage = async ({ params }) => {
   const session = await getServerSession(authOptions);
@@ -36,17 +37,11 @@ const ProfilePage = async ({ params }) => {
     },
   });
 
-  let keyChain;
-
-  try {
-    keyChain = await db.wallet.findFirst({
-      where: {
-        id: user.walletId,
-      },
-    });
-  } catch (error) {
-    console.error("Error fetching key chain:", error);
-  }
+  const keyChain = (await db.wallet.findFirst({
+    where: {
+      id: user?.walletId,
+    },
+  })) ?? { keys: 0, starKeys: 0 };
 
   if (!user) {
     return (
@@ -189,9 +184,23 @@ const ProfilePage = async ({ params }) => {
               </div>
               {keyChain ? (
                 <div>
-                  <p className="text-gray-700">Balance: {keyChain.keys} Keys</p>
                   <p className="text-gray-700">
-                    Balance: {keyChain.starKeys} Star Keys
+                    Balance: {keyChain.keys}
+                    <Image
+                      src="/CircleKey.png"
+                      alt="Circle Key"
+                      width={28}
+                      height={28}
+                    />
+                  </p>
+                  <p className="text-gray-700">
+                    Balance: {keyChain.starKeys}
+                    <Image
+                      src="/StarKey.png"
+                      alt="Star Key"
+                      width={28}
+                      height={28}
+                    />{" "}
                   </p>
                 </div>
               ) : (

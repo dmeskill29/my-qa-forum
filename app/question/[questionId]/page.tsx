@@ -22,17 +22,12 @@ export default async function QuestionPage({ params }) {
     },
   });
 
-  let topAnswer;
-
-  try {
-    topAnswer = await db.answer.findFirst({
+  const topAnswer =
+    (await db.answer.findFirst({
       where: {
-        id: question.topAnswer,
+        id: question?.topAnswer,
       },
-    });
-  } catch (error) {
-    topAnswer = null;
-  }
+    })) ?? null;
 
   const asker = await db.user.findUnique({
     where: {

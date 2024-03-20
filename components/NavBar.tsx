@@ -4,6 +4,7 @@ import SearchBar from "./SearchBar";
 import ProfileMenu from "./Profile/ProfileMenu";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import Image from "next/image";
 
 const NavBar = async () => {
   const session = await getServerSession(authOptions);
@@ -15,7 +16,7 @@ const NavBar = async () => {
           href="/"
           className="flex flex-col items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
         >
-          <img src="/SolveSuiteLogo.png" alt="SolveSuite" className="h-16" />
+          <Image src="/SolveSuiteLogo.png" alt="SolveSuite" className="h-16" />
           <span className="text-2xl font-bold text-white">SolveCircle</span>
         </Link>
 

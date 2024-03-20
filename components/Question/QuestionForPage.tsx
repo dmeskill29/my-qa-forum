@@ -4,6 +4,7 @@ import QuestionUpdateList from "./QuestionUpdateList";
 import QuestionUpdate from "./QuestionUpdate";
 import UpVoteButton from "./UpVoteButton";
 import DownVoteButton from "./DownVoteButton";
+import Image from "next/image";
 
 const Question = ({ question, session }) => {
   const createdAt = new Date(question.createdAt).toLocaleString();
@@ -24,11 +25,23 @@ const Question = ({ question, session }) => {
         <div className="flex justify-center items-end">
           <div className="flex items-center text-lg font-bold text-black">
             <span>{question.prizeInKeys}</span>
-            <img src="/CircleKey.png" className="h-7 w-8 ml-2 mr-4" />
+            <Image
+              src="/CircleKey.png"
+              alt="Circle Key"
+              width={32}
+              height={32}
+              className="ml-2 mr-4"
+            />
           </div>
           <div className="flex items-center text-lg font-bold text-black">
             <span>{question.prizeInStarKeys}</span>
-            <img src="/StarKey.png" className="h-7 w-8 ml-2" />
+            <Image
+              src="/StarKey.png"
+              alt="Star Key"
+              width={32}
+              height={32}
+              className="ml-2"
+            />
           </div>
         </div>
       </div>
