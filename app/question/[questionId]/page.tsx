@@ -129,7 +129,9 @@ export default async function QuestionPage({ params }) {
         </h2>
         {topAnswer && <Answer answer={topAnswer} />}
 
-        {question.open && <CreateAnswer questionId={params.questionId} />}
+        {question.open && session?.user?.id !== asker?.id && (
+          <CreateAnswer questionId={params.questionId} />
+        )}
 
         <AnswerList questionId={params.questionId} />
       </div>

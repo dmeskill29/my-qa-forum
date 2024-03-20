@@ -21,11 +21,15 @@ const Question = ({ question, session }) => {
         </div>
 
         {/* Prize in top right */}
-        <div className="text-lg font-bold text-black">
-          {question.prizeInKeys} Keys
-        </div>
-        <div className="text-lg font-bold text-black">
-          {question.prizeInStarKeys} Star Keys
+        <div className="flex justify-center items-end">
+          <div className="flex items-center text-lg font-bold text-black">
+            <span>{question.prizeInKeys}</span>
+            <img src="/CircleKey.png" className="h-7 w-8 ml-2 mr-4" />
+          </div>
+          <div className="flex items-center text-lg font-bold text-black">
+            <span>{question.prizeInStarKeys}</span>
+            <img src="/StarKey.png" className="h-7 w-8 ml-2" />
+          </div>
         </div>
       </div>
 

@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation"; // Correct import path for useRoute
 
 const QuestionUpdate = ({ questionId }) => {
   const [text, setText] = useState("");
+  const [prizeInKeys, setPrizeInKeys] = useState(0);
+  const [prizeInStarKeys, setPrizeInStarKeys] = useState(0);
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const router = useRouter();
 
@@ -24,7 +26,12 @@ const QuestionUpdate = ({ questionId }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ content: text, questionId }),
+        body: JSON.stringify({
+          content: text,
+          questionId,
+          keysAdded: prizeInKeys,
+          starKeysAdded: prizeInStarKeys,
+        }),
       });
 
       if (!response.ok) {
@@ -65,6 +72,40 @@ const QuestionUpdate = ({ questionId }) => {
                 placeholder="Type your update..."
               />
             </div>
+
+            <div className="flex">
+              <label
+                htmlFor="prizeInKeys"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Add <img src="/CircleKey.png" className="h-7 w-8 inline mr-2" />
+              </label>
+              <input
+                type="number"
+                id="prizeInKeys"
+                value={prizeInKeys}
+                onChange={(e) => setPrizeInKeys(Number(e.target.value))}
+                className="input-field"
+                min="0"
+              />
+            </div>
+            <div className="flex">
+              <label
+                htmlFor="prizeInStarKeys"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Add <img src="/StarKey.png" className="h-7 w-8 inline mr-2" />
+              </label>
+              <input
+                type="number"
+                id="prizeInStarKeys"
+                value={prizeInStarKeys}
+                onChange={(e) => setPrizeInStarKeys(Number(e.target.value))}
+                className="input-field"
+                min="0"
+              />
+            </div>
+
             <button
               type="submit"
               className="inline-flex justify-center w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

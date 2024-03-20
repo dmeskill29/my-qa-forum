@@ -174,31 +174,32 @@ const ProfilePage = async ({ params }) => {
             </p>
           </div>
           {/* Wallet Section */}
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-gray-800">Wallet</h2>
-              {/* Optionally, add a button or link for managing the wallet */}
-              {/* {session?.user?.id === user.id && (
-                <a
-                  href="/wallet-manage"
+          {user.id === session?.user?.id && (
+            <div className="bg-white shadow rounded-lg p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-800">Wallet</h2>
+                {/* Optionally, add a button or link for managing the wallet */}
+
+                <Link
+                  href={`/user/${user.username}/wallet`}
                   className="text-blue-600 hover:underline"
                 >
                   Manage
-                </a>
-              )} */}
-            </div>
-            {keyChain ? (
-              <div>
-                <p className="text-gray-700">Balance: {keyChain.keys} Keys</p>
-                <p className="text-gray-700">
-                  Balance: {keyChain.starKeys} Star Keys
-                </p>
+                </Link>
               </div>
-            ) : (
-              <CreateWallet user={user} />
-            )}
-            {/* Optionally, add more wallet-related information or actions here */}
-          </div>
+              {keyChain ? (
+                <div>
+                  <p className="text-gray-700">Balance: {keyChain.keys} Keys</p>
+                  <p className="text-gray-700">
+                    Balance: {keyChain.starKeys} Star Keys
+                  </p>
+                </div>
+              ) : (
+                <CreateWallet user={user} />
+              )}
+              {/* Optionally, add more wallet-related information or actions here */}
+            </div>
+          )}
         </div>
       </div>
     </div>
