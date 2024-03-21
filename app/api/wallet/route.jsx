@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-export async function POST(req: Request) {
+export async function POST(req) {
   const body = await req.json();
 
   // const { title, content, subredditId } = PostValidator.parse(body)

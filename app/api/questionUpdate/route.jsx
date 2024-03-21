@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-export async function POST(req: Request) {
+export async function POST(req) {
   const body = await req.json();
 
   // const { title, content, subredditId } = PostValidator.parse(body)
@@ -23,10 +23,13 @@ export async function POST(req: Request) {
     });
 
     const wallet = await db.wallet.findUnique({
-      where: { id: user?.walletId },
+      where: { id: user?.walletId ?? undefined },
     });
 
-    if (wallet?.keys < keysAdded || wallet?.starKeys < starKeysAdded) {
+    if (
+      (wallet?.keys ?? 0) < keysAdded ||
+      (wallet?.starKeys ?? 0) < starKeysAdded
+    ) {
       return new Response(
         JSON.stringify({ message: "Insufficient keys or star keys" }),
         {
@@ -39,14 +42,14 @@ export async function POST(req: Request) {
     }
 
     const walletUpdate = await db.wallet.update({
-      where: { id: user?.walletId },
+      where: { id: user?.walletId ?? undefined },
       data: {
         keys: { decrement: keysAdded },
         starKeys: { decrement: starKeysAdded },
       },
     });
 
-    const result = await db.QuestionUpdate.create({
+    const result = await db.questionUpdate.create({
       data: { content, questionId, keysAdded, starKeysAdded },
     });
     return new Response(JSON.stringify({ message: "OK", result }), {

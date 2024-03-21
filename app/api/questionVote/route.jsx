@@ -1,13 +1,13 @@
 import { db } from "@/lib/db";
 
-export async function PATCH(req: Request) {
+export async function PATCH(req) {
   const body = await req.json();
-  const { answerId, type, userId } = body;
+  const { questionId, type, userId } = body;
 
-  const existingVote = await db.answerVote.findFirst({
+  const existingVote = await db.questionVote.findFirst({
     where: {
       userId: userId,
-      answerId: answerId,
+      questionId: questionId,
     },
   });
 
@@ -18,8 +18,8 @@ export async function PATCH(req: Request) {
     if (existingVote.type !== type) {
       const adjustment = type === "UP" ? 2 : -2; // Adjust by 2 because we're reversing the previous vote
 
-      await db.answer.update({
-        where: { id: answerId },
+      await db.question.update({
+        where: { id: questionId },
         data: {
           voteSum: {
             increment: adjustment,
@@ -30,20 +30,20 @@ export async function PATCH(req: Request) {
 
     // Update the existing vote type only if it's changed
     if (existingVote.type !== type) {
-      await db.answerVote.update({
-        where: { userId_answerId: { userId, answerId } },
+      await db.questionVote.update({
+        where: { userId_questionId: { userId, questionId } },
         data: { type },
       });
     }
   } else {
     // Create a new vote
-    await db.answerVote.create({
-      data: { userId, answerId, type },
+    await db.questionVote.create({
+      data: { userId, questionId, type },
     });
 
-    // Update the answer's voteSum for the new vote
-    await db.answer.update({
-      where: { id: answerId },
+    // Update the question's voteSum for the new vote
+    await db.question.update({
+      where: { id: questionId },
       data: {
         voteSum: {
           increment: voteValue,

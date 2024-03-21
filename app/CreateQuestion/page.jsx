@@ -22,11 +22,14 @@ const CreateQuestion = () => {
     const newTags = e.target.value
       .split(",")
       .map((tag) => tag.trim().slice(0, INDIVIDUAL_TAG_LIMIT))
-      .join(", ");
-    setTags(newTags);
+      .filter(Boolean); // Remove empty strings
+
+    // Your existing logic for updating tags
   };
 
-  const handleCreateWithStarKeys = async (event) => {
+  const handleCreateWithStarKeys = async (
+    event
+  ) => {
     event.preventDefault();
 
     // Split tags by commas, trim whitespace, and check each tag's length
@@ -113,7 +116,7 @@ const CreateQuestion = () => {
     const body = {
       title,
       content,
-      userId: session?.user?.id,
+      userId: session?.user?.id, // Update the type of session?.user to include the 'id' property
       feeInKeys: 50,
       feeInStarKeys: 0,
       prizeInKeys,
@@ -241,7 +244,7 @@ const CreateQuestion = () => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
-          rows="4"
+          rows={4}
           placeholder="Describe your question in detail"
           className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-black block w-full sm:text-sm border-gray-300 rounded-md"
           maxLength={CONTENT_LIMIT}

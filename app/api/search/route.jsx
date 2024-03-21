@@ -1,9 +1,9 @@
 import { db } from "@/lib/db";
 
-export async function GET(req: Request) {
+export async function GET(req) {
   const query = req.url.split("?")[1].split("=")[1];
   console.log(query);
-  const searchQuestions = async (query) => {
+  const searchQuestions = async (query = "") => {
     const results = await db.question.findMany({
       where: {
         OR: [

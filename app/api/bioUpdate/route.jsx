@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-export async function PUT(req: Request) {
+export async function PUT(req) {
   const body = await req.json();
 
   const { bio, username } = body;

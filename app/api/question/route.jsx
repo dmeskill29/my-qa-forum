@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db"; // Assuming you have a db utility for database connection
 
-export async function POST(req: Request) {
+export async function POST(req) {
   const body = await req.json();
 
   // const { title, content, subredditId } = PostValidator.parse(body)
@@ -28,9 +28,9 @@ export async function POST(req: Request) {
   console.log("keyCost", keyCost);
   console.log("starKeyCost", starKeyCost);
 
-  const wallet = user.wallet;
+  const wallet = user?.wallet;
 
-  if (wallet.keys < keyCost || wallet.starKeys < starKeyCost) {
+  if ((wallet?.keys ?? 0) < keyCost || (wallet?.starKeys ?? 0) < starKeyCost) {
     return new Response(JSON.stringify({ message: "Insufficient funds" }), {
       status: 400, // HTTP status code
       headers: {
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
       },
     });
     const postCost = await db.wallet.update({
-      where: { id: wallet.id },
+      where: { id: wallet?.id },
       data: {
         keys: { decrement: keyCost },
         starKeys: { decrement: starKeyCost },
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET(req: Request) {
+export async function GET(req) {
   const questions = await db.question.findMany({
     // where: { subredditId },
     // include: { author: true, subreddit: true },
@@ -84,7 +84,7 @@ export async function GET(req: Request) {
   });
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req) {
   const body = await req.json();
   const { questionId } = body;
   try {

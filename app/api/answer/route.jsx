@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db"; // Assuming you have a db utility for database connection
 
-export async function POST(req: Request) {
+export async function POST(req) {
   const body = await req.json();
 
   // const { title, content, subredditId } = PostValidator.parse(body)
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
   }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req) {
   try {
     const { answerId } = await req.json();
     // Delete associated votes and updates before deleting the answer

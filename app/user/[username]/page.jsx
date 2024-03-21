@@ -97,7 +97,7 @@ const ProfilePage = async ({ params }) => {
             Sign in to view profile
           </h1>
           <p className="mt-2 text-base text-gray-500 dark:text-gray-400 sm:text-lg">
-            You need to sign in to view your profile. If you don't have an
+            You need to sign in to view your profile. If you don&apos;t have an
             account, you can sign up for free.
           </p>
           <div className="mt-6">
@@ -122,7 +122,7 @@ const ProfilePage = async ({ params }) => {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8 py-8">
       <h1 className="text-4xl font-extrabold text-indigo-700 mb-2">
-        {user.username}'s Profile
+        {user.username}&apos;s Profile
       </h1>
 
       <div className="md:flex md:flex-row justify-between md:space-x-8">

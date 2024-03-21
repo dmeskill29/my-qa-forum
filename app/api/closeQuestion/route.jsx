@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-export async function PUT(req: Request) {
+export async function PUT(req) {
   const body = await req.json();
 
   const { questionId } = body;
@@ -11,18 +11,24 @@ export async function PUT(req: Request) {
     });
 
     const topAnswer = await db.answer.findFirst({
-      where: { id: question?.topAnswer },
+      where: {
+        id: question?.topAnswer ?? undefined,
+      },
     });
 
     const user = await db.user.findUnique({
       where: { id: topAnswer?.authorId },
     });
 
-    const wallet = await db.wallet.update({
-      where: { id: user?.walletId },
+    const wallet = await db.wallet.findUnique({
+      where: { id: user?.walletId ?? undefined },
+    });
+
+    const walletUpdate = await db.wallet.update({
+      where: { id: user?.walletId ?? undefined },
       data: {
-        keys: wallet?.keys + question?.prizeInKeys,
-        starKeys: wallet?.starKeys + question?.prizeInStarKeys,
+        keys: (wallet?.keys ?? 0) + (question?.prizeInKeys ?? 0),
+        starKeys: (wallet?.starKeys ?? 0) + (question?.prizeInStarKeys ?? 0),
       },
     });
 

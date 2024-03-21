@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-export async function POST(req: Request) {
+export async function POST(req) {
   const body = await req.json();
 
   // const { title, content, subredditId } = PostValidator.parse(body)
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   // Validate data...
 
   try {
-    const result = await db.AnswerUpdate.create({
+    const result = await db.answerUpdate.create({
       data: { content, answerId },
     });
     return new Response(JSON.stringify({ message: "OK", result }), {

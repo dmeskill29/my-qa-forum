@@ -58,8 +58,8 @@ export default async function QuestionPage({ params }) {
             Question not found
           </h3>
           <p className="mt-1 text-gray-500">
-            We couldn't find the question you're looking for. Please check the
-            URL or try searching for something else.
+            We couldn&apos;t find the question you&apos;re looking for. Please
+            check the URL or try searching for something else.
           </p>
         </div>
       </div>
