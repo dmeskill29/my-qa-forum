@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 // Metadata for the application, specifying types explicitly for clarity
 export const metadata: Metadata = {
   title: "SolveCircle",
-  description: "Answering Questions for the World",
+  description: "Solving Problems for the World",
 };
 
 // RootLayout component definition with explicit React.ReactNode type for children
