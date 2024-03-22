@@ -37,11 +37,14 @@ const ProfilePage = async ({ params }) => {
     },
   });
 
-  const keyChain = (await db.wallet.findFirst({
+  const walletId = user?.walletId;
+
+
+  const keyChain = walletId ? await db.wallet.findUnique({
     where: {
-      id: user?.walletId,
+      id: walletId,
     },
-  })) ?? { keys: 0, starKeys: 0 };
+  }) :  null;
 
   if (!user) {
     return (
