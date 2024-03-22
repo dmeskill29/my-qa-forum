@@ -6,6 +6,31 @@ import { authOptions } from "@/lib/auth";
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
+  if(session === null || !session.user.roles.includes("admin") ) {
+    return (
+      <div className="space-y-4">
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="bg-white shadow-lg rounded-lg p-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Find it!</h2>
+              <p className="text-gray-600">Search for questions.</p>
+            </div>
+            <div className="bg-white shadow-lg rounded-lg p-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Ask it!</h2>
+              <p className="text-gray-600">Ask a question.</p>
+            </div>
+            <div className="bg-white shadow-lg rounded-lg p-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">
+                Answer it!
+              </h2>
+              <p className="text-gray-600">Answer a question.</p>
+            </div>
+          </div>
+        </div>
+        </div>
+    );
+  }
+
   if (!session) {
     return (
       <div className="space-y-4">

@@ -53,7 +53,7 @@ const AddStarKeysButton = () => {
         type="submit"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
       >
-        Add <Image src="/starkey.png" alt="Star Key" className="h-4" />
+        Add <Image src="/starkey.png" alt="Star Key" width={28} height={28} />
       </button>
     </form>
   );
