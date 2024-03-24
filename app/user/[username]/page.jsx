@@ -4,10 +4,9 @@ import Link from "next/link";
 import UsernameUpdate from "@/components/Profile/UsernameUpdate";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import QuestionList from "@/components/Question/QuestionList";
+import ProblemList from "@/components/Problem/ProblemList";
 import BioUpdate from "@/components/Profile/BioUpdate";
-import UserAnswerList from "@/components/Answer/UserAnswerList";
-import CreateWallet from "@/components/Profile/CreateWallet";
+import UserSolutionList from "@/components/Solution/UserSolutionList";
 import Image from "next/image";
 
 const ProfilePage = async ({ params }) => {
@@ -19,7 +18,7 @@ const ProfilePage = async ({ params }) => {
     },
   });
 
-  const questions = await db.question.findMany({
+  const problems = await db.problem.findMany({
     where: {
       authorId: user.id,
     },
@@ -28,7 +27,7 @@ const ProfilePage = async ({ params }) => {
     },
   });
 
-  const answers = await db.answer.findMany({
+  const solutions = await db.solution.findMany({
     where: {
       authorId: user.id,
     },
@@ -37,14 +36,15 @@ const ProfilePage = async ({ params }) => {
     },
   });
 
-  const walletId = user?.walletId;
+  const keychainId = user?.keychainId;
 
-
-  const keyChain = walletId ? await db.wallet.findUnique({
-    where: {
-      id: walletId,
-    },
-  }) :  null;
+  const keyChain = keychainId
+    ? await db.keyChain.findUnique({
+        where: {
+          id: keychainId,
+        },
+      })
+    : null;
 
   if (!user) {
     return (
@@ -128,90 +128,87 @@ const ProfilePage = async ({ params }) => {
         {user.username}&apos;s Profile
       </h1>
 
-      <div className="md:flex md:flex-row justify-between md:space-x-8">
-        {/* Left Column: Questions and Answers */}
-        <div className="md:flex-1">
-          <h2 className="text-xl font-semibold max-w-md mx-auto md:max-w-2xl text-gray-800 mb-4">
-            Questions by {user.username}
-          </h2>
-          <QuestionList questions={questions} session={session} />
-
-          {/* Answers Section */}
-          <div className="max-w-md mx-auto rounded-xl overflow-hidden md:max-w-2xl  ">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">
-              Answers by {user.username}
-            </h2>
-            <UserAnswerList answers={answers} />
+      <div className="flex flex-col md:flex-row md:space-x-8">
+        {/* Bio and Updates - Now first and always visible */}
+        <div className="w-full md:w-96 bg-white shadow rounded-lg p-6 mb-4 md:mb-0">
+          {/* Username and its update button */}
+          <div className="flex justify-between">
+            <h2 className="text-xl font-semibold text-gray-800">Username</h2>
+            {session?.user?.id === user.id && (
+              <UsernameUpdate session={session} />
+            )}
           </div>
-        </div>
+          <p className="mb-4 text-gray-700">{user.username}</p>
 
-        {/* Right Column: Bio and Updates */}
-        {/* This div is given negative margin-top to pull it up towards the top of the container on smaller screens. */}
-        <div className="hidden md:block mt-[-11rem] md:mt-0 w-full md:w-96">
-          <div className="bg-white shadow rounded-lg p-6 mb-4">
-            {/* Username and its update button */}
-            <div className="flex justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">Username</h2>
-              {session?.user?.id === user.id && (
-                <UsernameUpdate session={session} />
-              )}
-            </div>
-            <p className="mb-4 text-gray-700">{user.username}</p>
-
-            {/* Bio and its update button */}
-            <div className="flex justify-between">
-              <h2 className="text-xl font-semibold text-gray-800">Bio</h2>
-              {session?.user?.id === user.id && <BioUpdate session={session} />}
-            </div>
-            <p className="text-gray-700 text-base whitespace-pre-line">
-              {user.bio ? (
-                user.bio
-              ) : (
-                <span className="text-gray-400">No bio provided.</span>
-              )}
-            </p>
+          {/* Bio and its update button */}
+          <div className="flex justify-between">
+            <h2 className="text-xl font-semibold text-gray-800">Bio</h2>
+            {session?.user?.id === user.id && <BioUpdate session={session} />}
           </div>
-          {/* Wallet Section */}
+          <p className="text-gray-700 text-base whitespace-pre-line">
+            {user.bio ? (
+              user.bio
+            ) : (
+              <span className="text-gray-400">No bio provided.</span>
+            )}
+          </p>
+
+          {/* Keychain Section */}
           {user.id === session?.user?.id && (
-            <div className="bg-white shadow rounded-lg p-6">
+            <div className="mt-6 bg-white shadow rounded-lg p-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">Wallet</h2>
-                {/* Optionally, add a button or link for managing the wallet */}
-
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Keychain
+                </h2>
                 <Link
-                  href={`/user/${user.username}/wallet`}
+                  href={`/user/${user.username}/keychain`}
                   className="text-blue-600 hover:underline"
                 >
                   Manage
                 </Link>
               </div>
-              {keyChain ? (
-                <div>
-                  <p className="text-gray-700">
-                    Balance: {keyChain.keys}
+              <div>
+                <p className="text-gray-700 flex items-center">
+                  {keyChain.circleKeys}
+                  <span className="inline-flex ml-2">
                     <Image
                       src="/CircleKey.png"
                       alt="Circle Key"
                       width={28}
                       height={28}
                     />
-                  </p>
-                  <p className="text-gray-700">
-                    Balance: {keyChain.starKeys}
+                  </span>
+                </p>
+                <p className="text-gray-700 flex items-center">
+                  {keyChain.starKeys}
+                  <span className="inline-flex ml-2">
                     <Image
                       src="/StarKey.png"
                       alt="Star Key"
                       width={28}
                       height={28}
-                    />{" "}
-                  </p>
-                </div>
-              ) : (
-                <CreateWallet user={user} />
-              )}
-              {/* Optionally, add more wallet-related information or actions here */}
+                    />
+                  </span>
+                </p>
+              </div>
             </div>
           )}
+        </div>
+
+        {/* Problems and Solutions - Now positioned to the right of the bio/update section on larger screens */}
+        <div className="flex-1">
+          <h2 className="text-xl font-semibold max-w-md mx-auto md:max-w-2xl text-gray-800 mb-4">
+            Problems by {user.username}
+          </h2>
+          <ProblemList problems={problems} session={session} />
+
+          {/* Solutions Section */}
+          <div className="mt-4 max-w-md mx-auto rounded-xl overflow-hidden md:max-w-2xl">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Solutions by {user.username}
+            </h2>
+            <UserSolutionList solutions={solutions} />
+          </div>
         </div>
       </div>
     </div>

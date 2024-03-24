@@ -1,17 +1,17 @@
 import React from "react";
 import { db } from "@/lib/db";
-import QuestionList from "@/components/Question/QuestionList";
+import ProblemList from "@/components/Problem/ProblemList";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 const page = async () => {
   const session = await getServerSession(authOptions);
-  const questions = await db.question.findMany({
+  const problems = await db.problem.findMany({
     orderBy: { createdAt: "desc" },
   });
 
-  const newQuestions = questions;
+  const newProblems = problems;
   if (!session) {
     return {
       redirect: {
@@ -24,10 +24,10 @@ const page = async () => {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
       <div className="mb-4">
         <Link
-          href="/CreateQuestion"
+          href="/CreateProblem"
           className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-150 ease-in-out text-center"
         >
-          Create Question
+          Create Problem
         </Link>
       </div>
       <div className="flex justify-center space-x-4">
@@ -55,7 +55,7 @@ const page = async () => {
           Prize
         </Link>
       </div>
-      <QuestionList questions={newQuestions} />
+      <ProblemList problems={newProblems} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Corrected import path
+import { useRouter } from "next/navigation";
 
 const SearchBar = ({ session }) => {
   const [query, setQuery] = useState("");
@@ -21,24 +21,30 @@ const SearchBar = ({ session }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center max-w-lg mx-auto mt-3 mb-2"
+      className="flex items-center w-full sm:max-w-lg mx-auto mt-3 mb-2"
     >
-      <input
-        type="text"
-        placeholder="Search..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="flex-grow py-2 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent border border-gray-300 rounded-l-md transition duration-150 ease-in-out text-black" // Added text-black here
-      />
-      <button
-        type="submit"
-        className="text-white py-2 px-4 rounded-r-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-150 ease-in-out"
-        style={{ backgroundColor: "#307e79", borderColor: "#307e79" }}
-        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#2b6d6b")}
-        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#307e79")}
-      >
-        Search
-      </button>
+      <div className="flex-grow relative">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="w-full py-2 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent border border-gray-300 rounded-md transition duration-150 ease-in-out text-black"
+        />
+        <button
+          type="submit"
+          className="absolute inset-y-0 right-0 text-white py-2 px-4 rounded-r-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-150 ease-in-out"
+          style={{ backgroundColor: "#307e79", borderColor: "#307e79" }}
+          onMouseOver={(e) =>
+            (e.currentTarget.style.backgroundColor = "#2b6d6b")
+          }
+          onMouseOut={(e) =>
+            (e.currentTarget.style.backgroundColor = "#307e79")
+          }
+        >
+          Search
+        </button>
+      </div>
     </form>
   );
 };

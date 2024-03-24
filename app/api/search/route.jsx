@@ -3,8 +3,8 @@ import { db } from "@/lib/db";
 export async function GET(req) {
   const query = req.url.split("?")[1].split("=")[1];
   console.log(query);
-  const searchQuestions = async (query = "") => {
-    const results = await db.question.findMany({
+  const searchProblems = async (query = "") => {
+    const results = await db.problem.findMany({
       where: {
         OR: [
           {
@@ -28,7 +28,7 @@ export async function GET(req) {
     return results;
   };
   try {
-    const results = await searchQuestions(query);
+    const results = await searchProblems(query);
     return new Response(JSON.stringify(results), {
       status: 200, // HTTP status code
       headers: {

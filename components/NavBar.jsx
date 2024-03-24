@@ -16,7 +16,12 @@ const NavBar = async () => {
           href="/"
           className="flex flex-col items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
         >
-          <Image src="/SolveSuiteLogo.png" alt="SolveSuite" width={40} height={40} />
+          <Image
+            src="/SolveSuiteLogo.png"
+            alt="SolveSuite"
+            width={40}
+            height={40}
+          />
           <span className="text-2xl font-bold text-white">SolveCircle</span>
         </Link>
 

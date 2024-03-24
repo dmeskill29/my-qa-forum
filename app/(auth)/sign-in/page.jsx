@@ -1,13 +1,26 @@
-import SignIn from "@/components/SignIn";
+import UserAuthForm from "@/components/UserAuthForm";
+import Link from "next/link";
 
 const page = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
-          <SignIn />
-
-          {/* Enhance the sign-in form appearance within the <SignIn /> component as well */}
+    <div className="container mx-auto flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8 w-full sm:max-w-md">
+      <div className="w-full bg-white rounded-lg shadow-xl overflow-hidden mt-8 md:mt-12 lg:mt-16">
+        <div className="px-10 py-8">
+          <h1 className="text-3xl font-extrabold text-center text-gray-900 mb-6">
+            Welcome Back
+          </h1>
+          <UserAuthForm />
+        </div>
+        <div className="bg-gray-50 px-10 py-4">
+          <p className="text-sm text-center text-gray-600">
+            New to SolveSuite?{" "}
+            <Link
+              href="/sign-up"
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
+              Sign Up
+            </Link>
+          </p>
         </div>
       </div>
     </div>

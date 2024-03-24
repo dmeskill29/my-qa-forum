@@ -1,6 +1,6 @@
 // pages/search-results/index.js
 import React from "react";
-import QuestionList from "@/components/Question/QuestionList"; // Adjust the import path as necessary
+import ProblemList from "@/components/Problem/ProblemList"; // Adjust the import path as necessary
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -24,7 +24,7 @@ const SearchResultsPage = async ({ searchParams }) => {
     ],
   };
 
-  const data = await db.question.findMany({
+  const data = await db.problem.findMany({
     where: whereCondition,
     orderBy: { createdAt: "desc" },
   });
@@ -47,7 +47,7 @@ const SearchResultsPage = async ({ searchParams }) => {
 
       <SearchFilters query={query} />
 
-      <QuestionList questions={data} />
+      <ProblemList problems={data} />
     </div>
   );
 };
