@@ -14,11 +14,14 @@ export async function POST(req) {
     // Starting a transaction if your DB supports it, to ensure both user and account are created
     const result = await db.$transaction(async (prisma) => {
       // First, create the user
+
+      let user;
+
       if (
         email === process.env.ADMIN_EMAIL_1 ||
         email === process.env.ADMIN_EMAIL_2
       ) {
-        const user = await prisma.user.create({
+        user = await prisma.user.create({
           data: {
             email,
             password: hashedPassword,
@@ -27,7 +30,7 @@ export async function POST(req) {
           },
         });
       } else {
-        const user = await prisma.user.create({
+        user = await prisma.user.create({
           data: {
             email,
             password: hashedPassword,
