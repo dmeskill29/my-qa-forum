@@ -30,13 +30,23 @@ export async function POST(req) {
             roles: ["admin", "user"],
           },
         });
-      } else {
+      }
+      if (process.env.TEST_USERS.includes(email)) {
         user = await prisma.user.create({
           data: {
             email,
             password: hashedPassword,
             username: nanoid(10),
             roles: ["user"],
+          },
+        });
+      } else {
+        user = await prisma.user.create({
+          data: {
+            email,
+            password: hashedPassword,
+            username: nanoid(10),
+            roles: [],
           },
         });
       }

@@ -35,7 +35,7 @@ const ProblemList = ({ problems, session }) => {
           {currentProblems.map((problem) => (
             <Link
               href={`/problem/${problem.id}`}
-              className="block p-2 w-1/2 mx-auto"
+              className="block p-2 w-2/3 mx-auto"
               key={problem.id}
             >
               <Problem problem={problem} session={session} />

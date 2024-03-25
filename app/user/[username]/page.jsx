@@ -18,12 +18,17 @@ const ProfilePage = async ({ params }) => {
     },
   });
 
+  const isAdmin = user?.roles.includes("admin");
+
   const problems = await db.problem.findMany({
     where: {
       authorId: user.id,
     },
     orderBy: {
       createdAt: "desc",
+    },
+    include: {
+      author: true,
     },
   });
 
@@ -129,10 +134,13 @@ const ProfilePage = async ({ params }) => {
       </h1>
 
       <div className="flex flex-col md:flex-row md:space-x-8">
-        {/* Bio and Updates - Now first and always visible */}
-        <div className="w-full md:w-96 bg-white shadow rounded-lg p-6 mb-4 md:mb-0">
+        <div
+          className={`bg-white shadow rounded-lg p-6 mb-4 md:mb-0 w-full md:w-96 h-96 overflow-auto ${
+            isAdmin ? "border-4 border-green-500" : ""
+          }`}
+        >
           {/* Username and its update button */}
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <h2 className="text-xl font-semibold text-gray-800">Username</h2>
             {session?.user?.id === user.id && (
               <UsernameUpdate session={session} />
@@ -141,11 +149,11 @@ const ProfilePage = async ({ params }) => {
           <p className="mb-4 text-gray-700">{user.username}</p>
 
           {/* Bio and its update button */}
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center mt-4">
             <h2 className="text-xl font-semibold text-gray-800">Bio</h2>
             {session?.user?.id === user.id && <BioUpdate session={session} />}
           </div>
-          <p className="text-gray-700 text-base whitespace-pre-line">
+          <p className="text-gray-700 text-base whitespace-pre-line mt-2">
             {user.bio ? (
               user.bio
             ) : (
@@ -155,7 +163,7 @@ const ProfilePage = async ({ params }) => {
 
           {/* Keychain Section */}
           {user.id === session?.user?.id && (
-            <div className="mt-6 bg-white shadow rounded-lg p-6">
+            <div className="mt-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold text-gray-800">
                   Keychain
@@ -169,7 +177,7 @@ const ProfilePage = async ({ params }) => {
               </div>
               <div>
                 <p className="text-gray-700 flex items-center">
-                  {keyChain.circleKeys}
+                  Circle Keys: {keyChain.circleKeys}
                   <span className="inline-flex ml-2">
                     <Image
                       src="/CircleKey.png"
@@ -179,8 +187,8 @@ const ProfilePage = async ({ params }) => {
                     />
                   </span>
                 </p>
-                <p className="text-gray-700 flex items-center">
-                  {keyChain.starKeys}
+                <p className="text-gray-700 flex items-center mt-2">
+                  Star Keys: {keyChain.starKeys}
                   <span className="inline-flex ml-2">
                     <Image
                       src="/StarKey.png"

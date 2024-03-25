@@ -4,6 +4,9 @@ import ProblemList from "./Problem/ProblemList";
 export default async function Feed({ session }) {
   const problems = await db.problem.findMany({
     orderBy: { createdAt: "desc" },
+    include: {
+      author: true, // Assuming the relation field name is `author`
+    },
   });
 
   return (

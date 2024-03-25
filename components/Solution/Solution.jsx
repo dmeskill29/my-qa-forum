@@ -23,10 +23,16 @@ const Solution = async ({ solution }) => {
     },
   });
 
+  const isAdminSolution = user.roles.includes("admin");
+
   const username = user.username;
 
   return (
-    <div className="max-w-md mx-auto bg-white rounded-lg shadow overflow-hidden md:max-w-2xl p-4 space-y-6">
+    <div
+      className={`max-w-md mx-auto bg-white rounded-lg shadow overflow-hidden md:max-w-2xl p-4 space-y-6 ${
+        isAdminProblem ? "border-4 border-green-500" : ""
+      }`}
+    >
       <div className="flex justify-between items-center mb-4">
         <Link
           href={`/user/${username}`}
@@ -45,7 +51,10 @@ const Solution = async ({ solution }) => {
       <div className="flex items-center justify-between">
         {problem.authorId === session?.user?.id && (
           <div className="flex items-center">
-            <PinTopSolutionButton solutionId={solution.id} problemId={problem.id} />
+            <PinTopSolutionButton
+              solutionId={solution.id}
+              problemId={problem.id}
+            />
           </div>
         )}
         <div className="flex items-center">

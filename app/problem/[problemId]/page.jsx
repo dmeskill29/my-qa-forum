@@ -1,15 +1,10 @@
 import React from "react";
 import { db } from "@/lib/db";
-import Problem from "@/components/Problem/Problem";
 import CreateSolution from "@/components/Solution/CreateSolution";
 import SolutionList from "@/components/Solution/SolutionList";
 import Link from "next/link";
-import ProblemUpdate from "@/components/Problem/ProblemUpdate";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import ProblemUpdateList from "@/components/Problem/ProblemUpdateList";
-import UpVoteButton from "@/components/Problem/UpVoteButton";
-import DownVoteButton from "@/components/Problem/DownVoteButton";
 import Solution from "@/components/Solution/Solution";
 import CloseProblemButton from "@/components/Problem/CloseProblemButton";
 import ProblemForPage from "@/components/Problem/ProblemForPage";
@@ -20,9 +15,13 @@ export default async function ProblemPage({ params }) {
     where: {
       id: params.problemId,
     },
+    include: {
+      author: true,
+    },
   });
 
-  const topSolution = problem?.topSolution &&
+  const topSolution =
+    problem?.topSolution &&
     (await db.solution.findFirst({
       where: {
         id: problem?.topSolution,
