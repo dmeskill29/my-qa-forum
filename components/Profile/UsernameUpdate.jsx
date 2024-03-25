@@ -7,7 +7,7 @@ const UsernameUpdate = ({ session }) => {
   const [text, setText] = useState("");
   const [showModal, setShowModal] = useState(false); // State to control the visibility of the modal
   const router = useRouter();
-  const MIN_USERNAME_LENGTH = 5; // Define a minimum username length, for example, 5 characters
+  const MIN_USERNAME_LENGTH = 3; // Define a minimum username length, for example, 5 characters
 
   const handleSubmit = async (event) => {
     event.preventDefault();

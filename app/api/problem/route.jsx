@@ -20,7 +20,7 @@ export async function POST(req) {
 
   const user = await db.user.findUnique({
     where: { id: userId },
-    include: { wallet: true },
+    include: { keychain: true },
   });
 
   const circleKeyCost = feeInCircleKeys + prizeInCircleKeys;
@@ -28,9 +28,12 @@ export async function POST(req) {
   console.log("circleKeyCost", circleKeyCost);
   console.log("starKeyCost", starKeyCost);
 
-  const wallet = user?.wallet;
+  const keychain = user?.keychain;
 
-  if ((wallet?.circleKeys ?? 0) < circleKeyCost || (wallet?.starKeys ?? 0) < starKeyCost) {
+  if (
+    (keychain?.circleKeys ?? 0) < circleKeyCost ||
+    (keychain?.starKeys ?? 0) < starKeyCost
+  ) {
     return new Response(JSON.stringify({ message: "Insufficient funds" }), {
       status: 400, // HTTP status code
       headers: {
@@ -51,8 +54,8 @@ export async function POST(req) {
         tags,
       },
     });
-    const postCost = await db.wallet.update({
-      where: { id: wallet?.id },
+    const postCost = await db.keyChain.update({
+      where: { id: keychain?.id },
       data: {
         circleKeys: { decrement: circleKeyCost },
         starKeys: { decrement: starKeyCost },

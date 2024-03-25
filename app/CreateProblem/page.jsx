@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"; // Corrected the import path
 import Link from "next/link";
+import Image from "next/image";
 
 const CreateProblem = () => {
   const TITLE_LIMIT = 100;
@@ -24,12 +25,11 @@ const CreateProblem = () => {
       .map((tag) => tag.trim().slice(0, INDIVIDUAL_TAG_LIMIT))
       .filter(Boolean); // Remove empty strings
 
+    setTags(newTags.join(","));
     // Your existing logic for updating tags
   };
 
-  const handleCreateWithStarKeys = async (
-    event
-  ) => {
+  const handleCreateWithStarKeys = async (event) => {
     event.preventDefault();
 
     // Split tags by commas, trim whitespace, and check each tag's length
@@ -269,12 +269,13 @@ const CreateProblem = () => {
       </div>
 
       {/* Prize input */}
-      <div>
+      <div class="flex items-center space-x-2">
         <label
           htmlFor="prizeInCircleKeys"
-          className="block text-sm font-medium text-gray-700"
+          className="text-sm font-medium text-gray-700 flex items-center gap-1"
         >
-          Prize in Circle Keys:
+          Prize in{" "}
+          <img src="/CircleKey.png" alt="Circle Key" width="20" height="20" /> :
         </label>
         <input
           type="number"
@@ -285,12 +286,13 @@ const CreateProblem = () => {
           min="0"
         />
       </div>
-      <div>
+      <div class="flex items-center space-x-2">
         <label
           htmlFor="prizeInStarKeys"
-          className="block text-sm font-medium text-gray-700"
+          className="text-sm font-medium text-gray-700 flex items-center gap-1"
         >
-          Prize in Star Keys:
+          Prize in{" "}
+          <img src="/StarKey.png" alt="Star Key" width="20" height="20" />:
         </label>
         <input
           type="number"
@@ -306,17 +308,17 @@ const CreateProblem = () => {
       <div className="flex space-x-2">
         <button
           type="submit"
-          className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
+          className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
         >
-          Ask with Circle Keys
+          Post
         </button>
-        <button
+        {/* <button
           onClick={handleCreateWithStarKeys}
           type="button"
           className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition duration-300 ease-in-out"
         >
           Ask with Star Keys
-        </button>
+        </button> */}
       </div>
     </form>
   );

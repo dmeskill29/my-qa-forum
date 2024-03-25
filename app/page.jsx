@@ -66,9 +66,9 @@ export default async function Home() {
         <div className="mb-4">
           <Link
             href="/CreateProblem"
-            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-150 ease-in-out text-center"
+            className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-150 ease-in-out text-center"
           >
-            Create Problem
+            Post a Problem
           </Link>
         </div>
         <div className="flex justify-center space-x-4">
