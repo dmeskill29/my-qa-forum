@@ -46,6 +46,7 @@ const UsernameUpdate = ({ session }) => {
       const data = await response.json();
       setShowModal(false);
       router.push(`/user/${data.result.username}`);
+      router.refresh();
       // Consider using router.reload() instead of router.refresh() as refresh might not be a function
     } catch (error) {
       console.error("Failed to submit the username update:", error);

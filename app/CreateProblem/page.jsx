@@ -15,78 +15,82 @@ const CreateProblem = () => {
   const [content, setContent] = useState("");
   const [prizeInCircleKeys, setPrizeInCircleKeys] = useState(0);
   const [prizeInStarKeys, setPrizeInStarKeys] = useState(0);
-  const [tags, setTags] = useState("");
+  const router = useRouter(); // Corrected the import path
   const { data: session, status } = useSession();
-  const router = useRouter();
+  const [tags, setTags] = useState("");
+  const [tagsArray, setTagsArray] = useState([]);
 
   const handleTagsChange = (e) => {
-    const newTags = e.target.value
+    const input = e.target.value;
+    setTags(input); // Keep the raw input
+
+    // Process into array whenever the input changes
+    const newTagsArray = input
       .split(",")
-      .map((tag) => tag.trim().slice(0, INDIVIDUAL_TAG_LIMIT))
-      .filter(Boolean); // Remove empty strings
+      .map((tag) => tag.trim())
+      .filter((tag) => tag); // Remove empty strings, if any
 
-    setTags(newTags.join(","));
-    // Your existing logic for updating tags
+    setTagsArray(newTagsArray); // Update the tags array
   };
 
-  const handleCreateWithStarKeys = async (event) => {
-    event.preventDefault();
+  // const handleCreateWithStarKeys = async (event) => {
+  //   event.preventDefault();
 
-    // Split tags by commas, trim whitespace, and check each tag's length
-    const tagsArray = tags.split(",").map((tag) => tag.trim());
-    const invalidTag = tagsArray.some(
-      (tag) => tag.length > INDIVIDUAL_TAG_LIMIT
-    );
+  //   // Split tags by commas, trim whitespace, and check each tag's length
+  //   const tagsArray = tags.split(",").map((tag) => tag.trim());
+  //   const invalidTag = tagsArray.some(
+  //     (tag) => tag.length > INDIVIDUAL_TAG_LIMIT
+  //   );
 
-    if (invalidTag) {
-      alert(`Each tag must be under ${INDIVIDUAL_TAG_LIMIT} characters.`);
-      return;
-    }
+  //   if (invalidTag) {
+  //     alert(`Each tag must be under ${INDIVIDUAL_TAG_LIMIT} characters.`);
+  //     return;
+  //   }
 
-    if (
-      title.length > TITLE_LIMIT ||
-      content.length > CONTENT_LIMIT ||
-      tags.length > TAGS_LIMIT
-    ) {
-      alert(
-        `Please ensure your title is under ${TITLE_LIMIT} characters, your content under ${CONTENT_LIMIT} characters, and your tags under ${TAGS_LIMIT} characters.`
-      );
-      return;
-    }
+  //   if (
+  //     title.length > TITLE_LIMIT ||
+  //     content.length > CONTENT_LIMIT ||
+  //     tags.length > TAGS_LIMIT
+  //   ) {
+  //     alert(
+  //       `Please ensure your title is under ${TITLE_LIMIT} characters, your content under ${CONTENT_LIMIT} characters, and your tags under ${TAGS_LIMIT} characters.`
+  //     );
+  //     return;
+  //   }
 
-    const body = {
-      title,
-      content,
-      userId: session?.user?.id,
-      feeInCircleKeys: 0,
-      feeInStarKeys: 50, // [2]
-      prizeInCircleKeys,
-      prizeInStarKeys,
-      tags,
-    };
+  //   const body = {
+  //     title,
+  //     content,
+  //     userId: session?.user?.id,
+  //     feeInCircleKeys: 0,
+  //     feeInStarKeys: 50, // [2]
+  //     prizeInCircleKeys,
+  //     prizeInStarKeys,
+  //     tags,
+  //   };
 
-    try {
-      const response = await fetch("/api/problem", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+  //   try {
+  //     const response = await fetch("/api/problem", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(body),
+  //     });
 
-      // if (!response.ok) {
-      //   throw new Error("Network response was not ok");
-      // }
+  //     // if (!response.ok) {
+  //     //   throw new Error("Network response was not ok");
+  //     // }
 
-      // On success
-      const data = await response.json();
-      alert(data.message);
-      router.push(`/problem/${data.result.id}`);
-      router.refresh();
-      // Consider using router.push for navigation instead of router.refresh()
-    } catch (error) {
-      console.error("Failed to submit the problem:", error);
-      // Handle error
-    }
-  };
+  //     // On success
+  //     const data = await response.json();
+  //     alert(data.message);
+  //     router.push(`/problem/${data.result.id}`);
+  //     router.refresh();
+  //     // Consider using router.push for navigation instead of router.refresh()
+  //   } catch (error) {
+  //     console.error("Failed to submit the problem:", error);
+  //     // Handle error
+  //   }
+  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -142,6 +146,7 @@ const CreateProblem = () => {
       // Consider using router.push for navigation instead of router.refresh()
     } catch (error) {
       console.error("Failed to submit the problem:", error);
+      alert("Insufficient funds. Please try again.");
       // Handle error
     }
   };
