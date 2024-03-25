@@ -19,7 +19,8 @@ export async function POST(req) {
 
       if (
         email === process.env.ADMIN_EMAIL_1 ||
-        email === process.env.ADMIN_EMAIL_2
+        email === process.env.ADMIN_EMAIL_2 ||
+        email === process.env.ADMIN_EMAIL_3
       ) {
         user = await prisma.user.create({
           data: {
