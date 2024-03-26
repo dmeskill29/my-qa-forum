@@ -111,8 +111,23 @@ const page = async ({ params, searchParams }) => {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8 py-8">
-      <h1 className="text-4xl font-extrabold text-indigo-700 mb-2">
+      <h1 className="text-4xl font-extrabold text-indigo-700 mb-2 flex items-center">
         {user.username}&apos;s Profile
+        <div className="flex items-center space-x-4 mt-4 mb-4 ml-40">
+          <Link
+            href={`/user/${user.username}/problems`}
+            className="flex items-center px-4 py-2 text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-blue-50 rounded-lg"
+          >
+            Problems
+          </Link>
+
+          <Link
+            href={`/user/${user.username}/solutions`}
+            className="flex items-center px-4 py-2 text-xl font-semibold text-gray-800 hover:text-green-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-green-50 rounded-lg"
+          >
+            Solutions
+          </Link>
+        </div>
       </h1>
 
       <div className="flex flex-col md:flex-row md:space-x-8">
@@ -187,22 +202,6 @@ const page = async ({ params, searchParams }) => {
 
         {/* Problems and Solutions - Now positioned to the right of the bio/update section on larger screens */}
         <div className="flex-1">
-          <div className="flex items-center space-x-4 mt-4 mb-4">
-            <Link
-              href={`/user/${user.username}/problems`}
-              className="flex items-center px-4 py-2 text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-blue-50 rounded-lg"
-            >
-              Problems
-            </Link>
-
-            <Link
-              href={`/user/${user.username}/solutions`}
-              className="flex items-center px-4 py-2 text-xl font-semibold text-gray-800 hover:text-green-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-green-50 rounded-lg"
-            >
-              Solutions
-            </Link>
-          </div>
-
           <h2 className="text-xl font-semibold max-w-md mx-auto md:max-w-2xl text-gray-800 mb-4">
             Solutions by {user.username}
           </h2>
