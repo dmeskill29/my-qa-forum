@@ -1,61 +1,85 @@
 import React from "react";
 import { db } from "@/lib/db";
-import ProblemList from "@/components/Problem/ProblemList";
+import FeedLinks from "@/components/FeedLinks";
+import Problem from "@/components/Problem/Problem";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 
-const page = async () => {
-  const session = await getServerSession(authOptions);
+const page = async ({ searchParams }) => {
   const problems = await db.problem.findMany({
     orderBy: { createdAt: "desc" },
+    include: {
+      author: true, // Assuming the relation field name is `author`
+    },
   });
+  const page = searchParams;
+  const pageNumber = page.page === undefined ? 1 : page.page;
+  const PAGE_SIZE = 5; // Number of problems per page
 
-  const newProblems = problems;
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
+  if (!Array.isArray(problems)) {
+    console.error("problems is not an array:", problems);
+    return <div>No problems available</div>;
   }
+
+  if (pageNumber < 1) {
+    console.error("pageNumber must be a positive number:", pageNumber);
+    return null;
+  }
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(problems.length / PAGE_SIZE);
+
+  // Get current page of problems
+  const start = (pageNumber - 1) * PAGE_SIZE;
+  const currentProblems = problems.slice(start, start + PAGE_SIZE);
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
-      <div className="mb-4">
-        <Link
-          href="/CreateProblem"
-          className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-150 ease-in-out text-center"
-        >
-          Create Problem
-        </Link>
-      </div>
-      <div className="flex justify-center space-x-4">
-        <Link
-          href="/new"
-          className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
-          style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
-        >
-          New
-        </Link>
-
-        <Link
-          href="/open"
-          className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
-          style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
-        >
-          Open
-        </Link>
-
-        <Link
-          href="/prize"
-          className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
-          style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
-        >
-          Prize
-        </Link>
-      </div>
-      <ProblemList problems={newProblems} />
+      <FeedLinks />
+      {currentProblems.length > 0 ? (
+        <>
+          {currentProblems.map((problem) => (
+            <Link
+              href={`/problem/${problem.id}`}
+              className="block p-2 w-2/3 mx-auto"
+              key={problem.id}
+            >
+              <Problem problem={problem} />
+            </Link>
+          ))}
+          <div className="flex justify-center items-center space-x-2 mt-4">
+            {pageNumber > 1 && (
+              <Link
+                href={`/new?page=${pageNumber - 1}`}
+                className="pagination-link"
+                aria-label="Previous page"
+              >
+                Previous
+              </Link>
+            )}
+            {Array.from({ length: totalPages }, (_, index) => (
+              <Link
+                key={index}
+                href={`/new?page=${index + 1}`}
+                className={`pagination-link ${
+                  index + 1 === pageNumber ? "pagination-link--active" : ""
+                }`}
+                aria-current={index + 1 === pageNumber ? "page" : undefined}
+              >
+                {index + 1}
+              </Link>
+            ))}
+            {pageNumber < totalPages && (
+              <Link
+                href={`/new?page=${parseInt(pageNumber, 10) + 1}`}
+                className="pagination-link"
+                aria-label="Next page"
+              >
+                Next
+              </Link>
+            )}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

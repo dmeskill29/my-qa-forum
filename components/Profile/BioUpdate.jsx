@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Corrected import path
 
 const BioUpdate = ({ session }) => {
-  const [bio, setBio] = useState(session?.user?.bio || ""); // If you have bio stored in session, load it
+  const [bio, setBio] = useState(session?.user?.bio || "");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
@@ -13,13 +13,11 @@ const BioUpdate = ({ session }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Construct the payload, including user ID or other user identifier if needed
     const payload = {
       username: session.user.username,
       bio: bio,
     };
 
-    // Post data to the server
     try {
       const response = await fetch("/api/bioUpdate", {
         method: "PUT",
@@ -30,20 +28,17 @@ const BioUpdate = ({ session }) => {
       });
 
       if (response.ok) {
-        // Handle success
-        const data = await response.json();
-        setBio(""); // Clear the form (if needed)
-        setIsModalOpen(false); // Close the modal (if needed)
-        // Update local state/session as needed
-        router.refresh(); // Consider using router.push for navigation instead of reload
+        setBio("");
+        setIsModalOpen(false);
+        router.refresh();
       } else {
         throw new Error("Network response was not ok");
       }
     } catch (error) {
       console.error("Failed to update the bio:", error);
-      // Handle error
     }
   };
+
   return (
     <>
       <button
@@ -54,11 +49,10 @@ const BioUpdate = ({ session }) => {
       </button>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
           <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
             <div className="mt-3 text-center">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                {/* Modal content here */}
                 <h3
                   className="text-lg leading-6 font-medium text-gray-900"
                   id="modal-title"

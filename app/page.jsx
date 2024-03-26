@@ -1,4 +1,3 @@
-import Feed from "../components/Feed";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -9,41 +8,37 @@ export default async function Home() {
   if (session?.user?.roles.includes("user")) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
-        <div className="mb-4">
+        <div className="space-y-4">
+          <div className="container mx-auto px-4 py-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="bg-white shadow-lg rounded-lg p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                  Find it!
+                </h2>
+                <p className="text-gray-600">Search for problems.</p>
+              </div>
+              <div className="bg-white shadow-lg rounded-lg p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                  Post it!
+                </h2>
+                <p className="text-gray-600">Post a problem.</p>
+              </div>
+              <div className="bg-white shadow-lg rounded-lg p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                  Solve it!
+                </h2>
+                <p className="text-gray-600">Solve a problem.</p>
+              </div>
+            </div>
+          </div>
+
           <Link
-            href="/CreateProblem"
+            href={`/Feed`}
             className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-150 ease-in-out text-center"
           >
-            Post a Problem
+            View Feed
           </Link>
         </div>
-        <div className="flex justify-center space-x-4">
-          <Link
-            href="/new"
-            className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
-            style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
-          >
-            New
-          </Link>
-
-          <Link
-            href="/open"
-            className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
-            style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
-          >
-            Open
-          </Link>
-
-          <Link
-            href="/prize"
-            className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
-            style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
-          >
-            Prize
-          </Link>
-        </div>
-
-        <Feed session={session} />
       </div>
     );
   } else {

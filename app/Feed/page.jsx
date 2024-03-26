@@ -1,22 +1,27 @@
+// components/ProblemList.tsx
+import Link from "next/link";
 import React from "react";
+import Problem from "@/components/Problem/Problem";
 import { db } from "@/lib/db";
 import FeedLinks from "@/components/FeedLinks";
-import Problem from "@/components/Problem/Problem";
-import Link from "next/link";
 
-const page = async ({ searchParams }) => {
-  const startProblems = await db.problem.findMany({
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+const PAGE_SIZE = 5; // Number of problems per page
+
+const Feed = async ({ searchParams }) => {
+  const session = await getServerSession(authOptions);
+  const notSignedIn = session === null;
+  const page = searchParams;
+  const pageNumber = page.page === undefined ? 1 : page.page;
+
+  const problems = await db.problem.findMany({
     orderBy: { createdAt: "desc" },
     include: {
       author: true, // Assuming the relation field name is `author`
     },
   });
-
-  const problems = startProblems.filter((problem) => problem.open === true);
-
-  const page = searchParams;
-  const pageNumber = page.page === undefined ? 1 : page.page;
-  const PAGE_SIZE = 5; // Number of problems per page
 
   if (!Array.isArray(problems)) {
     console.error("problems is not an array:", problems);
@@ -35,6 +40,18 @@ const page = async ({ searchParams }) => {
   const start = (pageNumber - 1) * PAGE_SIZE;
   const currentProblems = problems.slice(start, start + PAGE_SIZE);
 
+  if (notSignedIn) {
+    return (
+      <p className="text-center mt-8">
+        Please{" "}
+        <Link href="/sign-in" className="text-blue-600 hover:underline">
+          sign in
+        </Link>{" "}
+        to view the feed.
+      </p>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
       <FeedLinks />
@@ -52,7 +69,7 @@ const page = async ({ searchParams }) => {
           <div className="flex justify-center items-center space-x-2 mt-4">
             {pageNumber > 1 && (
               <Link
-                href={`/open?page=${pageNumber - 1}`}
+                href={`/Feed?page=${pageNumber - 1}`}
                 className="pagination-link"
                 aria-label="Previous page"
               >
@@ -62,7 +79,7 @@ const page = async ({ searchParams }) => {
             {Array.from({ length: totalPages }, (_, index) => (
               <Link
                 key={index}
-                href={`/open?page=${index + 1}`}
+                href={`/Feed?page=${index + 1}`}
                 className={`pagination-link ${
                   index + 1 === pageNumber ? "pagination-link--active" : ""
                 }`}
@@ -73,7 +90,7 @@ const page = async ({ searchParams }) => {
             ))}
             {pageNumber < totalPages && (
               <Link
-                href={`/open?page=${parseInt(pageNumber, 10) + 1}`}
+                href={`/Feed?page=${parseInt(pageNumber, 10) + 1}`}
                 className="pagination-link"
                 aria-label="Next page"
               >
@@ -87,4 +104,4 @@ const page = async ({ searchParams }) => {
   );
 };
 
-export default page;
+export default Feed;

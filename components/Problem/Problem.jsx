@@ -2,7 +2,7 @@ import React from "react";
 import DeleteProblemButton from "./DeleteProblemButton";
 import Image from "next/image";
 
-const Problem = ({ problem, session }) => {
+const Problem = ({ problem }) => {
   const createdAt = new Date(problem.createdAt).toLocaleString();
 
   const isAdminProblem = problem.author.roles.includes("admin");
@@ -63,15 +63,19 @@ const Problem = ({ problem, session }) => {
       {/* Bottom bar for Votes and Tags */}
       <div className="flex justify-between items-center p-4">
         <div className="text-sm text-blue-600 flex-wrap">
-          Tags:{" "}
-          {problem.tags.split(",").map((tag, index) => (
-            <span
-              key={index}
-              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >
-              #{tag.trim()}
-            </span>
-          ))}
+          {problem.tags && (
+            <>
+              Tags:{" "}
+              {problem.tags.split(",").map((tag, index) => (
+                <span
+                  key={index}
+                  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                >
+                  #{tag.trim()}
+                </span>
+              ))}
+            </>
+          )}
         </div>
         <div className="text-lg font-semibold text-black">
           Votes: {problem.voteSum}
@@ -79,11 +83,11 @@ const Problem = ({ problem, session }) => {
       </div>
 
       {/* Admin Delete Button, if applicable */}
-      {session?.user?.roles.includes("admin") && (
+      {/* {session?.user?.roles.includes("admin") && (
         <div className="text-right p-4">
           <DeleteProblemButton problemId={problem.id} />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -1,7 +1,5 @@
 import React from "react";
 import { db } from "@/lib/db";
-import CreateWallet from "@/components/Profile/CreateKeychain";
-import AddStarKeysButton from "@/components/Profile/AddStarKeysButton";
 import Image from "next/image";
 
 const page = async ({ params }) => {

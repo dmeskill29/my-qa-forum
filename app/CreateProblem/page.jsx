@@ -280,7 +280,8 @@ const CreateProblem = () => {
           className="text-sm font-medium text-gray-700 flex items-center gap-1"
         >
           Prize in{" "}
-          <img src="/CircleKey.png" alt="Circle Key" width="20" height="20" /> :
+          <Image src="/CircleKey.png" alt="Circle Key" width="20" height="20" />{" "}
+          :
         </label>
         <input
           type="number"
@@ -297,7 +298,7 @@ const CreateProblem = () => {
           className="text-sm font-medium text-gray-700 flex items-center gap-1"
         >
           Prize in{" "}
-          <img src="/StarKey.png" alt="Star Key" width="20" height="20" />:
+          <Image src="/StarKey.png" alt="Star Key" width="20" height="20" />:
         </label>
         <input
           type="number"

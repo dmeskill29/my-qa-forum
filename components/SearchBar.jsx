@@ -14,7 +14,7 @@ const SearchBar = ({ session }) => {
       alert("Please log in to use the search feature.");
       return;
     }
-    router.push(`/search-results?query=${encodeURIComponent(query)}`);
+    router.push(`/search-results?query=${encodeURIComponent(query)}&type=all`);
     setQuery("");
   };
 
