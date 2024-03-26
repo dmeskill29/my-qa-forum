@@ -11,7 +11,6 @@ const PAGE_SIZE = 5; // Number of problems per page
 
 const SearchResultsPage = async ({ searchParams }) => {
   const session = await getServerSession(authOptions);
-  const notSignedIn = session === null;
   const search = searchParams;
   const query = search.query;
   const type = search.type;
@@ -56,7 +55,7 @@ const SearchResultsPage = async ({ searchParams }) => {
   const start = (pageNumber - 1) * PAGE_SIZE;
   const currentProblems = problems.slice(start, start + PAGE_SIZE);
 
-  if (notSignedIn) {
+  if (!session) {
     return (
       <p className="text-center mt-8">
         Please{" "}

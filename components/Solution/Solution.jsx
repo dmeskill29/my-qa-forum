@@ -30,7 +30,7 @@ const Solution = async ({ solution }) => {
   return (
     <div
       className={`max-w-md mx-auto bg-white rounded-lg shadow overflow-hidden md:max-w-2xl p-4 space-y-6 ${
-        isAdminProblem ? "border-4 border-green-500" : ""
+        isAdminSolution ? "border-4 border-green-500" : ""
       }`}
     >
       <div className="flex justify-between items-center mb-4">
@@ -48,7 +48,7 @@ const Solution = async ({ solution }) => {
       <p className="text-gray-800 text-base leading-relaxed">
         {solution.content}
       </p>
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between">
         {problem.authorId === session?.user?.id && (
           <div className="flex items-center">
             <PinTopSolutionButton
@@ -57,9 +57,9 @@ const Solution = async ({ solution }) => {
             />
           </div>
         )}
-        <div className="flex items-center">
+        <div className="flex items-center ml-auto">
           <SolutionUpVoteButton solutionId={solution.id} />
-          <p className="text-lg font-semibold text-gray-900 mr-2 ">
+          <p className="text-lg font-semibold text-gray-900 mr-2">
             {solution.voteSum}
           </p>
           <SolutionDownVoteButton solutionId={solution.id} />

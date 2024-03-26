@@ -4,7 +4,11 @@ import FeedLinks from "@/components/FeedLinks";
 import Problem from "@/components/Problem/Problem";
 import Link from "next/link";
 
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
 const page = async ({ searchParams }) => {
+  const session = await getServerSession(authOptions);
   const startProblems = await db.problem.findMany({
     orderBy: { createdAt: "desc" },
     include: {
@@ -34,7 +38,17 @@ const page = async ({ searchParams }) => {
   // Get current page of problems
   const start = (pageNumber - 1) * PAGE_SIZE;
   const currentProblems = problems.slice(start, start + PAGE_SIZE);
-
+  if (!session) {
+    return (
+      <p className="text-center mt-8">
+        Please{" "}
+        <Link href="/sign-in" className="text-blue-600 hover:underline">
+          sign in
+        </Link>{" "}
+        to view the feed.
+      </p>
+    );
+  }
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
       <FeedLinks />

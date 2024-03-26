@@ -19,10 +19,15 @@ const NavBar = async () => {
           <Image
             src="/SolveSuiteLogo.png"
             alt="SolveSuite"
-            width={50}
-            height={50}
+            width={40}
+            height={40}
           />
-          <span className="text-2xl font-bold text-white">SolveCircle</span>
+          <span
+            className="text-1xl
+           font-bold text-white"
+          >
+            SolveCircle
+          </span>
         </Link>
 
         <div className="flex-1 mx-4">

@@ -69,16 +69,20 @@ const Problem = ({ problem, session }) => {
 
       {/* Votes in bottom left and Tags in bottom right */}
       <div className="p-4 flex justify-between items-center">
-        <div className="text-sm text-blue-600 break-words overflow-wrap-anywhere">
-          Tags:{" "}
-          {problem.tags.split(",").map((tag, index) => (
-            <span
-              key={index}
-              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-            >
-              #{tag.trim()}
-            </span>
-          ))}
+        <div className="text-sm text-blue-600 flex-wrap">
+          {problem.tags && (
+            <>
+              Tags:{" "}
+              {problem.tags.split(",").map((tag, index) => (
+                <span
+                  key={index}
+                  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                >
+                  #{tag.trim()}
+                </span>
+              ))}
+            </>
+          )}
         </div>
         <div className="text-lg font-semibold text-black flex items-center space-x-2">
           <UpVoteButton problemId={problem.id} />

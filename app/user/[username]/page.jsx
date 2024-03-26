@@ -4,9 +4,7 @@ import Link from "next/link";
 import UsernameUpdate from "@/components/Profile/UsernameUpdate";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import ProblemList from "@/components/Problem/ProblemList";
 import BioUpdate from "@/components/Profile/BioUpdate";
-import UserSolutionList from "@/components/Solution/UserSolutionList";
 import Image from "next/image";
 
 const ProfilePage = async ({ params }) => {
@@ -129,24 +127,26 @@ const ProfilePage = async ({ params }) => {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8 py-8">
-      <h1 className="text-4xl font-extrabold text-indigo-700 mb-2 flex items-center">
-        {user.username}&apos;s Profile
-        <div className="flex items-center space-x-4 mt-4 mb-4 ml-40">
+      <div className="flex flex-col sm:flex-row sm:items-center">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
+          {user.username}&apos;s Profile
+        </h1>
+        <div className="flex flex-col sm:flex-row sm:items-center space-x-0 sm:space-x-4 mt-4 mb-4 sm:mt-0 sm:ml-4">
           <Link
             href={`/user/${user.username}/problems`}
-            className="flex items-center px-4 py-2 text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-blue-50 rounded-lg"
+            className="flex items-center px-4 py-2 text-lg sm:text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-blue-50 rounded-lg"
           >
             Problems
           </Link>
 
           <Link
             href={`/user/${user.username}/solutions`}
-            className="flex items-center px-4 py-2 text-xl font-semibold text-gray-800 hover:text-green-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-green-50 rounded-lg"
+            className="flex items-center px-4 py-2 text-lg sm:text-xl font-semibold text-gray-800 hover:text-green-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-green-50 rounded-lg mt-2 sm:mt-0"
           >
             Solutions
           </Link>
         </div>
-      </h1>
+      </div>
 
       <div className="flex flex-col md:flex-row md:space-x-8">
         <div
@@ -217,8 +217,6 @@ const ProfilePage = async ({ params }) => {
             </div>
           )}
         </div>
-
-        {/* Problems and Solutions - Now positioned to the right of the bio/update section on larger screens */}
       </div>
     </div>
   );
