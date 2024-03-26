@@ -1,7 +1,6 @@
 // components/ProblemList.tsx
 import Link from "next/link";
 import React from "react";
-import Problem from "@/components/Problem/Problem";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";

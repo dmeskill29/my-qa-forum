@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import Link from "next/link";
 
 const page = async ({ params }) => {
   const session = await getServerSession(authOptions);
