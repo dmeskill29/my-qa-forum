@@ -1,9 +1,15 @@
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function PUT(req) {
   const body = await req.json();
 
-  const { bio, username } = body;
+  const { bio } = body;
+
+  const session = await getServerSession(authOptions);
+
+  const username = session.user.username;
 
   try {
     const result = await db.user.update({

@@ -13,7 +13,7 @@ const SolutionList = async ({ problemId }) => {
   });
 
   return (
-    <div>
+    <div className="space-y-4">
       {solutions.map((solution) => (
         <Solution key={solution.id} solution={solution} />
       ))}

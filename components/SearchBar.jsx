@@ -21,7 +21,7 @@ const SearchBar = ({ session }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center w-full sm:max-w-lg mx-auto mt-3 mb-2"
+      className="flex items-center w-full sm:max-w-xl mx-auto mt-3 mb-2"
     >
       <div className="flex-grow relative">
         <input
@@ -29,11 +29,11 @@ const SearchBar = ({ session }) => {
           placeholder="Search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full py-2 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent border border-gray-300 rounded-md transition duration-150 ease-in-out text-black"
+          className="w-full py-2 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent border border-gray-300 rounded-3xl transition duration-150 ease-in-out text-black"
         />
         <button
           type="submit"
-          className="absolute inset-y-0 right-0 text-white py-2 px-4 rounded-r-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-150 ease-in-out"
+          className="absolute inset-y-0 right-0 text-white py-2 px-4 rounded-r-3xl focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-150 ease-in-out"
           style={{ backgroundColor: "#307e79", borderColor: "#307e79" }}
           onMouseOver={(e) =>
             (e.currentTarget.style.backgroundColor = "#2b6d6b")

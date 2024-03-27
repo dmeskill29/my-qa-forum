@@ -1,6 +1,8 @@
 // pages/api/problems.js
 
 import { db } from "@/lib/db"; // Assuming you have a db utility for database connection
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req) {
   try {
@@ -8,13 +10,16 @@ export async function POST(req) {
     const {
       title,
       content,
-      userId,
       feeInCircleKeys,
       feeInStarKeys,
       prizeInCircleKeys,
       prizeInStarKeys,
       tags,
     } = body;
+
+    const session = await getServerSession(authOptions);
+
+    const userId = session.user.id;
 
     const user = await db.user.findUnique({
       where: { id: userId },
@@ -28,8 +33,21 @@ export async function POST(req) {
       });
     }
 
-    const circleKeyCost = feeInCircleKeys + prizeInCircleKeys;
-    const starKeyCost = feeInStarKeys + prizeInStarKeys;
+    let circleKeyCost;
+
+    if (feeInCircleKeys) {
+      circleKeyCost = 50 + prizeInCircleKeys;
+    } else {
+      circleKeyCost = prizeInCircleKeys;
+    }
+
+    let starKeyCost;
+
+    if (feeInStarKeys) {
+      starKeyCost = 50 + prizeInStarKeys;
+    } else {
+      starKeyCost = prizeInStarKeys;
+    }
 
     const keychain = user.keychain;
     if (
@@ -92,6 +110,20 @@ export async function GET(req) {
 export async function DELETE(req) {
   const body = await req.json();
   const { problemId } = body;
+
+  const session = await getServerSession(authOptions);
+
+  const problem = await db.problem.findUnique({
+    where: { id: problemId },
+  });
+
+  if (session.user.id !== problem.authorId) {
+    return new Response(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   try {
     await Promise.all([
       db.solution.deleteMany({ where: { problemId } }),

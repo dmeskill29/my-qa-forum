@@ -11,19 +11,19 @@ export default async function Home() {
         <div className="space-y-4">
           <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="bg-white shadow-lg rounded-lg p-6">
+              <div className="bg-white shadow-lg rounded-full p-6 flex flex-col items-center justify-center">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">
                   Find it!
                 </h2>
-                <p className="text-gray-600">Search for problems.</p>
+                <p className="text-gray-600">Search for a problem.</p>
               </div>
-              <div className="bg-white shadow-lg rounded-lg p-6">
+              <div className="bg-white shadow-lg rounded-full p-6 flex flex-col items-center justify-center">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">
                   Post it!
                 </h2>
                 <p className="text-gray-600">Post a problem.</p>
               </div>
-              <div className="bg-white shadow-lg rounded-lg p-6">
+              <div className="bg-white shadow-lg rounded-full p-6 flex flex-col items-center justify-center">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">
                   Solve it!
                 </h2>
@@ -34,7 +34,7 @@ export default async function Home() {
 
           <Link
             href={`/Feed`}
-            className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-150 ease-in-out text-center"
+            className="bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition duration-150 ease-in-out text-center"
           >
             View Feed
           </Link>
@@ -48,7 +48,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="bg-white shadow-lg rounded-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4">Find it!</h2>
-              <p className="text-gray-600">Search for problems.</p>
+              <p className="text-gray-600">Search for a problem.</p>
             </div>
             <div className="bg-white shadow-lg rounded-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4">Post it!</h2>

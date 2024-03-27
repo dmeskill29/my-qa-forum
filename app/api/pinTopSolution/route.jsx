@@ -1,4 +1,6 @@
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function PUT(req) {
   const body = await req.json();
@@ -10,6 +12,15 @@ export async function PUT(req) {
       id: problemId,
     },
   });
+
+  const session = await getServerSession(authOptions);
+
+  if (session.user.id !== problem.authorId) {
+    return new Response(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   if (problem?.topAnswer !== null) {
     const result = await db.problem.update({

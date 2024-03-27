@@ -33,65 +33,6 @@ const CreateProblem = () => {
     setTagsArray(newTagsArray); // Update the tags array
   };
 
-  // const handleCreateWithStarKeys = async (event) => {
-  //   event.preventDefault();
-
-  //   // Split tags by commas, trim whitespace, and check each tag's length
-  //   const tagsArray = tags.split(",").map((tag) => tag.trim());
-  //   const invalidTag = tagsArray.some(
-  //     (tag) => tag.length > INDIVIDUAL_TAG_LIMIT
-  //   );
-
-  //   if (invalidTag) {
-  //     alert(`Each tag must be under ${INDIVIDUAL_TAG_LIMIT} characters.`);
-  //     return;
-  //   }
-
-  //   if (
-  //     title.length > TITLE_LIMIT ||
-  //     content.length > CONTENT_LIMIT ||
-  //     tags.length > TAGS_LIMIT
-  //   ) {
-  //     alert(
-  //       `Please ensure your title is under ${TITLE_LIMIT} characters, your content under ${CONTENT_LIMIT} characters, and your tags under ${TAGS_LIMIT} characters.`
-  //     );
-  //     return;
-  //   }
-
-  //   const body = {
-  //     title,
-  //     content,
-  //     userId: session?.user?.id,
-  //     feeInCircleKeys: 0,
-  //     feeInStarKeys: 50, // [2]
-  //     prizeInCircleKeys,
-  //     prizeInStarKeys,
-  //     tags,
-  //   };
-
-  //   try {
-  //     const response = await fetch("/api/problem", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(body),
-  //     });
-
-  //     // if (!response.ok) {
-  //     //   throw new Error("Network response was not ok");
-  //     // }
-
-  //     // On success
-  //     const data = await response.json();
-  //     alert(data.message);
-  //     router.push(`/problem/${data.result.id}`);
-  //     router.refresh();
-  //     // Consider using router.push for navigation instead of router.refresh()
-  //   } catch (error) {
-  //     console.error("Failed to submit the problem:", error);
-  //     // Handle error
-  //   }
-  // };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -120,9 +61,9 @@ const CreateProblem = () => {
     const body = {
       title,
       content,
-      userId: session?.user?.id, // Update the type of session?.user to include the 'id' property
-      feeInCircleKeys: 50,
-      feeInStarKeys: 0,
+      session: session, // Update the type of session?.user to include the 'id' property
+      feeInCircleKeys: true,
+      feeInStarKeys: false,
       prizeInCircleKeys,
       prizeInStarKeys,
       tags,
@@ -331,3 +272,62 @@ const CreateProblem = () => {
 };
 
 export default CreateProblem;
+
+// const handleCreateWithStarKeys = async (event) => {
+//   event.preventDefault();
+
+//   // Split tags by commas, trim whitespace, and check each tag's length
+//   const tagsArray = tags.split(",").map((tag) => tag.trim());
+//   const invalidTag = tagsArray.some(
+//     (tag) => tag.length > INDIVIDUAL_TAG_LIMIT
+//   );
+
+//   if (invalidTag) {
+//     alert(`Each tag must be under ${INDIVIDUAL_TAG_LIMIT} characters.`);
+//     return;
+//   }
+
+//   if (
+//     title.length > TITLE_LIMIT ||
+//     content.length > CONTENT_LIMIT ||
+//     tags.length > TAGS_LIMIT
+//   ) {
+//     alert(
+//       `Please ensure your title is under ${TITLE_LIMIT} characters, your content under ${CONTENT_LIMIT} characters, and your tags under ${TAGS_LIMIT} characters.`
+//     );
+//     return;
+//   }
+
+//   const body = {
+//     title,
+//     content,
+//     userId: session?.user?.id,
+//     feeInCircleKeys: 0,
+//     feeInStarKeys: 50, // [2]
+//     prizeInCircleKeys,
+//     prizeInStarKeys,
+//     tags,
+//   };
+
+//   try {
+//     const response = await fetch("/api/problem", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(body),
+//     });
+
+//     // if (!response.ok) {
+//     //   throw new Error("Network response was not ok");
+//     // }
+
+//     // On success
+//     const data = await response.json();
+//     alert(data.message);
+//     router.push(`/problem/${data.result.id}`);
+//     router.refresh();
+//     // Consider using router.push for navigation instead of router.refresh()
+//   } catch (error) {
+//     console.error("Failed to submit the problem:", error);
+//     // Handle error
+//   }
+// };

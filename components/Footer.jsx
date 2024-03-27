@@ -16,7 +16,7 @@ const Footer = () => {
             About
           </Link>
           <Link
-            href="/Privacy"
+            href="/Terms"
             className="hover:underline hover:text-gray-300 transition duration-150 ease-in-out"
           >
             Privacy

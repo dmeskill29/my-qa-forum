@@ -1,21 +1,32 @@
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function PUT(req) {
   const body = await req.json();
 
   const { problemId } = body;
 
+  const problem = await db.problem.findUnique({
+    where: { id: problemId },
+  });
+
+  const session = await getServerSession(authOptions);
+
+  if (session.user.id !== problem.authorId) {
+    return new Response(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const topSolution = await db.solution.findFirst({
+    where: {
+      id: problem?.topSolution ?? undefined,
+    },
+  });
+
   try {
-    const problem = await db.problem.findUnique({
-      where: { id: problemId },
-    });
-
-    const topSolution = await db.solution.findFirst({
-      where: {
-        id: problem?.topSolution ?? undefined,
-      },
-    });
-
     const user = await db.user.findUnique({
       where: { id: topSolution?.authorId },
     });
@@ -27,7 +38,8 @@ export async function PUT(req) {
     const keychainUpdate = await db.keyChain.update({
       where: { id: user?.keychainId ?? undefined },
       data: {
-        circleKeys: (keychain?.circleKeys ?? 0) + (problem?.prizeInCircleKeys ?? 0),
+        circleKeys:
+          (keychain?.circleKeys ?? 0) + (problem?.prizeInCircleKeys ?? 0),
         starKeys: (keychain?.starKeys ?? 0) + (problem?.prizeInStarKeys ?? 0),
       },
     });

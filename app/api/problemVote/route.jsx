@@ -1,12 +1,18 @@
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function PATCH(req) {
   const body = await req.json();
-  const { problemId, type, userId } = body;
+  const { problemId, type } = body;
 
   const existingVote = await db.problemVote.findFirst({
     where: { userId: userId, problemId: problemId },
   });
+
+  const session = await getServerSession(authOptions);
+
+  const userId = session.user.id;
 
   const voteValue = type === "UP" ? 1 : type === "DOWN" ? -1 : 0;
 

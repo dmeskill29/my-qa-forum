@@ -41,14 +41,15 @@ export async function POST(req) {
           },
         });
       } else {
-        user = await prisma.user.create({
-          data: {
-            email,
-            password: hashedPassword,
-            username: nanoid(10),
-            roles: [],
-          },
-        });
+        return new Response(
+          JSON.stringify({ message: "Signup Failed", error: "Invalid email" }),
+          {
+            status: 400, // HTTP status code for bad request
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
       }
 
       // Then, create the account linked to the user

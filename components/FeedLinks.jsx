@@ -7,7 +7,7 @@ export default async function FeedLinks() {
       <div className="mb-4">
         <Link
           href="/CreateProblem"
-          className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-150 ease-in-out text-center"
+          className="bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition duration-150 ease-in-out text-center"
         >
           Post a Problem
         </Link>
@@ -15,7 +15,7 @@ export default async function FeedLinks() {
       <div className="flex justify-center space-x-4">
         <Link
           href="/new"
-          className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
+          className="text-white px-4 py-2 rounded-full transition duration-150 ease-in-out text-center"
           style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
         >
           New
@@ -23,7 +23,7 @@ export default async function FeedLinks() {
 
         <Link
           href="/open"
-          className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
+          className="text-white px-4 py-2 rounded-full transition duration-150 ease-in-out text-center"
           style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
         >
           Open
@@ -31,7 +31,7 @@ export default async function FeedLinks() {
 
         <Link
           href="/prize"
-          className="text-white px-4 py-2 rounded transition duration-150 ease-in-out text-center"
+          className="text-white px-4 py-2 rounded-full transition duration-150 ease-in-out text-center"
           style={{ backgroundColor: "#307e79", hover: "brightness-50" }}
         >
           Prize

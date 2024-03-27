@@ -1,4 +1,6 @@
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function PUT(req) {
   const body = await req.json();
@@ -9,6 +11,15 @@ export async function PUT(req) {
   const existingUser = await db.user.findUnique({
     where: { username: usernameNew },
   });
+
+  const session = await getServerSession(authOptions);
+
+  if (session.user.username !== usernameOld) {
+    return new Response(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   if (existingUser) {
     // If a user with the new username already exists, return an error response

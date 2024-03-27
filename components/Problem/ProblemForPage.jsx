@@ -7,8 +7,6 @@ import DownVoteButton from "./DownVoteButton";
 import Image from "next/image";
 
 const Problem = ({ problem, session }) => {
-  const createdAt = new Date(problem.createdAt).toLocaleString();
-
   const isAdminProblem = problem.author.roles.includes("admin");
   return (
     <div
@@ -56,7 +54,11 @@ const Problem = ({ problem, session }) => {
         <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
           {problem.title}
         </h1>
-        <div className="text-sm text-gray-500"> {createdAt}</div>
+        <div className="text-sm text-gray-500">
+          {" "}
+          {new Date(problem.createdAt).toLocaleDateString()} at{" "}
+          {new Date(problem.createdAt).toLocaleTimeString()}
+        </div>
       </div>
 
       {/* Content */}
@@ -65,7 +67,12 @@ const Problem = ({ problem, session }) => {
       </div>
 
       <ProblemUpdateList problem={problem} />
-      <ProblemUpdate problemId={problem.id} />
+
+      {session?.user?.id === problem.authorId && (
+        <div className="text-right p-4">
+          <ProblemUpdate problemId={problem.id} />
+        </div>
+      )}
 
       {/* Votes in bottom left and Tags in bottom right */}
       <div className="p-4 flex justify-between items-center">

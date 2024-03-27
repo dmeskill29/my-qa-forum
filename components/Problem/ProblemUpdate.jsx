@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { useRouter } from "next/navigation"; // Correct import path for useRouter
 import Image from "next/image";
 
@@ -30,7 +31,7 @@ const ProblemUpdate = ({ problemId }) => {
         body: JSON.stringify({
           content: text,
           problemId,
-          keysAdded: prizeInCircleKeys,
+          circleKeysAdded: prizeInCircleKeys,
           starKeysAdded: prizeInStarKeys,
         }),
       });
@@ -47,94 +48,114 @@ const ProblemUpdate = ({ problemId }) => {
     }
   };
 
+  const [modalContainer, setModalContainer] = useState(null); // Initialize as null
+
+  useEffect(() => {
+    const div = document.createElement("div");
+    document.body.appendChild(div); // Attach the div to the body
+    setModalContainer(div);
+
+    return () => {
+      document.body.removeChild(div); // Clean up by removing the div from the body
+    };
+  }, []);
+
   return (
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ml-4"
+        className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ml-4"
       >
         Update Problem
       </button>
 
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
-          <form
-            onSubmit={handleSubmit}
-            className="w-2/3 mx-auto bg-white rounded-xl shadow-md overflow-hidden space-y-6 p-8"
-          >
-            <div>
-              <textarea
-                id="content"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                rows="4"
-                maxLength={500} // Set maxLength here
-                className="mt-1 shadow-sm text-black focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
-                placeholder="Type your update..."
-              />
-            </div>
-
-            <div className="flex">
-              <label
-                htmlFor="prizeInCircleKeys"
-                className="block text-sm font-medium text-gray-700"
+      {modalContainer &&
+        ReactDOM.createPortal(
+          showModal ? (
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+              <form
+                onSubmit={handleSubmit}
+                className="w-2/3 mx-auto bg-white rounded-xl shadow-md overflow-hidden space-y-6 p-8"
               >
-                Add{" "}
-                <Image
-                  src="/CircleKey.png"
-                  alt="Circle Key"
-                  width={20}
-                  height={20}
-                />
-              </label>
-              <input
-                type="number"
-                id="prizeInCircleKeys"
-                value={prizeInCircleKeys}
-                onChange={(e) => setPrizeInCircleKeys(Number(e.target.value))}
-                className="input-field"
-                min="0"
-              />
-            </div>
-            <div className="flex">
-              <label
-                htmlFor="prizeInStarKeys"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Add{" "}
-                <Image
-                  src="/StarKey.png"
-                  alt="Star Key"
-                  width={20}
-                  height={20}
-                />
-              </label>
-              <input
-                type="number"
-                id="prizeInStarKeys"
-                value={prizeInStarKeys}
-                onChange={(e) => setPrizeInStarKeys(Number(e.target.value))}
-                className="input-field"
-                min="0"
-              />
-            </div>
+                <div>
+                  <textarea
+                    id="content"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    rows="4"
+                    maxLength={500} // Set maxLength here
+                    className="mt-1 shadow-sm text-black focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+                    placeholder="Type your update..."
+                  />
+                </div>
 
-            <button
-              type="submit"
-              className="inline-flex justify-center w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Update
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowModal(false)}
-              className="mt-3 inline-flex justify-center w-full px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Cancel
-            </button>
-          </form>
-        </div>
-      )}
+                <div className="flex">
+                  <label
+                    htmlFor="prizeInCircleKeys"
+                    className="block text-sm font-medium text-gray-700 flex items-center"
+                  >
+                    Add{" "}
+                    <Image
+                      src="/CircleKey.png"
+                      alt="Circle Key"
+                      width={20}
+                      height={20}
+                      className="ml-2 mr-2"
+                    />
+                  </label>
+                  <input
+                    type="number"
+                    id="prizeInCircleKeys"
+                    value={prizeInCircleKeys}
+                    onChange={(e) =>
+                      setPrizeInCircleKeys(Number(e.target.value))
+                    }
+                    className="input-field"
+                    min="0"
+                  />
+                </div>
+                <div className="flex">
+                  <label
+                    htmlFor="prizeInStarKeys"
+                    className="block text-sm font-medium text-gray-700 flex items-center"
+                  >
+                    Add{" "}
+                    <Image
+                      src="/StarKey.png"
+                      alt="Star Key"
+                      width={20}
+                      height={20}
+                      className="ml-2 mr-2"
+                    />
+                  </label>
+                  <input
+                    type="number"
+                    id="prizeInStarKeys"
+                    value={prizeInStarKeys}
+                    onChange={(e) => setPrizeInStarKeys(Number(e.target.value))}
+                    className="input-field"
+                    min="0"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="inline-flex justify-center w-full px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Update
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="mt-3 inline-flex justify-center w-full px-4 py-2 border border-gray-300 text-sm font-medium rounded-full shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Cancel
+                </button>
+              </form>
+            </div>
+          ) : null,
+          modalContainer
+        )}
     </>
   );
 };

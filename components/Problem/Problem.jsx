@@ -52,7 +52,11 @@ const Problem = ({ problem }) => {
         <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
           {problem.title}
         </h1>
-        <div className="text-sm text-gray-500">{createdAt}</div>
+        <div className="text-sm text-gray-500">
+          {" "}
+          {new Date(problem.createdAt).toLocaleDateString()} at{" "}
+          {new Date(problem.createdAt).toLocaleTimeString()}
+        </div>
       </div>
 
       {/* Content */}

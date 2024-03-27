@@ -1,12 +1,9 @@
 "use client";
 
 import React from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const SolutionDownVoteButton = ({ solutionId }) => {
-  const { data: session, status } = useSession();
-  const userId = session?.user?.id;
   const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,7 +16,6 @@ const SolutionDownVoteButton = ({ solutionId }) => {
         body: JSON.stringify({
           solutionId,
           type: "DOWN",
-          userId,
         }),
       });
       if (!response.ok) {
@@ -37,7 +33,7 @@ const SolutionDownVoteButton = ({ solutionId }) => {
     <div className="flex items-center">
       <button
         onClick={handleSubmit}
-        className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out"
+        className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

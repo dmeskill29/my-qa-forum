@@ -14,7 +14,6 @@ const BioUpdate = ({ session }) => {
     event.preventDefault();
 
     const payload = {
-      username: session.user.username,
       bio: bio,
     };
 

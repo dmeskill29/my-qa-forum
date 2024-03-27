@@ -1,4 +1,6 @@
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req) {
   const body = await req.json();
@@ -9,15 +11,24 @@ export async function POST(req) {
 
   // Validate data...
 
-  try {
-    const problem = await db.problem.update({
-      where: { id: problemId },
-      data: {
-        prizeInKeys: { increment: circleKeysAdded },
-        prizeInStarKeys: { increment: starKeysAdded },
-      },
-    });
+  const problem = await db.problem.update({
+    where: { id: problemId },
+    data: {
+      prizeInCircleKeys: { increment: circleKeysAdded },
+      prizeInStarKeys: { increment: starKeysAdded },
+    },
+  });
 
+  const session = await getServerSession(authOptions);
+
+  if (session.user.id !== problem.authorId) {
+    return new Response(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  try {
     const user = await db.user.findUnique({
       where: { id: problem?.authorId },
     });
@@ -31,7 +42,9 @@ export async function POST(req) {
       (keychain?.starKeys ?? 0) < starKeysAdded
     ) {
       return new Response(
-        JSON.stringify({ message: "Insufficient circleKeys or star circleKeys" }),
+        JSON.stringify({
+          message: "Insufficient circleKeys or star circleKeys",
+        }),
         {
           status: 400, // HTTP status code
           headers: {
