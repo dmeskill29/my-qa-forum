@@ -157,7 +157,7 @@ const CreateProblem = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-2/5 mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 space-y-6 mt-8"
+      className="lg:w-2/5 mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 space-y-6 mt-8 sm:w-full"
     >
       <div className="max-w-6xl">
         <label
