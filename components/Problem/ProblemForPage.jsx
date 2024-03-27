@@ -11,7 +11,7 @@ const Problem = ({ problem, session }) => {
   return (
     <div
       className={`max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
-        isAdminProblem ? "border-4 border-green-500" : ""
+        isAdminProblem ? "border-4 border-blue-500" : ""
       }`}
     >
       <div className="flex justify-between items-center p-4">

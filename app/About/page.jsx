@@ -55,6 +55,22 @@ const Page = () => {
               view the feed of problems and solutions. You can also use the
               search bar at the top of the page to look for specific queries.
             </p>
+            <p className="text-gray-600 mt-4">
+              After you click "View Feed" and pull up the scrollable list of
+              problems, you may notice that some of these problems have a blue
+              border. That means that they were asked by an Admin user!
+            </p>
+            <p className="text-gray-600 mt-4">
+              Though we don't yet have many users and a large interface, we
+              guarantee that every problem will get at least one solution within
+              2 days!
+            </p>
+            <p className="text-gray-600 mt-4">
+              The buttons at the top of the feed page can allow you to organize
+              your feed by the most recent problems, problems that are open
+              (they don't have a selected solution yet), and problems offering
+              the highest prize!
+            </p>
           </div>
           <div className="pt-4">
             <h3 className="font-semibold text-xl text-gray-800">
@@ -73,10 +89,20 @@ const Page = () => {
             <p className="text-gray-600">
               You may have been wondering how the key/ prize system works. All
               of you have been given 1000 circle keys (the silver ones)! It
-              costs 50 keys to post a problem, and on top of that initial fee,
-              you can attach a reward for however many keys you would like.
+              costs 50 circle keys to post a problem, and on top of that initial
+              fee, you can attach a reward for however many keys you would like.
               Right now, test users start with only circle keys, which hold
               value by allowing you to post more problems.
+            </p>
+            <p className="text-gray-600 mt-4">
+              However, there will be some star keys (the gold ones) attached to
+              a few Admin problems. Star keys translate to real money, 100 star
+              keys is 1$. Providing the best solution to one of these problems
+              will not only award you the in- website circle keys attached to
+              the problem, but also the star keys. These star keys can be used
+              just like circle keys, can be attached to your own problems to
+              offer prizes, or can be cashed out at a later date (sometime after
+              our hard launch).
             </p>
           </div>
           <div className="pt-4">

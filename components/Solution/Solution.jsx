@@ -32,8 +32,12 @@ const Solution = async ({ solution }) => {
   return (
     <div
       className={`max-w-md mx-auto bg-white rounded-lg shadow overflow-hidden md:max-w-2xl p-4 space-y-6 ${
-        isTopSolution ? "border-4 border-yellow-400" : ""
-      } ${isAdminSolution ? "border-4 border-green-500" : ""}`}
+        isTopSolution
+          ? "border-4 border-yellow-400"
+          : isAdminSolution
+          ? "border-4 border-blue-500"
+          : ""
+      }`}
     >
       <div className="flex justify-between items-center mb-4">
         <Link
