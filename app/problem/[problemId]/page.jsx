@@ -111,7 +111,7 @@ export default async function ProblemPage({ params }) {
             Posted by: {poster.username}
           </Link>
 
-          {problem.open && session?.user?.id === poster.id && (
+          {problem.open && session?.user?.id === poster.id && topSolution && (
             <CloseProblemButton problemId={params.problemId} />
           )}
         </div>

@@ -22,9 +22,16 @@ export async function PUT(req) {
 
   const topSolution = await db.solution.findFirst({
     where: {
-      id: problem?.topSolution ?? undefined,
+      id: problem?.topSolution,
     },
   });
+
+  if (!topSolution) {
+    return new Response(JSON.stringify({ message: "No top solution" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   try {
     const user = await db.user.findUnique({
