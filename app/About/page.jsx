@@ -28,14 +28,16 @@ const Page = () => {
           </p>
         </section>
 
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4">Getting Started</h2>
-          <p className="text-lg">
+        <section className="mb-10 p-5 bg-white rounded-lg shadow-md divide-y divide-gray-200 space-y-6">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            Getting Started
+          </h2>
+          <p className="pt-4 text-gray-600">
             Need help navigating the brand new website? You&apos;ve come to the
             right place! You are our very special test user which means that
             only your email (and the others on the list) are eligible to sign
             up. This means that those of your friends who want to be added to
-            the website must contact us at{" "}
+            the website must contact me at{" "}
             <a href="tel:9192726610" className="text-blue-500">
               919.272.6610
             </a>{" "}
@@ -45,37 +47,62 @@ const Page = () => {
             </a>
             .
           </p>
+          <div className="pt-4">
+            <h3 className="font-semibold text-xl text-gray-800">View Feed</h3>
+            <p className="text-gray-600">
+              Once you&apos;ve got into the home page, look for the dark blue
+              button that says &quot;View Feed&quot;. This will allow you to
+              view the feed of problems and solutions. You can also use the
+              search bar at the top of the page to look for specific queries.
+            </p>
+          </div>
+          <div className="pt-4">
+            <h3 className="font-semibold text-xl text-gray-800">
+              Post a Problem
+            </h3>
+            <p className="text-gray-600">
+              To post a problem, notice the &quot;Post a Problem&quot; button
+              near the top left of your feed page. Once you click that, you will
+              be taken to the draft page. Here, you can add a title and body for
+              your problem. Add tags if you feel that it would help your problem
+              be more findable!
+            </p>
+          </div>
+          <div className="pt-4">
+            <h3 className="font-semibold text-xl text-gray-800">Prizes</h3>
+            <p className="text-gray-600">
+              You may have been wondering how the key/ prize system works. All
+              of you have been given 1000 circle keys (the silver ones)! It
+              costs 50 keys to post a problem, and on top of that initial fee,
+              you can attach a reward for however many keys you would like.
+              Right now, test users start with only circle keys, which hold
+              value by allowing you to post more problems.
+            </p>
+          </div>
+          <div className="pt-4">
+            <h3 className="font-semibold text-xl text-gray-800">
+              Profile Page
+            </h3>
+            <p className="text-gray-600">
+              You can see how many keys you have, as well as the problems and
+              solutions you&apos;ve posted by clicking on your profile page.
+              There, you can modify your username and bio, or view your
+              problems, solutions, and keychain!
+            </p>
+          </div>
+          <div className="pt-4">
+            <h3 className="font-semibold text-xl text-gray-800">Vote</h3>
+            <p className="text-gray-600">
+              Even if it&apos;s not your problem, we recommend scrolling! Read
+              the problems and solutions and upvote/downvote the content based
+              on your own opinion.
+            </p>
+          </div>
         </section>
 
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4">Features</h2>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>
-              View Feed - Look for the dark blue button that says &quot;View
-              Feed&quot;.
-            </li>
-            <li>
-              Post a Problem - Notice the &quot;Post a Problem&quot; button near
-              the top left of your feed page.
-            </li>
-            <li>
-              Prizes - You may have been wondering how the key/prize system
-              works.
-            </li>
-            <li>Profile Page - View your problems, solutions, and keychain!</li>
-            <li>
-              Closing a Problem - Monitor the solutions you get and close your
-              problem once satisfied.
-            </li>
-            <li>
-              Vote - Read the problems and solutions and upvote/downvote based
-              on your opinion.
-            </li>
-          </ul>
-        </section>
-
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4">Thank You!</h2>
+        <section className="mb-10 p-6 max-w-4xl mx-auto  rounded-lg shadow-lg text-gray-800">
+          <h2 className="text-3xl font-bold mb-4">Thank You!</h2>
+          <p className="text-lg mb-4">Thank you!</p>
           <p className="text-lg">
             We want to thank you so much for being a test user and we know we
             will appreciate the feedback you are able to give us in developing
@@ -84,15 +111,6 @@ const Page = () => {
           <p className="text-lg mt-4">
             If you have any questions or concerns, please don&apos;t hesitate to
             reach out!
-          </p>
-        </section>
-
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold mb-4">Rules</h2>
-          <p className="text-lg">
-            By using this website, you agree to our Terms and Conditions. You
-            also acknowledge that a user can be removed or suspended from the
-            website for any reason.
           </p>
         </section>
       </div>
