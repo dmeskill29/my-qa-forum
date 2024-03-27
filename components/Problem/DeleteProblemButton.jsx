@@ -21,7 +21,7 @@ const DeleteProblemButton = ({ problemId }) => {
       }
       if (response.ok) {
         const data = await response.json();
-        router.push("/");
+        router.push("/Feed");
         router.refresh();
       }
     } catch (error) {

@@ -32,7 +32,7 @@ export async function POST(req) {
 
 export async function DELETE(req) {
   const session = await getServerSession(authOptions);
-  const solutionId = req.query.solutionId;
+  const { solutionId } = await req.json();
 
   const solution = await db.solution.findFirst({
     where: {
@@ -48,13 +48,13 @@ export async function DELETE(req) {
   }
 
   try {
-    const { solutionId } = await req.json();
     // Delete associated votes and updates before deleting the solution
-    await db.solutionVote.deleteMany({ where: { solutionId } });
-    await db.solutionUpdate.deleteMany({ where: { solutionId } });
-
-    const result = await db.solution.delete({ where: { id: solutionId } });
-    return new Response(JSON.stringify({ message: "OK", result }), {
+    await Promise.all([
+      db.solutionUpdate.deleteMany({ where: { solutionId } }),
+      db.solutionVote.deleteMany({ where: { solutionId } }),
+      db.solution.delete({ where: { id: solutionId } }),
+    ]);
+    return new Response(JSON.stringify({ message: "OK" }), {
       status: 200, // HTTP status code
       headers: {
         "Content-Type": "application/json",

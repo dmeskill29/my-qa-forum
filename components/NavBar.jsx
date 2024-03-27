@@ -13,7 +13,7 @@ const NavBar = async () => {
     <nav className="bg-gray-800 text-white">
       <div className="container mx-auto flex items-center justify-between py-2 px-4 sm:px-6 lg:px-8">
         <Link
-          href="/"
+          href="/Feed"
           className="flex items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
         >
           <Image

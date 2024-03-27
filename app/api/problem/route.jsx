@@ -117,7 +117,7 @@ export async function DELETE(req) {
     where: { id: problemId },
   });
 
-  if (session.user.id !== problem.authorId) {
+  if (!session.user.roles.includes("admin")) {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
       headers: { "Content-Type": "application/json" },
@@ -126,9 +126,9 @@ export async function DELETE(req) {
 
   try {
     await Promise.all([
+      db.problemUpdate.deleteMany({ where: { problemId } }),
       db.solution.deleteMany({ where: { problemId } }),
       db.problemVote.deleteMany({ where: { problemId } }),
-      db.problemUpdate.deleteMany({ where: { problemId } }),
       db.problem.delete({ where: { id: problemId } }),
     ]);
     return new Response(JSON.stringify({ message: "OK" }), {
