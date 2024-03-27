@@ -102,7 +102,7 @@ export default async function ProblemPage({ params }) {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
-      <div className="w-1/2 mx-auto  rounded-xl overflow-hidden md:max-w-4xl p-6 space-y-4">
+      <div className="lg-w-1/2 mx-auto  rounded-xl overflow-hidden md:max-w-4xl p-6 space-y-4 sm:w-full">
         <div className="flex justify-between items-center p-2">
           <Link
             href={`/user/${poster.username}`}

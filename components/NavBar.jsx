@@ -14,7 +14,7 @@ const NavBar = async () => {
       <div className="container mx-auto flex items-center justify-between py-2 px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="flex  items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
+          className="flex items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
         >
           <Image
             src="/SolveSuiteLogo.png"
@@ -22,10 +22,7 @@ const NavBar = async () => {
             width={50}
             height={50}
           />
-          <span
-            className="text-2xl
-           font-bold text-white ml-2 hover:text-blue-500 transition duration-150 ease-in-out"
-          >
+          <span className="hidden md:inline text-2xl font-bold text-white ml-2 hover:text-blue-500 transition duration-150 ease-in-out">
             SolveCircle
           </span>
         </Link>
