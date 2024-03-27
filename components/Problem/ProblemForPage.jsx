@@ -54,7 +54,7 @@ const Problem = ({ problem, session }) => {
         <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
           {problem.title}
         </h1>
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-gray-500 flex flex-col items-end">
           {" "}
           {new Date(problem.createdAt).toLocaleDateString()} at{" "}
           {new Date(problem.createdAt).toLocaleTimeString()}

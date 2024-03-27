@@ -14,7 +14,7 @@ const ProblemUpdateList = async ({ problem }) => {
             <div className="flex-1">
               <p className="text-gray-500 break-words">{update.content}</p>
             </div>
-            <p className="text-sm text-gray-500 whitespace-nowrap">
+            <p className="text-sm text-gray-500 break-words flex flex-col items-end">
               {new Date(update.updatedAt).toLocaleDateString()} at{" "}
               {new Date(update.updatedAt).toLocaleTimeString()}
             </p>
