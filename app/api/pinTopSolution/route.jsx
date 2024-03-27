@@ -22,10 +22,10 @@ export async function PUT(req) {
     });
   }
 
-  if (problem?.topAnswer !== null) {
+  if (problem?.topSolution !== null) {
     const result = await db.problem.update({
       where: { id: problemId },
-      data: { topAnswer: solutionId },
+      data: { topSolution: solutionId },
     });
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code
@@ -37,7 +37,7 @@ export async function PUT(req) {
     try {
       const result = await db.problem.update({
         where: { id: problemId },
-        data: { topAnswer: solutionId },
+        data: { topSolution: solutionId },
       });
       return new Response(JSON.stringify({ message: "OK", result }), {
         status: 200, // HTTP status code
