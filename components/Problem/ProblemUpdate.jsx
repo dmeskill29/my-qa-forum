@@ -75,7 +75,7 @@ const ProblemUpdate = ({ problemId }) => {
             <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
               <form
                 onSubmit={handleSubmit}
-                className="w-2/3 mx-auto bg-white rounded-xl shadow-md overflow-hidden space-y-6 p-8"
+                className="w-1/2 mx-auto bg-white rounded-xl shadow-md overflow-hidden space-y-6 p-8"
               >
                 <div>
                   <textarea
