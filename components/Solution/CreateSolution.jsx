@@ -80,7 +80,7 @@ const CreateSolution = ({ problemId }) => {
       </div>
       <button
         type="submit"
-        className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
+        className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 ease-in-out"
       >
         Create Solution
       </button>

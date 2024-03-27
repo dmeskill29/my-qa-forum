@@ -118,10 +118,14 @@ export default async function ProblemPage({ params }) {
 
         <ProblemForPage problem={problem} session={session} />
 
-        <h2 className="text-xl font-semibold text-gray-800 text-center">
-          Top Solution
-        </h2>
-        {topSolution && <Solution solution={topSolution} />}
+        {topSolution && (
+          <div>
+            <h2 className="text-xl font-semibold text-gray-800 text-center">
+              Top Solution
+            </h2>
+            <Solution solution={topSolution} />
+          </div>
+        )}
 
         {problem.open && session?.user?.id !== poster?.id && (
           <CreateSolution problemId={params.problemId} />

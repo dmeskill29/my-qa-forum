@@ -54,7 +54,7 @@ const page = async ({ searchParams }) => {
           {currentProblems.map((problem) => (
             <Link
               href={`/problem/${problem.id}`}
-              className="block p-2 w-2/3 mx-auto"
+              className="block p-2 lg:w-2/3 mx-auto sm:w-full"
               key={problem.id}
             >
               <Problem problem={problem} />
