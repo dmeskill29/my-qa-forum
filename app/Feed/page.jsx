@@ -65,38 +65,40 @@ const Feed = async ({ searchParams }) => {
               <Problem problem={problem} />
             </Link>
           ))}
-          <div className="flex justify-center items-center space-x-2 mt-4">
-            {pageNumber > 1 && (
-              <Link
-                href={`/Feed?page=${pageNumber - 1}`}
-                className="pagination-link"
-                aria-label="Previous page"
-              >
-                Previous
-              </Link>
-            )}
-            {Array.from({ length: totalPages }, (_, index) => (
-              <Link
-                key={index}
-                href={`/Feed?page=${index + 1}`}
-                className={`pagination-link ${
-                  index + 1 === pageNumber ? "pagination-link--active" : ""
-                }`}
-                aria-current={index + 1 === pageNumber ? "page" : undefined}
-              >
-                {index + 1}
-              </Link>
-            ))}
-            {pageNumber < totalPages && (
-              <Link
-                href={`/Feed?page=${parseInt(pageNumber, 10) + 1}`}
-                className="pagination-link"
-                aria-label="Next page"
-              >
-                Next
-              </Link>
-            )}
-          </div>
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center space-x-2 mt-4">
+              {pageNumber > 1 && (
+                <Link
+                  href={`/Feed?page=${pageNumber - 1}`}
+                  className="pagination-link"
+                  aria-label="Previous page"
+                >
+                  Previous
+                </Link>
+              )}
+              {Array.from({ length: totalPages }, (_, index) => (
+                <Link
+                  key={index}
+                  href={`/Feed?page=${index + 1}`}
+                  className={`pagination-link ${
+                    index + 1 === pageNumber ? "pagination-link--active" : ""
+                  }`}
+                  aria-current={index + 1 === pageNumber ? "page" : undefined}
+                >
+                  {index + 1}
+                </Link>
+              ))}
+              {pageNumber < totalPages && (
+                <Link
+                  href={`/Feed?page=${parseInt(pageNumber, 10) + 1}`}
+                  className="pagination-link"
+                  aria-label="Next page"
+                >
+                  Next
+                </Link>
+              )}
+            </div>
+          )}
         </>
       ) : null}
     </div>
