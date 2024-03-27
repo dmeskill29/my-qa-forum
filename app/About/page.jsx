@@ -56,20 +56,20 @@ const Page = () => {
               search bar at the top of the page to look for specific queries.
             </p>
             <p className="text-gray-600 mt-4">
-              After you click "View Feed" and pull up the scrollable list of
-              problems, you may notice that some of these problems have a blue
-              border. That means that they were asked by an Admin user!
+              After you click &quot;View Feed&quot; and pull up the scrollable
+              list of problems, you may notice that some of these problems have
+              a blue border. That means that they were asked by an Admin user!
             </p>
             <p className="text-gray-600 mt-4">
-              Though we don't yet have many users and a large interface, we
+              Though we don&apos;t yet have many users and a large interface, we
               guarantee that every problem will get at least one solution within
               2 days!
             </p>
             <p className="text-gray-600 mt-4">
               The buttons at the top of the feed page can allow you to organize
               your feed by the most recent problems, problems that are open
-              (they don't have a selected solution yet), and problems offering
-              the highest prize!
+              (they don&apos;t have a selected solution yet), and problems
+              offering the highest prize!
             </p>
           </div>
           <div className="pt-4">
