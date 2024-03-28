@@ -40,7 +40,7 @@ export async function DELETE(req) {
     },
   });
 
-  if (session.user.id !== solution.authorId) {
+  if (!session.user.roles.includes("admin")) {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
       headers: { "Content-Type": "application/json" },

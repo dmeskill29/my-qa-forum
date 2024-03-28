@@ -11,14 +11,9 @@ export async function POST(req) {
 
   // Validate data...
 
-  const problem = await db.problem.update({
+  const problem = await db.problem.findUnique({
     where: { id: problemId },
-    data: {
-      prizeInCircleKeys: { increment: circleKeysAdded },
-      prizeInStarKeys: { increment: starKeysAdded },
-    },
   });
-
   const session = await getServerSession(authOptions);
 
   if (session.user.id !== problem.authorId) {
@@ -27,6 +22,24 @@ export async function POST(req) {
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  if (circleKeysAdded < 0 || starKeysAdded < 0) {
+    return new Response(
+      JSON.stringify({ message: "Prizes cannot be negative" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
+  const problemUpdate = await db.problem.update({
+    where: { id: problemId },
+    data: {
+      prizeInCircleKeys: { increment: circleKeysAdded },
+      prizeInStarKeys: { increment: starKeysAdded },
+    },
+  });
 
   try {
     const user = await db.user.findUnique({

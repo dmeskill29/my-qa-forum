@@ -12,6 +12,13 @@ const UsernameUpdate = ({ session }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/;
+
+    if (!usernameRegex.test(text)) {
+      alert("Invalid username format");
+      return; // Stop the form submission
+    }
+
     // Check if username meets the minimum length requirement
     if (text.length < MIN_USERNAME_LENGTH) {
       alert(

@@ -21,6 +21,11 @@ const ProblemUpdate = ({ problemId }) => {
       return;
     }
 
+    if (prizeInCircleKeys < 0 || prizeInStarKeys < 0) {
+      alert("Prizes cannot be negative");
+      return;
+    }
+
     // Post data to the server
     try {
       const response = await fetch("/api/problemUpdate", {
@@ -44,6 +49,7 @@ const ProblemUpdate = ({ problemId }) => {
       setShowModal(false); // Close modal on successful update
       router.refresh(); // Consider fetching updated data here to refresh the component's state instead of reloading the page
     } catch (error) {
+      alert("Failed to submit the problem update. Please try again.");
       console.error("Failed to submit the problem update:", error);
     }
   };

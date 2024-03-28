@@ -151,7 +151,7 @@ const ProfilePage = async ({ params }) => {
       <div className="flex flex-col md:flex-row md:space-x-8">
         <div
           className={`bg-white shadow rounded-lg p-6 mb-4 md:mb-0 w-full md:w-96 h-96 overflow-auto ${
-            isAdmin ? "border-4 border-green-500" : ""
+            isAdmin ? "border-4 border-blue-500" : ""
           }`}
         >
           {/* Username and its update button */}

@@ -18,21 +18,12 @@ const page = async ({ searchParams }) => {
 
   const problems = startProblems.sort((a, b) => {
     // Determine the key values to compare, preferring prizeInCircleKeys when available.
-    const aValue =
-      a.prizeInCircleKeys !== undefined
-        ? a.prizeInCircleKeys
-        : a.prizeInStarKeys !== undefined
-        ? a.prizeInStarKeys
-        : 0;
-    const bValue =
-      b.prizeInCircleKeys !== undefined
-        ? b.prizeInCircleKeys
-        : b.prizeInStarKeys !== undefined
-        ? b.prizeInStarKeys
-        : 0;
+
+    const aValue = a.prizeInCircleKeys + a.prizeInStarKeys;
+    const bValue = b.prizeInCircleKeys + b.prizeInStarKeys;
 
     // Return the difference for sorting in descending order.
-    return bValue - aValue;
+    return Math.max(aValue, bValue);
   });
 
   const page = searchParams;

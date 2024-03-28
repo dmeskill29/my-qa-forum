@@ -7,6 +7,18 @@ export async function PUT(req) {
 
   const { usernameNew, usernameOld } = body;
 
+  const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/;
+
+  if (!usernameRegex.test(usernameNew)) {
+    return new Response(
+      JSON.stringify({ message: "Invalid username format" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
   // Check if the new username is already taken
   const existingUser = await db.user.findUnique({
     where: { username: usernameNew },

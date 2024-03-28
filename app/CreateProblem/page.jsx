@@ -36,6 +36,11 @@ const CreateProblem = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (prizeInCircleKeys < 0 || prizeInStarKeys < 0) {
+      alert("Prizes cannot be negative.");
+      return;
+    }
+
     // Split tags by commas, trim whitespace, and check each tag's length
     const tagsArray = tags.split(",").map((tag) => tag.trim());
     const invalidTag = tagsArray.some(

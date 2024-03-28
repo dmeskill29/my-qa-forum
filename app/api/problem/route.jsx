@@ -17,6 +17,16 @@ export async function POST(req) {
       tags,
     } = body;
 
+    if (prizeInCircleKeys < 0 || prizeInStarKeys < 0) {
+      return new Response(
+        JSON.stringify({ message: "Prizes cannot be negative" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
     const session = await getServerSession(authOptions);
 
     const userId = session.user.id;

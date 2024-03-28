@@ -12,7 +12,19 @@ export async function PATCH(req) {
   const existingVote = await db.problemVote.findFirst({
     where: { userId: userId, problemId: problemId },
   });
-  const voteValue = type === "UP" ? 1 : type === "DOWN" ? -1 : 0;
+
+  let voteValue = 0;
+
+  if (type === "UP") {
+    voteValue = 1;
+  } else if (type === "DOWN") {
+    voteValue = -1;
+  } else {
+    return new Response(JSON.stringify({ message: "Invalid vote type" }), {
+      status: 400, // HTTP status code for Bad Request
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   if (existingVote) {
     // If the user wants to remove their vote

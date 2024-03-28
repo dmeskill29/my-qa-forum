@@ -162,7 +162,7 @@ const page = async ({ params, searchParams }) => {
       <div className="flex flex-col md:flex-row md:space-x-8">
         <div
           className={`bg-white shadow rounded-lg p-6 mb-4 md:mb-0 w-full md:w-96 h-96 overflow-auto ${
-            isAdmin ? "border-4 border-green-500" : ""
+            isAdmin ? "border-4 border-blue-500" : ""
           }`}
         >
           {/* Username and its update button */}
@@ -240,7 +240,7 @@ const page = async ({ params, searchParams }) => {
               <>
                 {currentSolutions.map((solution) => (
                   <Link
-                    href={`/question/${solution.questionId}`}
+                    href={`/problem/${solution.problemId}`}
                     key={solution.id}
                     className="block w-9/10 mx-auto p-4 rounded-lg bg-white transition duration-500 ease-in-out transform hover:-translate-y-1"
                   >
