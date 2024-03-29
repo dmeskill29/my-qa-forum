@@ -67,8 +67,6 @@ const CreateProblem = () => {
       title,
       content,
       session: session, // Update the type of session?.user to include the 'id' property
-      feeInCircleKeys: true,
-      feeInStarKeys: false,
       prizeInCircleKeys,
       prizeInStarKeys,
       tags,

@@ -7,15 +7,7 @@ import { authOptions } from "@/lib/auth";
 export async function POST(req) {
   try {
     const body = await req.json();
-    const {
-      title,
-      content,
-      feeInCircleKeys,
-      feeInStarKeys,
-      prizeInCircleKeys,
-      prizeInStarKeys,
-      tags,
-    } = body;
+    const { title, content, prizeInCircleKeys, prizeInStarKeys, tags } = body;
 
     if (prizeInCircleKeys < 0 || prizeInStarKeys < 0) {
       return new Response(
@@ -43,21 +35,9 @@ export async function POST(req) {
       });
     }
 
-    let circleKeyCost;
+    const circleKeyCost = 50 + prizeInCircleKeys;
 
-    if (feeInCircleKeys) {
-      circleKeyCost = 50 + prizeInCircleKeys;
-    } else {
-      circleKeyCost = prizeInCircleKeys;
-    }
-
-    let starKeyCost;
-
-    if (feeInStarKeys) {
-      starKeyCost = 50 + prizeInStarKeys;
-    } else {
-      starKeyCost = prizeInStarKeys;
-    }
+    const starKeyCost = prizeInStarKeys;
 
     const keychain = user.keychain;
     if (
