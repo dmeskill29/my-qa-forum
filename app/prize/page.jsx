@@ -17,13 +17,12 @@ const page = async ({ searchParams }) => {
   });
 
   const problems = startProblems.sort((a, b) => {
-    // Determine the key values to compare, preferring prizeInCircleKeys when available.
+    // Calculate total prize by combining both types of keys, defaulting to 0 if they're not set
+    const totalPrizeA = (a.prizeInCircleKeys || 0) + (a.prizeInStarKeys || 0);
+    const totalPrizeB = (b.prizeInCircleKeys || 0) + (b.prizeInStarKeys || 0);
 
-    const aValue = a.prizeInCircleKeys + a.prizeInStarKeys;
-    const bValue = b.prizeInCircleKeys + b.prizeInStarKeys;
-
-    // Return the difference for sorting in descending order.
-    return Math.max(aValue, bValue);
+    // Sort by total prize in descending order
+    return totalPrizeB - totalPrizeA;
   });
 
   const page = searchParams;
@@ -75,7 +74,7 @@ const page = async ({ searchParams }) => {
             <div className="flex justify-center items-center space-x-2 mt-4">
               {pageNumber > 1 && (
                 <Link
-                  href={`/open?page=${pageNumber - 1}`}
+                  href={`/prize?page=${pageNumber - 1}`}
                   className="pagination-link"
                   aria-label="Previous page"
                 >
@@ -85,7 +84,7 @@ const page = async ({ searchParams }) => {
               {Array.from({ length: totalPages }, (_, index) => (
                 <Link
                   key={index}
-                  href={`/open?page=${index + 1}`}
+                  href={`/prize?page=${index + 1}`}
                   className={`pagination-link ${
                     index + 1 === pageNumber ? "pagination-link--active" : ""
                   }`}
@@ -96,7 +95,7 @@ const page = async ({ searchParams }) => {
               ))}
               {pageNumber < totalPages && (
                 <Link
-                  href={`/open?page=${parseInt(pageNumber, 10) + 1}`}
+                  href={`/prize?page=${parseInt(pageNumber, 10) + 1}`}
                   className="pagination-link"
                   aria-label="Next page"
                 >
