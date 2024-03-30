@@ -25,6 +25,7 @@ const QuestionUpdate = ({ solutionId }) => {
       if (response.ok) {
         // Handle success - e.g., redirecting to a new page or showing a success message
         const data = await response.json();
+        setText("");
         router.refresh();
       }
 
@@ -36,25 +37,32 @@ const QuestionUpdate = ({ solutionId }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <label
-        htmlFor="content"
-        className="block text-sm font-medium text-gray-700"
-      >
-        Content:
-      </label>
-      <textarea
-        id="content"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        className="shadow-sm focus:ring-indigo-500 text-black focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-      />
-      <button
-        type="submit"
-        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
-        Update Solution
-      </button>
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-lg mx-auto my-8 p-6 bg-white rounded-lg shadow-md space-y-6"
+    >
+      <div>
+        <label
+          htmlFor="content"
+          className="block text-lg font-semibold text-gray-700 mb-2"
+        ></label>
+        <textarea
+          id="content"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          rows="4"
+          className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full text-sm border border-gray-300 rounded-lg p-3"
+          placeholder="Type your solution here..."
+        ></textarea>
+      </div>
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          className="flex items-center justify-center px-2 py-1 border border-transparent text-sm font-semibold rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+        >
+          Update Solution
+        </button>
+      </div>
     </form>
   );
 };

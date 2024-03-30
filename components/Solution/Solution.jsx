@@ -4,11 +4,13 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import DeleteSolutionButton from "./DeleteSolutionButton";
-// import SolutionUpdate from "./SolutionUpdate";
-// import SolutionUpdateList from "./SolutionUpdateList";
+import SolutionUpdate from "./SolutionUpdate";
+import SolutionUpdateList from "./SolutionUpdateList";
 import SolutionUpVoteButton from "./SolutionUpVoteButton";
 import SolutionDownVoteButton from "./SolutionDownVoteButton";
 import PinTopSolutionButton from "./PinTopSolutionButton";
+import ReplyButton from "../Reply/ReplyButton";
+import Reply from "../Reply/Reply";
 
 const Solution = async ({ solution }) => {
   const session = await getServerSession(authOptions);
@@ -20,6 +22,15 @@ const Solution = async ({ solution }) => {
   const problem = await db.problem.findUnique({
     where: {
       id: solution.problemId,
+    },
+  });
+
+  const replies = await db.reply.findMany({
+    where: {
+      solutionId: solution.id,
+    },
+    include: {
+      childReplies: true,
     },
   });
 
@@ -35,7 +46,7 @@ const Solution = async ({ solution }) => {
         isTopSolution
           ? "border-4 border-yellow-400"
           : isAdminSolution
-          ? "border-4 border-blue-500"
+          ? "border-2 border-blue-500"
           : ""
       }`}
     >
@@ -54,6 +65,15 @@ const Solution = async ({ solution }) => {
       <p className="text-gray-800 text-base leading-relaxed">
         {solution.content}
       </p>
+
+      <SolutionUpdateList problem={problem} />
+
+      {session?.user?.id === solution.authorId && (
+        <div className="text-right p-4">
+          <SolutionUpdate solutionId={solution.id} />
+        </div>
+      )}
+
       <div className="flex justify-between">
         {problem.authorId === session?.user?.id && !isTopSolution && (
           <div className="flex items-center">
@@ -72,11 +92,16 @@ const Solution = async ({ solution }) => {
         </div>
       </div>
 
-      {session?.user?.roles.includes("admin") && (
-        <div className="space-y-4">
+      <div className="ml-4 flex justify-between">
+        <ReplyButton solutionId={solution.id} replyId={null} />
+        {session?.user?.roles.includes("admin") && (
           <DeleteSolutionButton solutionId={solution.id} />
-        </div>
-      )}
+        )}
+      </div>
+
+      {replies.map((reply) => (
+        <Reply key={reply.id} reply={reply} />
+      ))}
     </div>
   );
 };

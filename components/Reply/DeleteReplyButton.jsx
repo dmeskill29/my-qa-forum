@@ -2,18 +2,18 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-const DeleteProblemButton = ({ problemId }) => {
+const DeletereplyIdButton = ({ replyId }) => {
   const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch("/api/problem", {
+      const response = await fetch("/api/reply", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ problemId }),
+        body: JSON.stringify({ replyId }),
       });
 
       if (!response.ok) {
@@ -21,16 +21,15 @@ const DeleteProblemButton = ({ problemId }) => {
       }
       if (response.ok) {
         const data = await response.json();
-        router.push("/Feed");
         router.refresh();
       }
     } catch (error) {
-      console.error("Failed to delete the problem:", error);
+      console.error("Failed to delete the solution:", error);
     }
   };
 
   return (
-    <div className="text-right">
+    <div className="text-right mt-2">
       <button
         onClick={handleSubmit}
         className="bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 text-white font-bold py-1 px-2 rounded-full transition duration-150 ease-in-out"
@@ -41,4 +40,4 @@ const DeleteProblemButton = ({ problemId }) => {
   );
 };
 
-export default DeleteProblemButton;
+export default DeletereplyIdButton;

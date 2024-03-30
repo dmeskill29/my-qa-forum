@@ -9,26 +9,26 @@ const SolutionUpdateList = async ({ solutionId }) => {
   });
 
   return (
-    <div>
+    <div className="my-4">
       {solutionUpdates.length > 0 ? (
         solutionUpdates.map((update) => (
           <div
             key={update.id}
-            className="bg-gray-100 p-4 my-2 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-300 ease-in-out"
+            className="bg-white p-4 my-4 rounded-lg shadow border border-gray-200 hover:shadow-lg transition-shadow duration-300 ease-in-out"
           >
-            <div className="flex justify-between items-center">
-              <p className="text-gray-800 text-sm md:text-base">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+              <p className="text-gray-800 text-sm md:text-md lg:text-lg font-medium mb-2 md:mb-0">
                 {update.content}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs md:text-sm text-gray-500">
                 {new Date(update.updatedAt).toLocaleString()}
               </p>
             </div>
           </div>
         ))
       ) : (
-        <p className="text-center text-gray-500 py-4">
-          No updates available for this solution.
+        <p className="text-gray-500 text-center text-sm py-4">
+          No updates available.
         </p>
       )}
     </div>

@@ -149,14 +149,14 @@ model SolutionUpdate {
 model Reply {
   id                String          @id @default(cuid())
   content           String
-  createdAt         DateTime  @default(now())
+  createdAt         DateTime        @default(now())
   solutionId        String?
-  userId            String
+  authorId          String
   parentReplyId     String?
-  solution          Solution? @relation(fields: [solutionId], references: [id])
-  user              User      @relation(fields: [userId], references: [id])
-  parentReply       Reply?    @relation("ReplyToReply", fields: [parentReplyId], references: [id])
-  childReplies      Reply[]   @relation("ReplyToReply")
+  solution          Solution?       @relation(fields: [solutionId], references: [id])
+  user              User            @relation(fields: [authorId], references: [id])
+  parentReply       Reply?          @relation("ReplyToReply", fields: [parentReplyId], references: [id])
+  childReplies      Reply[]         @relation("ReplyToReply")
   votes             ReplyVote[]
   voteSum           Int             @default(0)
 }
@@ -165,8 +165,8 @@ model ReplyVote {
   type              VoteType
   userId            String
   replyId           String
-  user              User     @relation(fields: [userId], references: [id])
-  reply             Reply    @relation(fields: [replyId], references: [id])
+  user              User            @relation(fields: [userId], references: [id])
+  reply             Reply           @relation(fields: [replyId], references: [id])
 
   @@unique([userId, replyId]) // Ensures a user can only vote once per reply
 }
