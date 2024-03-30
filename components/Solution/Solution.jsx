@@ -66,7 +66,7 @@ const Solution = async ({ solution }) => {
         {solution.content}
       </p>
 
-      <SolutionUpdateList problem={problem} />
+      <SolutionUpdateList solutionId={solution.id} />
 
       {session?.user?.id === solution.authorId && (
         <div className="text-right p-4">
