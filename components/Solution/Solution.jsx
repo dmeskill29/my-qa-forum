@@ -66,13 +66,13 @@ const Solution = async ({ solution }) => {
         {solution.content}
       </p>
 
-      <SolutionUpdateList solutionId={solution.id} />
+      {/* <SolutionUpdateList solutionId={solution.id} />
 
       {session?.user?.id === solution.authorId && (
         <div className="text-right p-4">
           <SolutionUpdate solutionId={solution.id} />
         </div>
-      )}
+      )} */}
 
       <div className="flex justify-between">
         {problem.authorId === session?.user?.id && !isTopSolution && (
