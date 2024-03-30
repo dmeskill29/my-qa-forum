@@ -61,6 +61,8 @@ model User {
   problemVote       ProblemVote[]
   solutions         Solution[]
   solutionVote      SolutionVote[]
+  replies           Reply[]
+  replyVote         ReplyVote[]
 }
 
 model KeyChain {
@@ -111,17 +113,18 @@ model ProblemUpdate {
 }
 
 model Solution {
-  id                String       @id @default(cuid())
+  id                String          @id @default(cuid())
   content           String
-  createdAt         DateTime     @default(now())
-  author            User         @relation(fields: [authorId], references: [id])
+  createdAt         DateTime        @default(now())
+  author            User            @relation(fields: [authorId], references: [id])
   authorId          String
-  problem           Problem      @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  problem           Problem         @relation(fields: [problemId], references: [id], onDelete: Cascade)
   problemId         String
   solutionUpdate    SolutionUpdate[]
   votes             SolutionVote[]
   voteSum           Int             @default(0)
   solutionId        String?
+  replies           Reply[]
 }
 
 model SolutionVote {
@@ -141,4 +144,29 @@ model SolutionUpdate {
   updatedAt         DateTime  @updatedAt
   solution          Solution  @relation(fields: [solutionId], references: [id])
   solutionId        String
+}
+
+model Reply {
+  id                String          @id @default(cuid())
+  content           String
+  createdAt         DateTime  @default(now())
+  solutionId        String?
+  userId            String
+  parentReplyId     String?
+  solution          Solution? @relation(fields: [solutionId], references: [id])
+  user              User      @relation(fields: [userId], references: [id])
+  parentReply       Reply?    @relation("ReplyToReply", fields: [parentReplyId], references: [id])
+  childReplies      Reply[]   @relation("ReplyToReply")
+  votes             ReplyVote[]
+  voteSum           Int             @default(0)
+}
+
+model ReplyVote {
+  type              VoteType
+  userId            String
+  replyId           String
+  user              User     @relation(fields: [userId], references: [id])
+  reply             Reply    @relation(fields: [replyId], references: [id])
+
+  @@unique([userId, replyId]) // Ensures a user can only vote once per reply
 }

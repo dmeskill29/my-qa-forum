@@ -8,10 +8,15 @@ import Image from "next/image";
 
 const Problem = ({ problem, session }) => {
   const isAdminProblem = problem.author.roles.includes("admin");
+  const isWebsiteProblem = problem.author.roles.includes("website");
   return (
     <div
       className={`max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
-        isAdminProblem ? "border-4 border-blue-500" : ""
+        isWebsiteProblem
+          ? "bg-yellow-50 border-4 border-blue-500"
+          : isAdminProblem
+          ? "border-2 border-blue-500"
+          : ""
       }`}
     >
       <div className="flex justify-between items-center p-4">

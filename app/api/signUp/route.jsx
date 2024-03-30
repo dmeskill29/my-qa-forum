@@ -17,10 +17,19 @@ export async function POST(req) {
 
       let user;
 
+      if (email === process.env.WEBSITE_EMAIL) {
+        user = await prisma.user.create({
+          data: {
+            email,
+            password: hashedPassword,
+            username: nanoid(10),
+            roles: ["website", "admin", "user"],
+          },
+        });
+      }
       if (
         email === process.env.ADMIN_EMAIL_1 ||
-        email === process.env.ADMIN_EMAIL_2 ||
-        email === process.env.ADMIN_EMAIL_3
+        email === process.env.ADMIN_EMAIL_2
       ) {
         user = await prisma.user.create({
           data: {
