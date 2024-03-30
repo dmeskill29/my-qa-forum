@@ -25,14 +25,14 @@ const Solution = async ({ solution }) => {
     },
   });
 
-  const replies = await db.reply.findMany({
-    where: {
-      solutionId: solution.id,
-    },
-    include: {
-      childReplies: true,
-    },
-  });
+  // const replies = await db.reply.findMany({
+  //   where: {
+  //     solutionId: solution.id,
+  //   },
+  //   include: {
+  //     childReplies: true,
+  //   },
+  // });
 
   const isTopSolution = problem.topSolution === solution.id;
 
@@ -93,15 +93,15 @@ const Solution = async ({ solution }) => {
       </div>
 
       <div className="ml-4 flex justify-between">
-        <ReplyButton solutionId={solution.id} replyId={null} />
+        {/* <ReplyButton solutionId={solution.id} replyId={null} /> */}
         {session?.user?.roles.includes("admin") && (
           <DeleteSolutionButton solutionId={solution.id} />
         )}
       </div>
 
-      {replies.map((reply) => (
+      {/* {replies.map((reply) => (
         <Reply key={reply.id} reply={reply} />
-      ))}
+      ))} */}
     </div>
   );
 };
