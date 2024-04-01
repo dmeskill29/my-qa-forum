@@ -7,6 +7,28 @@ const Problem = ({ problem }) => {
   const isAdminProblem = problem.author.roles.includes("admin");
 
   const isWebsiteProblem = problem.author.roles.includes("website");
+
+  const ProfileImage = ({ username }) => {
+    const firstLetter = username.charAt(0).toUpperCase();
+
+    return (
+      <div
+        style={{
+          width: "36px",
+          height: "36px",
+          borderRadius: "50%",
+          backgroundColor: "#307e79", // Your chosen color
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "20px",
+        }}
+      >
+        {firstLetter}
+      </div>
+    );
+  };
   return (
     <div
       className={`max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
@@ -51,6 +73,11 @@ const Problem = ({ problem }) => {
         </div>
       </div>
 
+      <div className="flex  items-center p-4">
+        <ProfileImage username={problem.author.username} />
+        <span className="ml-2">{problem.author.username}</span>
+      </div>
+
       {/* Title and Posted Date */}
       <div className="flex justify-between items-center p-4 ">
         <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
@@ -60,8 +87,9 @@ const Problem = ({ problem }) => {
           {new Intl.DateTimeFormat("en-US", {
             dateStyle: "medium",
             timeStyle: "short",
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's local time zone
-          }).format(new Date(problem.createdAt))}
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          }).format(new Date(`${problem.createdAt}Z`))}{" "}
+          {/* Appended 'Z' to indicate UTC */}
         </div>
       </div>
 

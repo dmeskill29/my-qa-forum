@@ -86,8 +86,9 @@ const Reply = async ({ reply }) => {
           {new Intl.DateTimeFormat("en-US", {
             dateStyle: "medium",
             timeStyle: "short",
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's local time zone
-          }).format(new Date(reply.createdAt))}
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          }).format(new Date(`${reply.createdAt}Z`))}{" "}
+          {/* Appended 'Z' to indicate UTC */}
         </div>
 
         <div className="flex-col items-center space-x-2">
