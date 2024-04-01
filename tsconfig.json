@@ -82,7 +82,8 @@
     "components/Profile/CreateWallet.jsx",
     "components/Profile/BioUpdate.jsx",
     "components/Profile/AddStarKeysButton.jsx",
-    "app/Feed/page.jsx"
+    "app/Feed/page.jsx",
+    "app/api/replyVote/route.jsx"
   ],
   "exclude": ["node_modules"]
 }

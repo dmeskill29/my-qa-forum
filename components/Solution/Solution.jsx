@@ -13,6 +13,9 @@ import ReplyButton from "../Reply/ReplyButton";
 import Reply from "../Reply/Reply";
 
 const Solution = async ({ solution }) => {
+  const isRelated = false;
+  const isReplying = false;
+  const isReplies = false;
   const session = await getServerSession(authOptions);
   const user = await db.user.findUnique({
     where: {
@@ -25,15 +28,36 @@ const Solution = async ({ solution }) => {
     },
   });
 
-  // const replies = await db.reply.findMany({
-  //   where: {
-  //     solutionId: solution.id,
-  //   },
-  //   include: {
-  //     childReplies: true,
-  //   },
-  // });
+  const replies = await db.reply.findMany({
+    where: {
+      solutionId: solution.id,
+    },
+    include: {
+      childReplies: true,
+      user: true,
+    },
+  });
+  const ProfileImage = ({ username }) => {
+    const firstLetter = username.charAt(0).toUpperCase();
 
+    return (
+      <div
+        style={{
+          width: "36px",
+          height: "36px",
+          borderRadius: "50%",
+          backgroundColor: "#307e79", // Your chosen color
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "20px",
+        }}
+      >
+        {firstLetter}
+      </div>
+    );
+  };
   const isTopSolution = problem.topSolution === solution.id;
 
   const isAdminSolution = user.roles.includes("admin");
@@ -42,7 +66,7 @@ const Solution = async ({ solution }) => {
 
   return (
     <div
-      className={`max-w-md mx-auto bg-white rounded-lg shadow overflow-hidden md:max-w-2xl p-4 space-y-6 ${
+      className={`max-w-md mx-auto bg-white rounded-lg shadow overflow-hidden md:max-w-2xl p-4 space-y-2 ${
         isTopSolution
           ? "border-4 border-yellow-400"
           : isAdminSolution
@@ -50,21 +74,30 @@ const Solution = async ({ solution }) => {
           : ""
       }`}
     >
-      <div className="flex justify-between items-center mb-4">
-        <Link
-          href={`/user/${username}`}
-          className="text-blue-600 hover:text-blue-800 font-semibold transition duration-150 ease-in-out"
-        >
-          {username}
-        </Link>
-        <p className="text-sm text-gray-500">
-          {new Date(solution.createdAt).toLocaleDateString()} at{" "}
-          {new Date(solution.createdAt).toLocaleTimeString()}
-        </p>
+      <div className="flex items-center mb-2 justify-between w-full">
+        <div className="flex items-center space-x-2">
+          {isReplying && <span className="text-sm text-gray-500">O</span>}
+          <Link
+            href={`/user/${username}`}
+            className="flex items-center text-blue-600 hover:text-blue-800 font-semibold transition duration-150 ease-in-out"
+          >
+            <ProfileImage username={username} />
+            <span className="ml-2">{username}</span>
+          </Link>
+        </div>
+        {isRelated && <span className="text-sm text-gray-500">Related</span>}
       </div>
-      <p className="text-gray-800 text-base leading-relaxed">
-        {solution.content}
-      </p>
+
+      <div className="flex items-center space-x-4">
+        <div className="flex flex-col items-center ">
+          <SolutionUpVoteButton solutionId={solution.id} />
+          <p className="text-lg font-semibold text-gray-900 ">
+            {solution.voteSum}
+          </p>
+          <SolutionDownVoteButton solutionId={solution.id} />
+        </div>
+        <p className="text-gray-800">{solution.content}</p>
+      </div>
 
       {/* <SolutionUpdateList solutionId={solution.id} />
 
@@ -73,6 +106,20 @@ const Solution = async ({ solution }) => {
           <SolutionUpdate solutionId={solution.id} />
         </div>
       )} */}
+
+      <div className="flex items-center space-x-4 justify-between">
+        {isReplies && <span className="text-sm text-gray-500">O</span>}
+        <p className="text-sm text-gray-500">
+          {new Date(solution.createdAt).toLocaleDateString()} at{" "}
+          {new Date(solution.createdAt).toLocaleTimeString()}
+        </p>
+        <div className="flex-col items-center space-x-2">
+          {session?.user?.roles.includes("admin") && (
+            <DeleteSolutionButton solutionId={solution.id} />
+          )}
+          <ReplyButton solutionId={solution.id} replyId={null} />
+        </div>
+      </div>
 
       <div className="flex justify-between">
         {problem.authorId === session?.user?.id && !isTopSolution && (
@@ -83,25 +130,11 @@ const Solution = async ({ solution }) => {
             />
           </div>
         )}
-        <div className="flex items-center ml-auto">
-          <SolutionUpVoteButton solutionId={solution.id} />
-          <p className="text-lg font-semibold text-gray-900 mr-2">
-            {solution.voteSum}
-          </p>
-          <SolutionDownVoteButton solutionId={solution.id} />
-        </div>
       </div>
 
-      <div className="ml-4 flex justify-between">
-        {/* <ReplyButton solutionId={solution.id} replyId={null} /> */}
-        {session?.user?.roles.includes("admin") && (
-          <DeleteSolutionButton solutionId={solution.id} />
-        )}
-      </div>
-
-      {/* {replies.map((reply) => (
+      {replies.map((reply) => (
         <Reply key={reply.id} reply={reply} />
-      ))} */}
+      ))}
     </div>
   );
 };

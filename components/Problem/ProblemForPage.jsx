@@ -66,9 +66,13 @@ const Problem = ({ problem, session }) => {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="p-4 border-b border-gray-200">
-        <p className="text-gray-500 break-words">{problem.content}</p>
+      <div className="flex items-center space-x-4 mr-4 ml-4 mb-4">
+        <div className="flex flex-col items-center">
+          <UpVoteButton problemId={problem.id} />
+          {problem.voteSum}
+          <DownVoteButton problemId={problem.id} />
+        </div>
+        <p className="text-gray-800">{problem.content}</p>
       </div>
 
       <ProblemUpdateList problem={problem} />
@@ -96,19 +100,14 @@ const Problem = ({ problem, session }) => {
             </>
           )}
         </div>
-        <div className="text-lg font-semibold text-black flex items-center space-x-2">
-          <UpVoteButton problemId={problem.id} />
-          {problem.voteSum}
-          <DownVoteButton problemId={problem.id} />
-        </div>
+        {session?.user?.roles.includes("admin") && (
+          <div className="text-right">
+            <DeleteProblemButton problemId={problem.id} />
+          </div>
+        )}
       </div>
 
       {/* Admin Delete Button */}
-      {session?.user?.roles.includes("admin") && (
-        <div className="text-right p-4">
-          <DeleteProblemButton problemId={problem.id} />
-        </div>
-      )}
     </div>
   );
 };

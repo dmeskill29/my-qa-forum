@@ -29,7 +29,7 @@ const DeletereplyIdButton = ({ replyId }) => {
   };
 
   return (
-    <div className="text-right mt-2">
+    <div className="text-right mb-1">
       <button
         onClick={handleSubmit}
         className="bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 text-white font-bold py-1 px-2 rounded-full transition duration-150 ease-in-out"
