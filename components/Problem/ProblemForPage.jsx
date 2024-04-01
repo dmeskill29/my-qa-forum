@@ -16,6 +16,16 @@ const Problem = async ({ problem, session }) => {
       id: problem.authorId,
     },
   });
+  const utcDate = new Date(problem.createdAt);
+  const utcTimestamp = Date.UTC(
+    utcDate.getUTCFullYear(),
+    utcDate.getUTCMonth(),
+    utcDate.getUTCDate(),
+    utcDate.getUTCHours(),
+    utcDate.getUTCMinutes(),
+    utcDate.getUTCSeconds()
+  );
+
   const ProfileImage = ({ username }) => {
     const firstLetter = username.charAt(0).toUpperCase();
 
@@ -100,8 +110,7 @@ const Problem = async ({ problem, session }) => {
             dateStyle: "medium",
             timeStyle: "short",
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          }).format(new Date(`${problem.createdAt}Z`))}{" "}
-          {/* Appended 'Z' to indicate UTC */}
+          }).format(new Date(utcTimestamp))}
         </div>
       </div>
 

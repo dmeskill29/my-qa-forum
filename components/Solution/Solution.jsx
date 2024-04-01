@@ -17,6 +17,16 @@ const Solution = async ({ solution }) => {
   const isReplying = false;
   const isReplies = false;
   const session = await getServerSession(authOptions);
+  const utcDate = new Date(solution.createdAt);
+  const utcTimestamp = Date.UTC(
+    utcDate.getUTCFullYear(),
+    utcDate.getUTCMonth(),
+    utcDate.getUTCDate(),
+    utcDate.getUTCHours(),
+    utcDate.getUTCMinutes(),
+    utcDate.getUTCSeconds()
+  );
+
   const user = await db.user.findUnique({
     where: {
       id: solution.authorId,
@@ -122,8 +132,7 @@ const Solution = async ({ solution }) => {
             dateStyle: "medium",
             timeStyle: "short",
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          }).format(new Date(`${solution.createdAt}Z`))}{" "}
-          {/* Appended 'Z' to indicate UTC */}
+          }).format(new Date(utcTimestamp))}
         </div>
 
         <div className="flex-col items-center space-x-2">
