@@ -12,6 +12,7 @@ const page = async ({ searchParams }) => {
   const startProblems = await db.problem.findMany({
     orderBy: { createdAt: "desc" },
     include: {
+      solutions: true,
       author: true, // Assuming the relation field name is `author`
     },
   });

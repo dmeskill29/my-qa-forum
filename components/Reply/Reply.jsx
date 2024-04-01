@@ -82,10 +82,14 @@ const Reply = async ({ reply }) => {
       </div>
       <div className="flex items-center space-x-4 justify-between mb-2">
         {isReplies && <span className="text-sm text-gray-500">O</span>}
-        <p className="text-sm text-gray-500 mt-2">
-          {new Date(reply.createdAt).toLocaleDateString()} at{" "}
-          {new Date(reply.createdAt).toLocaleTimeString()}
-        </p>
+        <div className="text-sm text-gray-500">
+          {new Intl.DateTimeFormat("en-US", {
+            dateStyle: "medium",
+            timeStyle: "short",
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's local time zone
+          }).format(new Date(reply.createdAt))}
+        </div>
+
         <div className="flex-col items-center space-x-2">
           {" "}
           {session?.user?.roles.includes("admin") && (

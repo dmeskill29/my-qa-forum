@@ -117,10 +117,14 @@ const Solution = async ({ solution }) => {
 
       <div className="flex items-center space-x-4 justify-between">
         {isReplies && <span className="text-sm text-gray-500">O</span>}
-        <p className="text-sm text-gray-500">
-          {new Date(solution.createdAt).toLocaleDateString()} at{" "}
-          {new Date(solution.createdAt).toLocaleTimeString()}
-        </p>
+        <div className="text-sm text-gray-500">
+          {new Intl.DateTimeFormat("en-US", {
+            dateStyle: "medium",
+            timeStyle: "short",
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's local time zone
+          }).format(new Date(solution.createdAt))}
+        </div>
+
         <div className="flex-col items-center space-x-2">
           {session?.user?.roles.includes("admin") && (
             <DeleteSolutionButton solutionId={solution.id} />

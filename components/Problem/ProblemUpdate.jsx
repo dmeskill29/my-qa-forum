@@ -12,6 +12,30 @@ const ProblemUpdate = ({ problemId }) => {
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
   const router = useRouter();
 
+  const [displayCircleValue, setDisplayCricleValue] = useState("");
+  const [displayStarValue, setDisplayStarValue] = useState("");
+
+  const handleCricleChange = (e) => {
+    const newValue = e.target.value;
+    setDisplayCricleValue(newValue); // Update display value directly with input
+
+    // Update the actual prizeInCircleKeys state only if the new value is a number
+    const numericValue = Number(newValue);
+    if (!isNaN(numericValue)) {
+      setPrizeInCircleKeys(numericValue);
+    }
+  };
+  const handleStarChange = (e) => {
+    const newValue = e.target.value;
+    setDisplayStarValue(newValue); // Update display value directly with input
+
+    // Update the actual prizeInCircleKeys state only if the new value is a number
+    const numericValue = Number(newValue);
+    if (!isNaN(numericValue)) {
+      setPrizeInStarKeys(numericValue);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Ensure text length does not exceed the maxLength defined below
@@ -46,6 +70,10 @@ const ProblemUpdate = ({ problemId }) => {
       }
       // Handle success
       setText("");
+      setPrizeInCircleKeys(0);
+      setPrizeInStarKeys(0);
+      setDisplayCricleValue(""); // Reset display value
+      setDisplayStarValue(""); // Reset display value
       setShowModal(false); // Close modal on successful update
       router.refresh(); // Consider fetching updated data here to refresh the component's state instead of reloading the page
     } catch (error) {
@@ -95,52 +123,50 @@ const ProblemUpdate = ({ problemId }) => {
                   />
                 </div>
 
-                <div className="flex">
+                <div className="flex items-center space-x-2">
                   <label
                     htmlFor="prizeInCircleKeys"
-                    className="block text-sm font-medium text-gray-700 flex items-center"
+                    className="text-sm font-medium text-gray-700 flex items-center gap-1"
                   >
                     Add{" "}
                     <Image
                       src="/CircleKey.png"
                       alt="Circle Key"
-                      width={20}
-                      height={20}
-                      className="ml-2 mr-2"
-                    />
+                      width="20"
+                      height="20"
+                    />{" "}
                   </label>
                   <input
                     type="number"
                     id="prizeInCircleKeys"
-                    value={prizeInCircleKeys}
-                    onChange={(e) =>
-                      setPrizeInCircleKeys(Number(e.target.value))
-                    }
+                    value={displayCircleValue} // Use displayValue here
+                    onChange={handleCricleChange} // Use handleCricleChange here
                     className="input-field"
                     min="0"
+                    placeholder="Enter prize amount" // Optional placeholder for better UX
                   />
                 </div>
-                <div className="flex">
+                <div class="flex items-center space-x-2">
                   <label
                     htmlFor="prizeInStarKeys"
-                    className="block text-sm font-medium text-gray-700 flex items-center"
+                    className="text-sm font-medium text-gray-700 flex items-center gap-1"
                   >
                     Add{" "}
                     <Image
                       src="/StarKey.png"
                       alt="Star Key"
-                      width={20}
-                      height={20}
-                      className="ml-2 mr-2"
+                      width="20"
+                      height="20"
                     />
                   </label>
                   <input
                     type="number"
                     id="prizeInStarKeys"
-                    value={prizeInStarKeys}
-                    onChange={(e) => setPrizeInStarKeys(Number(e.target.value))}
+                    value={displayStarValue}
+                    onChange={handleStarChange}
                     className="input-field"
                     min="0"
+                    placeholder="Enter prize amount"
                   />
                 </div>
 

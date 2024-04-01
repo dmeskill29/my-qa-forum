@@ -33,6 +33,7 @@ const page = async ({ params, searchParams }) => {
       createdAt: "desc",
     },
     include: {
+      solutions: true,
       author: true,
     },
   });

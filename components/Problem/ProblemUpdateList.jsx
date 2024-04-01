@@ -14,10 +14,13 @@ const ProblemUpdateList = async ({ problem }) => {
             <div className="flex-1">
               <p className="text-gray-500 break-words">{update.content}</p>
             </div>
-            <p className="text-sm text-gray-500 break-words flex flex-col items-end">
-              {new Date(update.updatedAt).toLocaleDateString()} at{" "}
-              {new Date(update.updatedAt).toLocaleTimeString()}
-            </p>
+            <div className="text-sm text-gray-500">
+              {new Intl.DateTimeFormat("en-US", {
+                dateStyle: "medium",
+                timeStyle: "short",
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's local time zone
+              }).format(new Date(update.createdAt))}
+            </div>
           </div>
         </div>
       ))}

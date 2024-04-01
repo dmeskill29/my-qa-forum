@@ -18,6 +18,7 @@ const Feed = async ({ searchParams }) => {
   const problems = await db.problem.findMany({
     orderBy: { createdAt: "desc" },
     include: {
+      solutions: true,
       author: true, // Assuming the relation field name is `author`
     },
   });

@@ -1,5 +1,4 @@
 import React from "react";
-import DeleteProblemButton from "./DeleteProblemButton";
 import Image from "next/image";
 
 const Problem = ({ problem }) => {
@@ -58,9 +57,11 @@ const Problem = ({ problem }) => {
           {problem.title}
         </h1>
         <div className="text-sm text-gray-500">
-          {" "}
-          {new Date(problem.createdAt).toLocaleDateString()} at{" "}
-          {new Date(problem.createdAt).toLocaleTimeString()}
+          {new Intl.DateTimeFormat("en-US", {
+            dateStyle: "medium",
+            timeStyle: "short",
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's local time zone
+          }).format(new Date(problem.createdAt))}
         </div>
       </div>
 
@@ -85,6 +86,9 @@ const Problem = ({ problem }) => {
               ))}
             </>
           )}
+        </div>
+        <div className="text-lg font-semibold text-black">
+          Solutions: {problem.solutions.length}
         </div>
         <div className="text-lg font-semibold text-black">
           Votes: {problem.voteSum}

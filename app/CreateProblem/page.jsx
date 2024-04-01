@@ -19,6 +19,29 @@ const CreateProblem = () => {
   const { data: session, status } = useSession();
   const [tags, setTags] = useState("");
   const [tagsArray, setTagsArray] = useState([]);
+  const [displayCircleValue, setDisplayCricleValue] = useState("");
+  const [displayStarValue, setDisplayStarValue] = useState("");
+
+  const handleCricleChange = (e) => {
+    const newValue = e.target.value;
+    setDisplayCricleValue(newValue); // Update display value directly with input
+
+    // Update the actual prizeInCircleKeys state only if the new value is a number
+    const numericValue = Number(newValue);
+    if (!isNaN(numericValue)) {
+      setPrizeInCircleKeys(numericValue);
+    }
+  };
+  const handleStarChange = (e) => {
+    const newValue = e.target.value;
+    setDisplayStarValue(newValue); // Update display value directly with input
+
+    // Update the actual prizeInCircleKeys state only if the new value is a number
+    const numericValue = Number(newValue);
+    if (!isNaN(numericValue)) {
+      setPrizeInStarKeys(numericValue);
+    }
+  };
 
   const handleTagsChange = (e) => {
     const input = e.target.value;
@@ -218,7 +241,7 @@ const CreateProblem = () => {
       </div>
 
       {/* Prize input */}
-      <div class="flex items-center space-x-2">
+      <div className="flex items-center space-x-2">
         <label
           htmlFor="prizeInCircleKeys"
           className="text-sm font-medium text-gray-700 flex items-center gap-1"
@@ -230,10 +253,11 @@ const CreateProblem = () => {
         <input
           type="number"
           id="prizeInCircleKeys"
-          value={prizeInCircleKeys}
-          onChange={(e) => setPrizeInCircleKeys(Number(e.target.value))}
+          value={displayCircleValue} // Use displayValue here
+          onChange={handleCricleChange} // Use handleCricleChange here
           className="input-field"
           min="0"
+          placeholder="Enter prize amount" // Optional placeholder for better UX
         />
       </div>
       <div class="flex items-center space-x-2">
@@ -247,10 +271,11 @@ const CreateProblem = () => {
         <input
           type="number"
           id="prizeInStarKeys"
-          value={prizeInStarKeys}
-          onChange={(e) => setPrizeInStarKeys(Number(e.target.value))}
+          value={displayStarValue}
+          onChange={handleStarChange}
           className="input-field"
           min="0"
+          placeholder="Enter prize amount"
         />
       </div>
 
