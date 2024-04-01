@@ -28,15 +28,23 @@ const Solution = async ({ solution }) => {
     },
   });
 
-  const replies = await db.reply.findMany({
-    where: {
-      solutionId: solution.id,
-    },
-    include: {
-      childReplies: true,
-      user: true,
-    },
-  });
+  let replies;
+
+  try {
+    replies = await db.reply.findMany({
+      where: {
+        solutionId: solution.id,
+      },
+      include: {
+        childReplies: true,
+        user: true,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    replies = [];
+  }
+
   const ProfileImage = ({ username }) => {
     const firstLetter = username.charAt(0).toUpperCase();
 

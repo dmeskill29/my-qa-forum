@@ -14,15 +14,23 @@ const Reply = async ({ reply }) => {
   const isReplies = false;
   const session = await getServerSession(authOptions);
   const username = reply.user.username;
-  // const replies = await db.reply.findMany({
-  //   where: {
-  //     parentReplyId: reply.id,
-  //   },
-  //   include: {
-  //     childReplies: true,
-  //     user: true,
-  //   },
-  // });
+
+  let replies;
+
+  try {
+    replies = await db.reply.findMany({
+      where: {
+        parentReplyId: reply.id,
+      },
+      include: {
+        childReplies: true,
+        user: true,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    replies = [];
+  }
 
   const ProfileImage = ({ username }) => {
     const firstLetter = username.charAt(0).toUpperCase();
@@ -87,9 +95,9 @@ const Reply = async ({ reply }) => {
         </div>
       </div>
 
-      {/* {replies.map((nestedReply) => (
+      {replies.map((nestedReply) => (
         <Reply key={nestedReply.id} reply={nestedReply} />
-      ))} */}
+      ))}
     </div>
   );
 };
