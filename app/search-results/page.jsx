@@ -34,6 +34,7 @@ const SearchResultsPage = async ({ searchParams }) => {
     where: whereCondition,
     orderBy: { createdAt: "desc" },
     include: {
+      solutions: true,
       author: true,
     },
   });
