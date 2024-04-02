@@ -15,14 +15,6 @@ const Reply = async ({ reply }) => {
   const session = await getServerSession(authOptions);
   const username = reply.user.username;
   const utcDate = new Date(reply.createdAt);
-  const utcTimestamp = Date.UTC(
-    utcDate.getUTCFullYear(),
-    utcDate.getUTCMonth(),
-    utcDate.getUTCDate(),
-    utcDate.getUTCHours(),
-    utcDate.getUTCMinutes(),
-    utcDate.getUTCSeconds()
-  );
 
   let replies;
 
@@ -96,7 +88,7 @@ const Reply = async ({ reply }) => {
             dateStyle: "medium",
             timeStyle: "short",
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          }).format(new Date(utcTimestamp))}
+          }).format(utcDate)}
         </div>
 
         <div className="flex-col items-center space-x-2">

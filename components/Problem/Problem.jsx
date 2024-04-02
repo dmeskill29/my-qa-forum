@@ -3,14 +3,6 @@ import Image from "next/image";
 
 const Problem = ({ problem }) => {
   const utcDate = new Date(problem.createdAt);
-  const utcTimestamp = Date.UTC(
-    utcDate.getUTCFullYear(),
-    utcDate.getUTCMonth(),
-    utcDate.getUTCDate(),
-    utcDate.getUTCHours(),
-    utcDate.getUTCMinutes(),
-    utcDate.getUTCSeconds()
-  );
 
   const isAdminProblem = problem.author.roles.includes("admin");
 
@@ -96,7 +88,7 @@ const Problem = ({ problem }) => {
             dateStyle: "medium",
             timeStyle: "short",
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          }).format(new Date(utcTimestamp))}
+          }).format(utcDate)}
         </div>
       </div>
 
