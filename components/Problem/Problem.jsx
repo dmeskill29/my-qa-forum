@@ -84,11 +84,7 @@ const Problem = ({ problem }) => {
           {problem.title}
         </h1>
         <div className="text-sm text-gray-500">
-          {new Intl.DateTimeFormat("en-US", {
-            dateStyle: "medium",
-            timeStyle: "short",
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          }).format(utcDate)}
+          {new Date(utcDate).toLocaleString()}
         </div>
       </div>
 

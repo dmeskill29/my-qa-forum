@@ -84,11 +84,7 @@ const Reply = async ({ reply }) => {
       <div className="flex items-center space-x-4 justify-between mb-2">
         {isReplies && <span className="text-sm text-gray-500">O</span>}
         <div className="text-sm text-gray-500">
-          {new Intl.DateTimeFormat("en-US", {
-            dateStyle: "medium",
-            timeStyle: "short",
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          }).format(utcDate)}
+          {new Date(utcDate).toLocaleString()}
         </div>
 
         <div className="flex-col items-center space-x-2">
