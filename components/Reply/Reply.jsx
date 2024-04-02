@@ -7,6 +7,7 @@ import { authOptions } from "@/lib/auth";
 import Link from "next/link";
 import ReplyUpVoteButton from "./ReplyUpVoteButton";
 import ReplyDownVoteButton from "./ReplyDownVoteButton";
+import moment from "moment";
 
 const Reply = async ({ reply }) => {
   const isRelated = false;
@@ -84,7 +85,7 @@ const Reply = async ({ reply }) => {
       <div className="flex items-center space-x-4 justify-between mb-2">
         {isReplies && <span className="text-sm text-gray-500">O</span>}
         <div className="text-sm text-gray-500">
-          {new Date(utcDate).toLocaleString()}
+          {moment(utcDate).local().format("MMMM DD, YYYY, h:mm:ss a")}
         </div>
 
         <div className="flex-col items-center space-x-2">

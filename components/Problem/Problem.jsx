@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import moment from "moment";
 
 const Problem = ({ problem }) => {
   const utcDate = new Date(problem.createdAt);
@@ -84,7 +85,7 @@ const Problem = ({ problem }) => {
           {problem.title}
         </h1>
         <div className="text-sm text-gray-500">
-          {new Date(utcDate).toLocaleString()}
+          {moment(utcDate).local().format("MMMM DD, YYYY, h:mm:ss a")}
         </div>
       </div>
 

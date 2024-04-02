@@ -7,6 +7,7 @@ import DownVoteButton from "./DownVoteButton";
 import Image from "next/image";
 import Link from "next/link";
 import { db } from "@/lib/db";
+import moment from "moment";
 
 const Problem = async ({ problem, session }) => {
   const isAdminProblem = problem.author.roles.includes("admin");
@@ -98,7 +99,7 @@ const Problem = async ({ problem, session }) => {
           {problem.title}
         </h1>{" "}
         <div className="text-sm text-gray-500">
-          {new Date(utcDate).toLocaleString()}
+          {moment(utcDate).local().format("MMMM DD, YYYY, h:mm:ss a")}
         </div>
       </div>
 

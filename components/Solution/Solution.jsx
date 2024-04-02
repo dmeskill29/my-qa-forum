@@ -11,6 +11,7 @@ import SolutionDownVoteButton from "./SolutionDownVoteButton";
 import PinTopSolutionButton from "./PinTopSolutionButton";
 import ReplyButton from "../Reply/ReplyButton";
 import Reply from "../Reply/Reply";
+import moment from "moment";
 
 const Solution = async ({ solution }) => {
   const isRelated = false;
@@ -121,7 +122,7 @@ const Solution = async ({ solution }) => {
         {isReplies && <span className="text-sm text-gray-500">O</span>}
         <div className="text-sm text-gray-500">
           <div className="text-sm text-gray-500">
-            {new Date(utcDate).toLocaleString()}
+            {moment(utcDate).local().format("MMMM DD, YYYY, h:mm:ss a")}
           </div>
         </div>
 
