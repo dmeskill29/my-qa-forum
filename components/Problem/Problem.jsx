@@ -84,9 +84,7 @@ const Problem = ({ problem }) => {
         <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
           {problem.title}
         </h1>
-        <div className="text-sm text-gray-500">
-          {moment(utcDate).local().format("MMMM DD, YYYY, h:mm:ss a")}
-        </div>
+        <div className="text-sm text-gray-500">{moment(utcDate).fromNow()}</div>
       </div>
 
       {/* Content */}

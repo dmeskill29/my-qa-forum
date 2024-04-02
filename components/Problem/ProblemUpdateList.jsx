@@ -1,7 +1,9 @@
 import React from "react";
 import { db } from "@/lib/db";
+import moment from "moment";
 
 const ProblemUpdateList = async ({ problem }) => {
+  const utcDate = new Date(problem.createdAt);
   const problemUpdates = await db.problemUpdate.findMany({
     where: { problemId: problem.id },
   });
@@ -15,11 +17,9 @@ const ProblemUpdateList = async ({ problem }) => {
               <p className="text-gray-500 break-words">{update.content}</p>
             </div>
             <div className="text-sm text-gray-500">
-              {new Intl.DateTimeFormat("en-US", {
-                dateStyle: "medium",
-                timeStyle: "short",
-                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's local time zone
-              }).format(new Date(update.createdAt))}
+              <div className="text-sm text-gray-500">
+                {moment(utcDate).fromNow()}
+              </div>
             </div>
           </div>
         </div>

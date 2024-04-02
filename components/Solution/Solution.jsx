@@ -122,7 +122,7 @@ const Solution = async ({ solution }) => {
         {isReplies && <span className="text-sm text-gray-500">O</span>}
         <div className="text-sm text-gray-500">
           <div className="text-sm text-gray-500">
-            {moment(utcDate).local().format("MMMM DD, YYYY, h:mm:ss a")}
+            {moment(utcDate).fromNow()}
           </div>
         </div>
 
