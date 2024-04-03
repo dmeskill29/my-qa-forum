@@ -5,6 +5,7 @@ import Problem from "@/components/Problem/Problem";
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import EmailToggle from "@/components/Profile/EmailToggle";
 
 import UsernameUpdate from "@/components/Profile/UsernameUpdate";
 import BioUpdate from "@/components/Profile/BioUpdate";
