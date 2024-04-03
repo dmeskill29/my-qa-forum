@@ -3,21 +3,52 @@
 import { db } from "@/lib/db"; // Assuming you have a db utility for database connection
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { Resend } from "resend";
 
 export async function POST(req) {
   const body = await req.json();
-
-  // const { title, content, subredditId } = PostValidator.parse(body)
 
   const { content, problemId } = body;
   // Validate data...
   const session = await getServerSession(authOptions);
   const authorId = session.user.id;
 
+  const problem = await db.problem.findFirst({
+    where: {
+      id: problemId,
+    },
+    select: {
+      authorId: true,
+    },
+  });
+
+  const posterEmail = await db.user.findUnique({
+    where: {
+      id: problem.authorId,
+    },
+    select: {
+      email: true,
+    },
+  });
+
   try {
     const result = await db.solution.create({
       data: { content, authorId, problemId },
     });
+
+    const resend = new Resend(process.env.RESEND_EMAIL_SECRET);
+
+    if (posterEmail.emailNotified) {
+      resend.emails.send({
+        from: process.env.EMAIL_FROM,
+        to: posterEmail.email,
+        subject: "New Solution on Your Problem!",
+        html: `
+      <p>Someone has posted a solution to your problem. Check it out!</p>
+      <p>Click <a href="https://solvecircle.app/problem/${problemId}" target="_blank">here</a> to view your solution.</p>
+    `,
+      });
+    }
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code
       headers: {

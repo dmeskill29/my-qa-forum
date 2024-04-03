@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import BioUpdate from "@/components/Profile/BioUpdate";
 import Image from "next/image";
+import EmailToggle from "@/components/Profile/EmailToggle";
 
 const ProfilePage = async ({ params }) => {
   const session = await getServerSession(authOptions);
@@ -215,6 +216,9 @@ const ProfilePage = async ({ params }) => {
                 </p>
               </div>
             </div>
+          )}
+          {user.id === session?.user?.id && (
+            <EmailToggle emailNotified={user.emailNotified} />
           )}
         </div>
       </div>

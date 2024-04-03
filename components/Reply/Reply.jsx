@@ -9,7 +9,7 @@ import ReplyUpVoteButton from "./ReplyUpVoteButton";
 import ReplyDownVoteButton from "./ReplyDownVoteButton";
 import moment from "moment";
 
-const Reply = async ({ reply }) => {
+const Reply = async ({ reply, problemId }) => {
   const isRelated = false;
   const isReplying = false;
   const isReplies = false;
@@ -80,7 +80,7 @@ const Reply = async ({ reply }) => {
           </p>
           <ReplyDownVoteButton replyId={reply.id} />
         </div>
-        <p className="text-gray-800">{reply.content}</p>
+        <p className="text-gray-800 break-words">{reply.content}</p>
       </div>
       <div className="flex items-center space-x-4 justify-between mb-2">
         {isReplies && <span className="text-sm text-gray-500">O</span>}
@@ -91,12 +91,16 @@ const Reply = async ({ reply }) => {
           {session?.user?.roles.includes("admin") && (
             <DeleteReplyButton replyId={reply.id} />
           )}
-          <ReplyButton solutionId={null} replyId={reply.id} />
+          <ReplyButton
+            solutionId={null}
+            replyId={reply.id}
+            problemId={problemId}
+          />
         </div>
       </div>
 
       {replies.map((nestedReply) => (
-        <Reply key={nestedReply.id} reply={nestedReply} />
+        <Reply key={nestedReply.id} reply={nestedReply} problemId={problemId} />
       ))}
     </div>
   );

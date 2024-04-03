@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const ReplyButton = ({ solutionId, replyId }) => {
+const ReplyButton = ({ solutionId, replyId, problemId }) => {
   // State to control the visibility of the reply form
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [content, setContent] = useState("");
@@ -15,7 +15,12 @@ const ReplyButton = ({ solutionId, replyId }) => {
     const response = await fetch("/api/reply", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ solutionId, content, parentReplyId: replyId }),
+      body: JSON.stringify({
+        solutionId,
+        content,
+        parentReplyId: replyId,
+        problemId,
+      }),
     });
     if (response.ok) {
       // Handle success, such as clearing the form, refetching replies, etc.

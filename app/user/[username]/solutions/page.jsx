@@ -227,6 +227,9 @@ const page = async ({ params, searchParams }) => {
               </div>
             </div>
           )}
+          {user.id === session?.user?.id && (
+            <EmailToggle emailNotified={user.emailNotified} />
+          )}
         </div>
 
         {/* Problems and Solutions - Now positioned to the right of the bio/update section on larger screens */}

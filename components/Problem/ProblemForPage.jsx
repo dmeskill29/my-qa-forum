@@ -107,7 +107,7 @@ const Problem = async ({ problem, session }) => {
           {problem.voteSum}
           <DownVoteButton problemId={problem.id} />
         </div>
-        <p className="text-gray-800">{problem.content}</p>
+        <p className="text-gray-800 break-words">{problem.content}</p>
       </div>
 
       <ProblemUpdateList problem={problem} />

@@ -107,7 +107,7 @@ const Solution = async ({ solution }) => {
           </p>
           <SolutionDownVoteButton solutionId={solution.id} />
         </div>
-        <p className="text-gray-800">{solution.content}</p>
+        <p className="text-gray-800 break-words">{solution.content}</p>
       </div>
 
       {/* <SolutionUpdateList solutionId={solution.id} />
@@ -130,7 +130,11 @@ const Solution = async ({ solution }) => {
           {session?.user?.roles.includes("admin") && (
             <DeleteSolutionButton solutionId={solution.id} />
           )}
-          <ReplyButton solutionId={solution.id} replyId={null} />
+          <ReplyButton
+            solutionId={solution.id}
+            replyId={null}
+            problemId={problem.id}
+          />
         </div>
       </div>
 
@@ -146,7 +150,7 @@ const Solution = async ({ solution }) => {
       </div>
 
       {replies.map((reply) => (
-        <Reply key={reply.id} reply={reply} />
+        <Reply key={reply.id} reply={reply} problemId={problem.id} />
       ))}
     </div>
   );

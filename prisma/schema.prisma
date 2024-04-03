@@ -51,6 +51,7 @@ model User {
   bio               String?
   email             String?        @unique
   emailVerified     DateTime?
+  emailNotified     Boolean        @default(true)
   password          String?
   roles             String[]       @default(["user"])
   keychainId        String?        @unique
