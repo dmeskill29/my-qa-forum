@@ -7,7 +7,7 @@ export default async function FeedLinks() {
       <div className="mb-4">
         <Link
           href="/CreateProblem"
-          className="bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition duration-150 ease-in-out text-center"
+          className="middle none center rounded-full bg-gray-800 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-800/20 transition-all hover:shadow-lg hover:shadow-gray-800/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         >
           Post a Problem
         </Link>

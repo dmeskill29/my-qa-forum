@@ -1,19 +1,9 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { Resend } from "resend";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
-
-  const resend = new Resend(process.env.RESEND_EMAIL_SECRET);
-
-  // resend.emails.send({
-  //   from: "d@solvecircle.app",
-  //   to: "netflixguy0@gmail.com",
-  //   subject: "Hello World",
-  //   html: "<p>Congrats on sending your <strong>first email</strong>!</p>",
-  // });
 
   if (session?.user?.roles.includes("user")) {
     return (

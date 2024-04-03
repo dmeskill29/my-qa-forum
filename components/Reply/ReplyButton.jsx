@@ -34,7 +34,7 @@ const ReplyButton = ({ solutionId, replyId, problemId }) => {
   return (
     <div className="relative ">
       <button
-        className="bg-blue-500 text-white font-medium text-sm px-4 py-2 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
+        className="middle none center rounded-full bg-gray-800 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-800/20 transition-all hover:shadow-lg hover:shadow-gray-800/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         onClick={() => setShowReplyForm(!showReplyForm)}
       >
         Reply

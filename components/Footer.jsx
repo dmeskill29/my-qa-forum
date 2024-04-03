@@ -10,12 +10,6 @@ const Footer = () => {
         </div>
         <div className="flex space-x-4 justify-center md:justify-start">
           <Link
-            href="/About"
-            className="hover:underline hover:text-gray-300 transition duration-150 ease-in-out"
-          >
-            About
-          </Link>
-          <Link
             href="/Terms"
             className="hover:underline hover:text-gray-300 transition duration-150 ease-in-out"
           >

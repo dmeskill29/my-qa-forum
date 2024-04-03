@@ -5,42 +5,49 @@ import ProfileMenu from "./Profile/ProfileMenu";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Image from "next/image";
+import More from "./More";
 
 const NavBar = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <nav className="bg-gray-800 text-white">
-      <div className="container mx-auto flex items-center justify-between py-2 px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/Feed"
-          className="flex items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
-        >
-          <Image
-            src="/SolveSuiteLogo.png"
-            alt="SolveSuite"
-            width={50}
-            height={50}
-          />
-          <span className="hidden md:inline text-2xl font-bold text-white ml-2 hover:text-blue-500 transition duration-150 ease-in-out">
-            SolveCircle
-          </span>
-        </Link>
+    <nav className="bg-gray-800 text-white sticky top-0 z-50">
+      <div className="container justify-between flex items-center space-x-4 sm:space-x-6 lg:space-x-8 py-2 px-4 sm:px-6 lg:px-20">
+        <div className="flex items-center space-x-10">
+          <Link
+            href="/Feed"
+            className="flex items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
+          >
+            <Image
+              src="/SolveSuiteLogo.png"
+              alt="SolveSuite"
+              width={50}
+              height={50}
+            />
+            <span className="hidden md:inline text-2xl font-bold text-white ml-2 hover:text-blue-500 transition duration-150 ease-in-out">
+              SolveCircle
+            </span>
+          </Link>
+
+          {session && <More />}
+        </div>
 
         <div className="flex-1 mx-4">
           <SearchBar session={session} />
         </div>
 
-        {session ? (
-          <ProfileMenu session={session} />
-        ) : (
-          <Link
-            href="/sign-in"
-            className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md transition duration-150 ease-in-out"
-          >
-            Sign In/Up
-          </Link>
-        )}
+        <div className="flex items-center space-x-4 absolute right-20">
+          {session ? (
+            <ProfileMenu session={session} />
+          ) : (
+            <Link
+              href="/sign-in"
+              className="text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md transition duration-150 ease-in-out"
+            >
+              Sign In/Up
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   );

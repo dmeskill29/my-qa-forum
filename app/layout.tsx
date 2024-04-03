@@ -1,10 +1,14 @@
-// Import statements with absolute and relative paths organized
-import type { Metadata } from "next";
+// Import statements with absolute paths
 import { Inter } from "next/font/google";
+import { Metadata } from "next";
+
+// Import statements with relative paths
 import Providers from "../components/Providers";
 import NavBar from "../components/NavBar";
-import Footer from "../components/Footer"; // Use consistent import paths
-import "./globals.css"; // Keep CSS imports last for clarity
+import Footer from "../components/Footer";
+
+// CSS import
+import "./globals.css";
 
 // Initializing the Inter font with specific subsets
 const inter = Inter({ subsets: ["latin"] });
@@ -23,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <div className="flex flex-col min-h-screen">
           <NavBar />
           <Providers>{children}</Providers>
