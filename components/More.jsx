@@ -36,7 +36,7 @@ const More = () => {
           style={{
             position: "absolute",
             top: "50px", // Adjust this value to move the menu up or down
-            right: "0",
+            margin: "auto",
             zIndex: 20,
             width: "200px", // Adjust the width as needed
             backgroundColor: "white",
