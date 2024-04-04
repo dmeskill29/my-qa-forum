@@ -101,28 +101,40 @@ const Leaderboard = async () => {
   for (const user of users) {
     let userVotes = 0;
     for (const problem of user.problems) {
-      const totalUpvotes = problem.voteSum;
-      userVotes += totalUpvotes;
+      if (problem.createdAt > startOfMonth) {
+        const totalUpvotes = problem.voteSum;
+        userVotes += totalUpvotes;
+      }
     }
     for (const solution of user.solutions) {
-      const totalUpvotes = solution.voteSum;
-      userVotes += totalUpvotes;
+      if (solution.createdAt > startOfMonth) {
+        const totalUpvotes = solution.voteSum;
+        userVotes += totalUpvotes;
+      }
     }
     for (const reply of user.replies) {
-      const totalUpvotes = reply.voteSum;
-      userVotes += totalUpvotes;
+      if (reply.createdAt > startOfMonth) {
+        const totalUpvotes = reply.voteSum;
+        userVotes += totalUpvotes;
+      }
     }
     socialButterfly.push({
       username: user.username,
       votes: userVotes,
     });
+    const totalProblems = user.problems.filter(
+      (problem) => problem.createdAt > startOfMonth
+    ).length;
     problemChild.push({
       username: user.username,
-      totalProblems: user.problems.length,
+      totalProblems: totalProblems,
     });
+    const totalSolutions = user.solutions.filter(
+      (solution) => solution.createdAt > startOfMonth
+    ).length;
     tryHard.push({
       username: user.username,
-      totalSolutions: user.solutions.length,
+      totalSolutions: totalSolutions,
     });
   }
 
