@@ -36,7 +36,7 @@ const NavBar = async () => {
           <SearchBar session={session} />
         </div>
 
-        <div className="flex items-center space-x-4 absolute right-20">
+        <div className="flex items-center space-x-4 lg:absolute right-20">
           {session ? (
             <ProfileMenu session={session} />
           ) : (

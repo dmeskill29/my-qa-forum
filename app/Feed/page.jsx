@@ -7,6 +7,7 @@ import FeedLinks from "@/components/FeedLinks";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import Leaderboard from "@/components/Leaderboard";
 
 const PAGE_SIZE = 5; // Number of problems per page
 
@@ -54,6 +55,7 @@ const Feed = async ({ searchParams }) => {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
+      <Leaderboard />
       <FeedLinks />
       {currentProblems.length > 0 ? (
         <>
