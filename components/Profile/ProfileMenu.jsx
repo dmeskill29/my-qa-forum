@@ -56,7 +56,7 @@ const ProfileMenu = ({ session }) => {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="origin-top-right absolute right-0 mt-36 py-1 w-48 bg-white rounded-md shadow-lg z-20 border border-gray-200 transition-opacity duration-200 ease-linear">
+        <div className="origin-top-right absolute right-0 mt-36 py-1 w-30 bg-white rounded-md shadow-lg z-20 border border-gray-200 transition-opacity duration-200 ease-linear">
           {/* User Profile Link */}
           <Link
             href={`/user/${session.user.username}`}
