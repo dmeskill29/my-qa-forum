@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import Link from "next/link";
 import React from "react";
 
 const Leaderboard = async () => {
@@ -135,7 +136,9 @@ const Leaderboard = async () => {
 
   return (
     <div className="bg-gray-100 p-4 flex flex-col items-center rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Leaderboard</h1>
+      <h1 className="text-2xl font-bold text-gray-800 mb-4">
+        Leaderboard for {now.toLocaleString("default", { month: "long" })}
+      </h1>
       <div className="flex flex-wrap justify-center gap-8">
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-lg font-semibold text-gray-700 mb-2">
@@ -144,8 +147,10 @@ const Leaderboard = async () => {
           <div>
             {topUsernames.map((username) => (
               <div key={username} className="mt-2 text-gray-600">
-                <span className="font-medium">{username}</span> (
-                {usernameCounts[username]})
+                <Link href={`/user/${username}`} className="hover:underline">
+                  {username}
+                </Link>{" "}
+                ({usernameCounts[username]})
               </div>
             ))}
           </div>
@@ -155,8 +160,13 @@ const Leaderboard = async () => {
           <div>
             {fatCatSummarized.map((author) => (
               <div key={author.authorName} className="mt-2 text-gray-600">
-                <span className="font-medium">{author.authorName}</span> (
-                {author.totalPrize})
+                <Link
+                  href={`/user/${author.authorName}`}
+                  className="hover:underline"
+                >
+                  {author.authorName}
+                </Link>{" "}
+                ({author.totalPrize})
               </div>
             ))}
           </div>
@@ -168,8 +178,13 @@ const Leaderboard = async () => {
           <div>
             {socialButterfly.map((user) => (
               <div key={user.username} className="mt-2 text-gray-600">
-                <span className="font-medium">{user.username}</span> (
-                {user.votes})
+                <Link
+                  href={`/user/${user.username}`}
+                  className="hover:underline"
+                >
+                  {user.username}
+                </Link>{" "}
+                ({user.votes})
               </div>
             ))}
           </div>
@@ -181,8 +196,13 @@ const Leaderboard = async () => {
           <div>
             {problemChild.map((user) => (
               <div key={user.username} className="mt-2 text-gray-600">
-                <span className="font-medium">{user.username}</span> (
-                {user.totalProblems})
+                <Link
+                  href={`/user/${user.username}`}
+                  className="hover:underline"
+                >
+                  {user.username}
+                </Link>{" "}
+                ({user.totalProblems})
               </div>
             ))}
           </div>
@@ -192,8 +212,13 @@ const Leaderboard = async () => {
           <div>
             {tryHard.map((user) => (
               <div key={user.username} className="mt-2 text-gray-600">
-                <span className="font-medium">{user.username}</span> (
-                {user.totalSolutions})
+                <Link
+                  href={`/user/${user.username}`}
+                  className="hover:underline"
+                >
+                  {user.username}
+                </Link>{" "}
+                ({user.totalSolutions})
               </div>
             ))}
           </div>
