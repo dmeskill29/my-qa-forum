@@ -19,6 +19,19 @@ const Reply = async ({ reply, problemId }) => {
 
   let replies;
 
+  let userVote;
+
+  if (session) {
+    userVote = await db.replyVote.findFirst({
+      where: {
+        replyId: reply.id,
+        userId: session?.user?.id,
+      },
+    });
+  } else {
+    userVote = null;
+  }
+
   try {
     replies = await db.reply.findMany({
       where: {
@@ -74,11 +87,11 @@ const Reply = async ({ reply, problemId }) => {
 
       <div className="flex items-center space-x-4">
         <div className="flex flex-col items-center">
-          <ReplyUpVoteButton replyId={reply.id} />
+          <ReplyUpVoteButton replyId={reply.id} userVote={userVote} />
           <p className="text-lg font-semibold text-gray-900 my-1">
             {reply.voteSum}
           </p>
-          <ReplyDownVoteButton replyId={reply.id} />
+          <ReplyDownVoteButton replyId={reply.id} userVote={userVote} />
         </div>
         <p className="text-gray-800 break-words">{reply.content}</p>
       </div>

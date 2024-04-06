@@ -31,6 +31,19 @@ const Solution = async ({ solution }) => {
     },
   });
 
+  let userVote;
+
+  if (user) {
+    userVote = await db.solutionVote.findFirst({
+      where: {
+        solutionId: solution.id,
+        userId: user.id,
+      },
+    });
+  } else {
+    userVote = null;
+  }
+
   let replies;
 
   try {
@@ -101,11 +114,14 @@ const Solution = async ({ solution }) => {
 
       <div className="flex items-center space-x-4">
         <div className="flex flex-col items-center ">
-          <SolutionUpVoteButton solutionId={solution.id} />
+          <SolutionUpVoteButton solutionId={solution.id} userVote={userVote} />
           <p className="text-lg font-semibold text-gray-900 ">
             {solution.voteSum}
           </p>
-          <SolutionDownVoteButton solutionId={solution.id} />
+          <SolutionDownVoteButton
+            solutionId={solution.id}
+            userVote={userVote}
+          />
         </div>
         <p className="text-gray-800 break-words">{solution.content}</p>
       </div>

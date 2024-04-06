@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-const SolutionUpVoteButton = ({ replyId }) => {
+const SolutionUpVoteButton = ({ replyId, userVote }) => {
   const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,7 +34,13 @@ const SolutionUpVoteButton = ({ replyId }) => {
     <div className="flex items-center">
       <button
         onClick={handleSubmit}
-        className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 ease-in-out "
+        className={`inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 ease-in-out ${
+          userVote !== null
+            ? userVote.type === "UP"
+              ? "bg-green-800"
+              : ""
+            : ""
+        }`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -9,7 +9,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Leaderboard from "@/components/Leaderboard";
 
-const PAGE_SIZE = 5; // Number of problems per page
+const PAGE_SIZE = 10; // Number of problems per page
 
 const Feed = async ({ searchParams }) => {
   const session = await getServerSession(authOptions);
@@ -84,7 +84,9 @@ const Feed = async ({ searchParams }) => {
                   key={index}
                   href={`/Feed?page=${index + 1}`}
                   className={`pagination-link ${
-                    index + 1 === pageNumber ? "pagination-link--active" : ""
+                    index === pageNumber - 1
+                      ? "pagination-link--active font-bold"
+                      : ""
                   }`}
                   aria-current={index + 1 === pageNumber ? "page" : undefined}
                 >

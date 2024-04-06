@@ -28,7 +28,7 @@ const page = async ({ searchParams }) => {
 
   const page = searchParams;
   const pageNumber = page.page === undefined ? 1 : page.page;
-  const PAGE_SIZE = 5; // Number of problems per page
+  const PAGE_SIZE = 10; // Number of problems per page
 
   if (!Array.isArray(problems)) {
     console.error("problems is not an array:", problems);
@@ -87,7 +87,9 @@ const page = async ({ searchParams }) => {
                   key={index}
                   href={`/prize?page=${index + 1}`}
                   className={`pagination-link ${
-                    index + 1 === pageNumber ? "pagination-link--active" : ""
+                    index === pageNumber - 1
+                      ? "pagination-link--active font-bold"
+                      : ""
                   }`}
                   aria-current={index + 1 === pageNumber ? "page" : undefined}
                 >

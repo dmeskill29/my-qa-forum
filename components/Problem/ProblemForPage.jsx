@@ -18,6 +18,24 @@ const Problem = async ({ problem, session }) => {
     },
   });
   const utcDate = new Date(problem.createdAt);
+  const user = await db.user.findUnique({
+    where: {
+      id: session?.user?.id,
+    },
+  });
+
+  let userVote;
+
+  if (user) {
+    userVote = await db.problemVote.findFirst({
+      where: {
+        problemId: problem.id,
+        userId: user.id,
+      },
+    });
+  } else {
+    userVote = null;
+  }
 
   const ProfileImage = ({ username }) => {
     const firstLetter = username.charAt(0).toUpperCase();
@@ -103,9 +121,9 @@ const Problem = async ({ problem, session }) => {
 
       <div className="flex items-center space-x-4 mr-4 ml-4 mb-4">
         <div className="flex flex-col items-center">
-          <UpVoteButton problemId={problem.id} />
+          <UpVoteButton problemId={problem.id} userVote={userVote} />
           {problem.voteSum}
-          <DownVoteButton problemId={problem.id} />
+          <DownVoteButton problemId={problem.id} userVote={userVote} />
         </div>
         <p className="text-gray-800 break-words">{problem.content}</p>
       </div>
