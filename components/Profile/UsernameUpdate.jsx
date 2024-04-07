@@ -8,6 +8,7 @@ const UsernameUpdate = ({ session }) => {
   const [showModal, setShowModal] = useState(false); // State to control the visibility of the modal
   const router = useRouter();
   const MIN_USERNAME_LENGTH = 3; // Define a minimum username length, for example, 5 characters
+  const MAX_USERNAME_LENGTH = 15; // Define a maximum username length, for example, 15 characters
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,9 +21,12 @@ const UsernameUpdate = ({ session }) => {
     }
 
     // Check if username meets the minimum length requirement
-    if (text.length < MIN_USERNAME_LENGTH) {
+    if (
+      text.length < MIN_USERNAME_LENGTH ||
+      text.length > MAX_USERNAME_LENGTH
+    ) {
       alert(
-        `Username must be at least ${MIN_USERNAME_LENGTH} characters long.`
+        `Username must be between ${MIN_USERNAME_LENGTH} and ${MAX_USERNAME_LENGTH} characters.`
       );
       return; // Stop the form submission
     }

@@ -8,6 +8,8 @@ const CreateSolution = ({ problemId }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  const MAX_SOLUTION_LENGTH = 1000;
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -17,6 +19,11 @@ const CreateSolution = ({ problemId }) => {
     // Check if content is provided
     if (!trimmedText) {
       alert("Content is required.");
+      return;
+    }
+
+    if (trimmedText.length > MAX_SOLUTION_LENGTH) {
+      alert(`Solution must be less than ${MAX_SOLUTION_LENGTH} characters.`);
       return;
     }
 

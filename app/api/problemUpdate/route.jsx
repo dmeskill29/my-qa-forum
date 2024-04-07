@@ -9,6 +9,27 @@ export async function POST(req) {
 
   const { content, problemId, circleKeysAdded, starKeysAdded } = body;
 
+  const MAX_PROBLEM_UPDATE_LENGTH = 1000;
+
+  if (!content) {
+    return new Response(JSON.stringify({ message: "Content is required." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (content.length > MAX_PROBLEM_UPDATE_LENGTH) {
+    return new Response(
+      JSON.stringify({
+        message: `Problem update must be less than ${MAX_PROBLEM_UPDATE_LENGTH} characters.`,
+      }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
   // Validate data...
 
   const problem = await db.problem.findUnique({

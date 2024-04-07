@@ -15,6 +15,27 @@ export async function POST(req) {
   const session = await getServerSession(authOptions);
   const authorId = session.user.id;
 
+  const MAX_REPLY_LENGTH = 1000;
+
+  if (!content) {
+    return new Response(JSON.stringify({ message: "Content is required." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (content.length > MAX_REPLY_LENGTH) {
+    return new Response(
+      JSON.stringify({
+        message: `Reply must be less than ${MAX_REPLY_LENGTH} characters.`,
+      }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
   let solution;
   let reply;
   let posterEmail;

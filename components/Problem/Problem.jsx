@@ -42,12 +42,19 @@ const Problem = ({ problem }) => {
     >
       {/* Top bar for Status and Prize */}
       <div className="flex justify-between items-center p-4">
-        <div
-          className={`uppercase tracking-wide text-sm ${
-            problem.open ? "text-green-500" : "text-red-500"
-          } font-semibold`}
-        >
-          {problem.open ? "Open" : "Closed"}
+        <div className="flex items-center space-x-2">
+          {" "}
+          <div
+            className={`uppercase tracking-wide text-sm ${
+              problem.open ? "text-green-500" : "text-red-500"
+            } font-semibold`}
+          >
+            {problem.open ? "Open" : "Closed"}
+          </div>
+          <div className="flex  items-center">
+            <ProfileImage username={problem.author.username} />
+            <span className="ml-2">{problem.author.username}</span>
+          </div>
         </div>
         {/* Wrap the Keys and Star Keys in a div and use flex-col for vertical stacking */}
         <div className="flex justify-center items-end">
@@ -74,22 +81,14 @@ const Problem = ({ problem }) => {
         </div>
       </div>
 
-      <div className="flex  items-center p-4">
-        <ProfileImage username={problem.author.username} />
-        <span className="ml-2">{problem.author.username}</span>
-      </div>
-
       {/* Title and Posted Date */}
-      <div className="flex justify-between items-center p-4 ">
+      <div className=" items-center p-4 ">
         <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
           {problem.title}
         </h1>
-        <div className="text-sm text-gray-500">{moment(utcDate).fromNow()}</div>
-      </div>
-
-      {/* Content */}
-      <div className="p-4">
         <p className="text-gray-500 break-words">{problem.content}</p>
+
+        <div className="text-sm text-gray-500">{moment(utcDate).fromNow()}</div>
       </div>
 
       {/* Bottom bar for Votes and Tags */}

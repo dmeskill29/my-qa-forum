@@ -76,7 +76,7 @@ const Reply = async ({ reply, problemId }) => {
           {isReplying && <span className="text-sm text-gray-500">O</span>}
           <Link
             href={`/user/${username}`}
-            className="flex items-center text-blue-600 hover:text-blue-800 font-semibold transition duration-150 ease-in-out"
+            className="flex items-center text-blue-600 hover:text-blue-800 font-semibold transition duration-150 ease-in-out ml-16"
           >
             <ProfileImage username={username} />
             <span className="ml-2">{username}</span>
@@ -97,7 +97,9 @@ const Reply = async ({ reply, problemId }) => {
       </div>
       <div className="flex items-center space-x-4 justify-between mb-2">
         {isReplies && <span className="text-sm text-gray-500">O</span>}
-        <div className="text-sm text-gray-500">{moment(utcDate).fromNow()}</div>
+        <div className="text-sm text-gray-500 ml-16">
+          {moment(utcDate).fromNow()}
+        </div>
 
         <div className="flex-col items-center space-x-2">
           {" "}

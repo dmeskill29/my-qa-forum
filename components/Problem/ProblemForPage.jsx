@@ -70,12 +70,21 @@ const Problem = async ({ problem, session }) => {
     >
       <div className="flex justify-between items-center p-4">
         {/* Status in top left */}
-        <div
-          className={`uppercase tracking-wide text-sm ${
-            problem.open ? "text-green-500" : "text-red-500"
-          } font-semibold`}
-        >
-          {problem.open ? "Open" : "Closed"}
+        <div className="flex items-center space-x-2">
+          <div
+            className={`uppercase tracking-wide text-sm ${
+              problem.open ? "text-green-500" : "text-red-500"
+            } font-semibold`}
+          >
+            {problem.open ? "Open" : "Closed"}
+          </div>
+          <Link
+            href={`/user/${poster.username}`}
+            className="text-lg text-indigo-600 hover:text-indigo-900 transition duration-300 ease-in-out font-medium flex items-center p-2 "
+          >
+            <ProfileImage username={poster.username} />
+            <span className="ml-2">{poster.username}</span>
+          </Link>
         </div>
 
         {/* Prize in top right */}
@@ -103,21 +112,7 @@ const Problem = async ({ problem, session }) => {
         </div>
       </div>
 
-      <Link
-        href={`/user/${poster.username}`}
-        className="text-lg text-indigo-600 hover:text-indigo-900 transition duration-300 ease-in-out font-medium flex items-center p-2"
-      >
-        <ProfileImage username={poster.username} />
-        <span className="ml-2">{poster.username}</span>
-      </Link>
-
       {/* Title and Posted Date on same line */}
-      <div className="p-4 flex justify-between items-center">
-        <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
-          {problem.title}
-        </h1>{" "}
-        <div className="text-sm text-gray-500">{moment(utcDate).fromNow()}</div>
-      </div>
 
       <div className="flex items-center space-x-4 mr-4 ml-4 mb-4">
         <div className="flex flex-col items-center">
@@ -125,7 +120,15 @@ const Problem = async ({ problem, session }) => {
           {problem.voteSum}
           <DownVoteButton problemId={problem.id} userVote={userVote} />
         </div>
-        <p className="text-gray-800 break-words">{problem.content}</p>
+        <div className="flex-1">
+          <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
+            {problem.title}
+          </h1>{" "}
+          <p className="text-gray-800 break-words">{problem.content}</p>
+          <p className="text-gray-800 break-words">
+            {moment(utcDate).fromNow()}
+          </p>
+        </div>
       </div>
 
       <ProblemUpdateList problem={problem} />

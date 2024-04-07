@@ -13,6 +13,27 @@ export async function POST(req) {
   const session = await getServerSession(authOptions);
   const authorId = session.user.id;
 
+  const MAX_SOLUTION_LENGTH = 1000;
+
+  if (!content) {
+    return new Response(JSON.stringify({ message: "Content is required." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  if (content.length > MAX_SOLUTION_LENGTH) {
+    return new Response(
+      JSON.stringify({
+        message: `Solution must be less than ${MAX_SOLUTION_LENGTH} characters.`,
+      }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
   const problem = await db.problem.findFirst({
     where: {
       id: problemId,

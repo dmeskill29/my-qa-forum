@@ -103,7 +103,7 @@ const Solution = async ({ solution }) => {
           {isReplying && <span className="text-sm text-gray-500">O</span>}
           <Link
             href={`/user/${username}`}
-            className="flex items-center text-blue-600 hover:text-blue-800 font-semibold transition duration-150 ease-in-out"
+            className="flex items-center text-blue-600 hover:text-blue-800 font-semibold transition duration-150 ease-in-out ml-16"
           >
             <ProfileImage username={username} />
             <span className="ml-2">{username}</span>
@@ -137,7 +137,7 @@ const Solution = async ({ solution }) => {
       <div className="flex items-center space-x-4 justify-between">
         {isReplies && <span className="text-sm text-gray-500">O</span>}
         <div className="text-sm text-gray-500">
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500 ml-16">
             {moment(utcDate).fromNow()}
           </div>
         </div>

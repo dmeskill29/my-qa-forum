@@ -19,6 +19,24 @@ export async function PUT(req) {
     );
   }
 
+  const MIN_USERNAME_LENGTH = 3;
+  const MAX_USERNAME_LENGTH = 15;
+
+  if (
+    usernameNew.length < MIN_USERNAME_LENGTH ||
+    usernameNew.length > MAX_USERNAME_LENGTH
+  ) {
+    return new Response(
+      JSON.stringify({
+        message: `Username must be between ${MIN_USERNAME_LENGTH} and ${MAX_USERNAME_LENGTH} characters.`,
+      }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
   // Check if the new username is already taken
   const existingUser = await db.user.findUnique({
     where: { username: usernameNew },

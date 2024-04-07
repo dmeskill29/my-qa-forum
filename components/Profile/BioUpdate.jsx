@@ -7,6 +7,8 @@ const BioUpdate = ({ session }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
+  const MAX_BIO_LENGTH = 160; // Define a maximum bio length, for example, 160 characters
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -16,6 +18,11 @@ const BioUpdate = ({ session }) => {
     const payload = {
       bio: bio,
     };
+
+    if (bio.length > MAX_BIO_LENGTH) {
+      alert(`Bio must be less than ${MAX_BIO_LENGTH} characters.`);
+      return;
+    }
 
     try {
       const response = await fetch("/api/bioUpdate", {

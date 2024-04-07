@@ -39,7 +39,7 @@ const ProblemUpdate = ({ problemId }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Ensure text length does not exceed the maxLength defined below
-    const maxLength = 500; // Example limit, adjust as needed
+    const maxLength = 1000; // Example limit, adjust as needed
     if (text.length > maxLength) {
       alert(`Update content must be within ${maxLength} characters.`);
       return;

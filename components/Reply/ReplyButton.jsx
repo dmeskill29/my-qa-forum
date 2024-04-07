@@ -7,11 +7,23 @@ const ReplyButton = ({ solutionId, replyId, problemId }) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [content, setContent] = useState("");
 
+  const MAX_REPLY_LENGTH = 1000;
+
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // POST the reply
+
+    if (content.trim().length === 0) {
+      alert("Content is required.");
+      return;
+    }
+
+    if (content.length > MAX_REPLY_LENGTH) {
+      alert(`Reply must be less than ${MAX_REPLY_LENGTH} characters.`);
+      return;
+    }
     const response = await fetch("/api/reply", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
