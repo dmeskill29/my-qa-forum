@@ -21,29 +21,34 @@ const SearchBar = ({ session }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center w-full sm:max-w-xl mx-auto mt-3 mb-2"
+      className="flex items-center justify-center w-full mx-auto mt-3 mb-2"
     >
-      <div className="flex-grow relative">
+      <div className="relative w-full">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className=" py-2 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent border border-gray-300 rounded-l-3xl transition duration-150 ease-in-out text-black w-1/2"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSubmit(e);
+            }
+          }}
+          className="py-2 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent border border-gray-300 rounded-full w-full text-gray-700 placeholder-gray-400 shadow-sm transition duration-150 ease-in-out"
         />
-        <button
-          type="submit"
-          className="absolute  text-white py-2 px-4 rounded-r-3xl focus:outline-none focus:ring-2 focus:ring-offset-2 transition duration-150 ease-in-out"
-          style={{ backgroundColor: "#307e79", borderColor: "#307e79" }}
-          onMouseOver={(e) =>
-            (e.currentTarget.style.backgroundColor = "#2b6d6b")
-          }
-          onMouseOut={(e) =>
-            (e.currentTarget.style.backgroundColor = "#307e79")
-          }
-        >
-          Search
-        </button>
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+          <svg
+            className="w-5 h-5 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
       </div>
     </form>
   );

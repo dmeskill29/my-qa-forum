@@ -7,7 +7,7 @@ import SearchFilters from "@/components/SearchFilters";
 import Link from "next/link";
 import Problem from "@/components/Problem/Problem";
 
-const PAGE_SIZE = 5; // Number of problems per page
+const PAGE_SIZE = 10; // Number of problems per page
 
 const SearchResultsPage = async ({ searchParams }) => {
   const session = await getServerSession(authOptions);
@@ -82,7 +82,7 @@ const SearchResultsPage = async ({ searchParams }) => {
           {currentProblems.map((problem) => (
             <Link
               href={`/problem/${problem.id}`}
-              className="block p-2 w-2/3 mx-auto"
+              className="block p-2 mx-auto mb-4 w-full max-w-3xl"
               key={problem.id}
             >
               <Problem problem={problem} />
