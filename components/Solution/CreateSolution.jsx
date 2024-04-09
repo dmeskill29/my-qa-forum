@@ -27,6 +27,7 @@ const CreateSolution = ({ problemId }) => {
       return;
     }
 
+    const contentWithBreaks = trimmedText.replace(/\n/g, "<br />");
     // Post data to the server
     try {
       const response = await fetch("/api/solution", {
@@ -35,7 +36,7 @@ const CreateSolution = ({ problemId }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          content: trimmedText,
+          content: contentWithBreaks,
           problemId,
         }),
       });
@@ -84,6 +85,7 @@ const CreateSolution = ({ problemId }) => {
           className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md placeholder-gray-400 text-black"
           placeholder="Share your thoughts..."
           required
+          style={{ whiteSpace: "pre-wrap" }}
         />
       </div>
       <button

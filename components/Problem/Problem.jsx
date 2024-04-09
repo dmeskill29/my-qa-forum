@@ -49,7 +49,16 @@ const Problem = ({ problem }) => {
               problem.open ? "text-green-500" : "text-red-500"
             } font-semibold`}
           >
-            {problem.open ? "Open" : "Closed"}
+            {problem.open ? (
+              <img src="/Open.png" height={30} width={30} alt="Open Problem" />
+            ) : (
+              <img
+                src="/Closed.png"
+                height={30}
+                width={30}
+                alt="Closed Problem"
+              />
+            )}
           </div>
           <div className="flex  items-center">
             <ProfileImage username={problem.author.username} />
@@ -86,7 +95,11 @@ const Problem = ({ problem }) => {
         <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
           {problem.title}
         </h1>
-        <p className="text-gray-500 break-words">{problem.content}</p>
+
+        <div
+          dangerouslySetInnerHTML={{ __html: problem.content }}
+          className="text-gray-700 break-words"
+        ></div>
 
         <div className="text-sm text-gray-500">{moment(utcDate).fromNow()}</div>
       </div>
@@ -108,11 +121,13 @@ const Problem = ({ problem }) => {
             </>
           )}
         </div>
-        <div className="text-lg font-semibold text-black">
-          Solutions: {problem.solutions.length}
+        <div className="text-lg font-semibold text-black flex items-center space-x-2">
+          <Image src="/Solutions.png" height={35} width={35} alt="Solutions" />
+          {problem.solutions.length}
         </div>
-        <div className="text-lg font-semibold text-black">
-          Votes: {problem.voteSum}
+        <div className="text-lg font-semibold text-black flex items-center space-x-2">
+          <Image src="/Votes.png" height={35} width={35} alt="Up Vote" />
+          {problem.voteSum}
         </div>
       </div>
 

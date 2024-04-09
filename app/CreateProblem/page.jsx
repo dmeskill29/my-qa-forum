@@ -59,6 +59,8 @@ const CreateProblem = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const contentWithBreaks = content.replace(/\n/g, "<br/>");
+
     if (prizeInCircleKeys < 0 || prizeInStarKeys < 0) {
       alert("Prizes cannot be negative.");
       return;
@@ -88,7 +90,7 @@ const CreateProblem = () => {
 
     const body = {
       title,
-      content,
+      content: contentWithBreaks,
       session: session, // Update the type of session?.user to include the 'id' property
       prizeInCircleKeys,
       prizeInStarKeys,
@@ -220,6 +222,7 @@ const CreateProblem = () => {
           placeholder="Describe your problem in detail"
           className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-black block w-full sm:text-sm border-gray-300 rounded-md"
           maxLength={CONTENT_LIMIT}
+          style={{ whiteSpace: "pre-wrap" }}
         ></textarea>
       </div>
 

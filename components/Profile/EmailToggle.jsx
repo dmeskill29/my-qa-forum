@@ -48,7 +48,7 @@ const EmailToggle = ({ emailNotified }) => {
           <div
             className={`dot absolute left-0 -top-1 w-6 h-6 bg-white rounded-full shadow transition-transform duration-300 ease-in-out ${
               emailNotifications
-                ? "transform translate-x-6 bg-green-500"
+                ? "transform translate-x-6 bg-green-400"
                 : "bg-gray-300"
             }`}
           ></div>

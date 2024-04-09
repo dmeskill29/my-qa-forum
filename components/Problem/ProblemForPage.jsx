@@ -76,7 +76,21 @@ const Problem = async ({ problem, session }) => {
               problem.open ? "text-green-500" : "text-red-500"
             } font-semibold`}
           >
-            {problem.open ? "Open" : "Closed"}
+            {problem.open ? (
+              <Image
+                src="/Open.png"
+                height={30}
+                width={30}
+                alt="Open Problem"
+              />
+            ) : (
+              <Image
+                src="/Closed.png"
+                height={30}
+                width={30}
+                alt="Closed Problem"
+              />
+            )}
           </div>
           <Link
             href={`/user/${poster.username}`}
@@ -124,7 +138,10 @@ const Problem = async ({ problem, session }) => {
           <h1 className="text-lg leading-tight font-medium text-black hover:underline break-words">
             {problem.title}
           </h1>{" "}
-          <p className="text-gray-800 break-words">{problem.content}</p>
+          <div
+            dangerouslySetInnerHTML={{ __html: problem.content }}
+            className="text-gray-700 break-words"
+          ></div>{" "}
           <p className="text-gray-800 break-words">
             {moment(utcDate).fromNow()}
           </p>

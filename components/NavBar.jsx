@@ -40,10 +40,9 @@ const NavBar = async () => {
           <div className="lg:flex items-center space-x-4">
             <Link
               href="/CreateProblem"
-              className="inline-flex items-center px-2 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 
-              hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+              className="inline-flex items-center px-2 py-2 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-white hover:bg-gray-200 transition duration-150 ease-in-out"
             >
-              <svg className="w-5 h-5 " viewBox="0 0 20 20" fill="currentColor">
+              <svg className="w-5 h-5 " viewBox="0 0 20 20" fill="black">
                 <path
                   fillRule="evenodd"
                   d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"

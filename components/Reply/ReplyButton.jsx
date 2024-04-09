@@ -24,12 +24,15 @@ const ReplyButton = ({ solutionId, replyId, problemId }) => {
       alert(`Reply must be less than ${MAX_REPLY_LENGTH} characters.`);
       return;
     }
+
+    const contentWithBreaks = content.replace(/\n/g, "<br />");
+
     const response = await fetch("/api/reply", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         solutionId,
-        content,
+        content: contentWithBreaks,
         parentReplyId: replyId,
         problemId,
       }),
@@ -60,6 +63,7 @@ const ReplyButton = ({ solutionId, replyId, problemId }) => {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Add a reply..."
                 className="w-full h-32 p-4 text-sm text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out"
+                style={{ whiteSpace: "pre-wrap" }}
               />
               <button
                 type="submit"

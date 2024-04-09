@@ -93,7 +93,10 @@ const Reply = async ({ reply, problemId }) => {
           </p>
           <ReplyDownVoteButton replyId={reply.id} userVote={userVote} />
         </div>
-        <p className="text-gray-800 break-words">{reply.content}</p>
+        <div
+          dangerouslySetInnerHTML={{ __html: reply.content }}
+          className="text-gray-800 break-words"
+        ></div>
       </div>
       <div className="flex items-center space-x-4 justify-between mb-2">
         {isReplies && <span className="text-sm text-gray-500">O</span>}

@@ -123,7 +123,10 @@ const Solution = async ({ solution }) => {
             userVote={userVote}
           />
         </div>
-        <p className="text-gray-800 break-words">{solution.content}</p>
+        <div
+          dangerouslySetInnerHTML={{ __html: solution.content }}
+          className="text-gray-800 break-words"
+        ></div>
       </div>
 
       {/* <SolutionUpdateList solutionId={solution.id} />
