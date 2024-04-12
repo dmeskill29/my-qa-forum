@@ -10,20 +10,10 @@ const SignUp = () => {
             Sign Up
           </h1>
           <p className="text-sm text-center text-gray-600 max-w-md mx-auto">
-            By continuing, you are setting up a SolveSuite account and agree to
+            By continuing, you are setting up a SolveCircle account and agree to
             our
-            <Link
-              href="/user-agreement"
-              className="text-blue-600 hover:underline mx-1"
-            >
-              User Agreement
-            </Link>
-            and
-            <Link
-              href="/privacy-policy"
-              className="text-blue-600 hover:underline mx-1"
-            >
-              Privacy Policy.
+            <Link href="/Terms" className="text-blue-600 hover:underline mx-1">
+              Terms and Conditions
             </Link>
           </p>
         </div>

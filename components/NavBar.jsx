@@ -15,7 +15,7 @@ const NavBar = async () => {
       <div className="container justify-between flex items-center space-x-4 sm:space-x-6 lg:space-x-32 py-2 px-4 sm:px-6 lg:px-20">
         <div className="flex items-center space-x-2 lg:space-x-10">
           <Link
-            href="/Feed"
+            href="/"
             className="flex items-center justify-center hover:text-blue-500 transition duration-150 ease-in-out"
           >
             <Image

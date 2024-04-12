@@ -50,29 +50,29 @@ export async function PUT(req) {
       where: { id: problemId },
       data: { topSolution: solutionId },
     });
-    const resend = new Resend(process.env.RESEND_EMAIL_SECRET);
-    if (solution.author.emailNotified) {
-      resend.emails.send({
-        from: process.env.EMAIL_FROM,
-        to: solution.author.email,
-        subject: "Your Solution is Pinned!",
-        html: `
-        <p>Your solution has been pinned to the top of the problem. Check it out!</p>
-        <p>Click <a href="https://solvecircle.app/problem/${problemId}" target="_blank">here</a> to view your solution.</p>
-      `,
-      });
-    }
-    if (topSolution.author.emailNotified) {
-      resend.emails.send({
-        from: process.env.EMAIL_FROM,
-        to: topSolution.author.email,
-        subject: "Your Solution is Unpinned!",
-        html: `
-        <p>Your solution has been unpinned from the top of the problem. Check it out!</p>
-        <p>Click <a href="https://solvecircle.app/problem/${problemId}" target="_blank">here</a> to view your solution.</p>
-      `,
-      });
-    }
+    // const resend = new Resend(process.env.RESEND_EMAIL_SECRET);
+    // if (solution.author.emailNotified) {
+    //   resend.emails.send({
+    //     from: process.env.EMAIL_FROM,
+    //     to: solution.author.email,
+    //     subject: "Your Solution is Pinned!",
+    //     html: `
+    //     <p>Your solution has been pinned to the top of the problem. Check it out!</p>
+    //     <p>Click <a href="https://solvecircle.app/problem/${problemId}" target="_blank">here</a> to view your solution.</p>
+    //   `,
+    //   });
+    // }
+    // if (topSolution.author.emailNotified) {
+    //   resend.emails.send({
+    //     from: process.env.EMAIL_FROM,
+    //     to: topSolution.author.email,
+    //     subject: "Your Solution is Unpinned!",
+    //     html: `
+    //     <p>Your solution has been unpinned from the top of the problem. Check it out!</p>
+    //     <p>Click <a href="https://solvecircle.app/problem/${problemId}" target="_blank">here</a> to view your solution.</p>
+    //   `,
+    //   });
+    // }
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code
       headers: {
@@ -86,15 +86,15 @@ export async function PUT(req) {
         data: { topSolution: solutionId },
       });
       const resend = new Resend(process.env.RESEND_EMAIL_SECRET);
-      resend.emails.send({
-        from: process.env.EMAIL_FROM,
-        to: solution.author.email,
-        subject: "Your Solution is Pinned!",
-        html: `
-        <p>Your solution has been pinned to the top of the problem. Check it out!</p>
-        <p>Click <a href="https://solvecircle.app/problem/${problemId}" target="_blank">here</a> to view your solution.</p>
-      `,
-      });
+      // resend.emails.send({
+      //   from: process.env.EMAIL_FROM,
+      //   to: solution.author.email,
+      //   subject: "Your Solution is Pinned!",
+      //   html: `
+      //   <p>Your solution has been pinned to the top of the problem. Check it out!</p>
+      //   <p>Click <a href="https://solvecircle.app/problem/${problemId}" target="_blank">here</a> to view your solution.</p>
+      // `,
+      // });
       return new Response(JSON.stringify({ message: "OK", result }), {
         status: 200, // HTTP status code
         headers: {

@@ -231,7 +231,7 @@ const page = async ({ params, searchParams }) => {
           }`}
         >
           <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
-            {user.username}'s Profile
+            {user.username}&apos;s Profile
           </h1>
           <ProfileDetail
             title="Username"

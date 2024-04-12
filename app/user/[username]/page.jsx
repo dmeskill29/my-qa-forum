@@ -183,7 +183,7 @@ const ProfilePage = async ({ params }) => {
     <div className="flex flex-col lg:flex-row justify-center px-4 sm:px-6 lg:px-8 py-8 space-y-4 lg:space-y-0 lg:space-x-4">
       <div className="lg:w-1/4 lg:flex lg:flex-col lg:items-start sm:w-full">
         <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
-          {user.username}'s Profile
+          {user.username}&apos;s Profile
         </h1>
         <div
           className={`bg-white shadow rounded-lg p-6 w-full ${
