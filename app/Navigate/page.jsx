@@ -9,8 +9,8 @@ const page = () => {
         </h2>
         <p className="pt-4 text-gray-600">
           Need help navigating the brand new website? You&apos;ve come to the
-          right place! If you need anything that hasn't been answered below,
-          contact me at{" "}
+          right place! If you need anything that hasn&apos;t been answered
+          below, contact me at{" "}
           <a href="tel:9192726610" className="text-blue-500">
             919.272.6610
           </a>{" "}
