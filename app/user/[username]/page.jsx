@@ -126,102 +126,87 @@ const ProfilePage = async ({ params }) => {
     );
   }
 
-  return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8 py-8">
-      <div className="flex flex-col sm:flex-row sm:items-center">
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
-          {user.username}&apos;s Profile
-        </h1>
-        <div className="flex flex-col sm:flex-row sm:items-center space-x-0 sm:space-x-4 mt-4 mb-4 sm:mt-0 sm:ml-4">
-          <Link
-            href={`/user/${user.username}/problems`}
-            className="flex items-center px-4 py-2 text-lg sm:text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-blue-50 rounded-lg"
-          >
-            Problems
-          </Link>
+  const ProfileLinks = ({ username }) => (
+    <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 mt-4 mb-4 sm:mt-0">
+      <Link
+        href={`/user/${username}/problems`}
+        className="profile-link text-blue-600"
+      >
+        Problems
+      </Link>
+      <Link
+        href={`/user/${username}/solutions`}
+        className="profile-link text-green-600"
+      >
+        Solutions
+      </Link>
+    </div>
+  );
 
-          <Link
-            href={`/user/${user.username}/solutions`}
-            className="flex items-center px-4 py-2 text-lg sm:text-xl font-semibold text-gray-800 hover:text-green-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-green-50 rounded-lg mt-2 sm:mt-0"
-          >
-            Solutions
-          </Link>
-        </div>
+  const KeychainInfo = ({ keyChain }) => (
+    <div>
+      <h2 className="text-xl font-semibold text-gray-800">Keychain</h2>
+      <p className="text-gray-700 flex items-center">
+        Circle Keys: {keyChain.circleKeys}
+        <Image
+          src="/CircleKey.png"
+          alt="Circle Key"
+          width={28}
+          height={28}
+          className="ml-2"
+        />
+      </p>
+      <p className="text-gray-700 flex items-center mt-2">
+        Star Keys: {keyChain.starKeys}
+        <Image
+          src="/StarKey.png"
+          alt="Star Key"
+          width={28}
+          height={28}
+          className="ml-2"
+        />
+      </p>
+    </div>
+  );
+
+  const ProfileSection = ({ title, content, editable, children }) => (
+    <div className="mb-4">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+        {editable && children}
       </div>
+      <p className="text-gray-700 text-base mt-2 break-words">{content}</p>
+    </div>
+  );
 
-      <div className="flex flex-col md:flex-row md:space-x-8">
+  return (
+    <div className="flex flex-col lg:flex-row justify-center px-4 sm:px-6 lg:px-8 py-8 space-y-4 lg:space-y-0 lg:space-x-4">
+      <div className="lg:w-1/4 lg:flex lg:flex-col lg:items-start sm:w-full">
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
+          {user.username}'s Profile
+        </h1>
         <div
-          className={`bg-white shadow rounded-lg p-6 mb-4 md:mb-0 w-full md:w-96 h-96 overflow-auto ${
+          className={`bg-white shadow rounded-lg p-6 w-full ${
             isAdmin ? "border-4 border-blue-500" : ""
           }`}
         >
-          {/* Username and its update button */}
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold text-gray-800">Username</h2>
-            {session?.user?.id === user.id && (
-              <UsernameUpdate session={session} />
-            )}
-          </div>
-          <p className="mb-4 text-gray-700">{user.username}</p>
-
-          {/* Bio and its update button */}
-          <div className="flex justify-between items-center mt-4">
-            <h2 className="text-xl font-semibold text-gray-800">Bio</h2>
-            {session?.user?.id === user.id && <BioUpdate session={session} />}
-          </div>
-          <p className="text-gray-700 text-base whitespace-pre-line mt-2">
-            {user.bio ? (
-              user.bio
-            ) : (
-              <span className="text-gray-400">No bio provided.</span>
-            )}
-          </p>
-
-          {/* Keychain Section */}
-          {user.id === session?.user?.id && (
-            <div className="mt-6">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">
-                  Keychain
-                </h2>
-                <Link
-                  href={`/user/${user.username}/keychain`}
-                  className="text-blue-600 hover:underline"
-                >
-                  Manage
-                </Link>
-              </div>
-              <div>
-                <p className="text-gray-700 flex items-center">
-                  Circle Keys: {keyChain.circleKeys}
-                  <span className="inline-flex ml-2">
-                    <Image
-                      src="/CircleKey.png"
-                      alt="Circle Key"
-                      width={28}
-                      height={28}
-                    />
-                  </span>
-                </p>
-                <p className="text-gray-700 flex items-center mt-2">
-                  Star Keys: {keyChain.starKeys}
-                  <span className="inline-flex ml-2">
-                    <Image
-                      src="/StarKey.png"
-                      alt="Star Key"
-                      width={28}
-                      height={28}
-                    />
-                  </span>
-                </p>
-              </div>
-            </div>
-          )}
+          <ProfileSection title="Username" content={user.username} editable>
+            <UsernameUpdate session={session} />
+          </ProfileSection>
+          <ProfileSection
+            title="Bio"
+            content={user.bio || "No bio provided."}
+            editable
+          >
+            <BioUpdate session={session} />
+          </ProfileSection>
+          <KeychainInfo keyChain={keyChain} />
           {user.id === session?.user?.id && (
             <EmailToggle emailNotified={user.emailNotified} />
           )}
         </div>
       </div>
+      <ProfileLinks username={user.username} />
     </div>
   );
 };

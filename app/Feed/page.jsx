@@ -4,10 +4,11 @@ import React from "react";
 import Problem from "@/components/Problem/Problem";
 import { db } from "@/lib/db";
 import FeedLinks from "@/components/FeedLinks";
-
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Leaderboard from "@/components/Leaderboard";
+import PleaseSignIn from "@/components/PleaseSignIn";
+import FeedList from "@/components/Feed";
 
 const PAGE_SIZE = 10; // Number of problems per page
 
@@ -38,74 +39,33 @@ const Feed = async ({ searchParams }) => {
   const totalPages = Math.ceil(problems.length / PAGE_SIZE);
 
   // Get current page of problems
-  const start = (pageNumber - 1) * PAGE_SIZE;
-  const currentProblems = problems.slice(start, start + PAGE_SIZE);
 
   if (!session) {
-    return (
-      <p className="text-center mt-8">
-        Please{" "}
-        <Link href="/sign-in" className="text-blue-600 hover:underline">
-          sign in
-        </Link>{" "}
-        to view the feed.
-      </p>
-    );
+    return <PleaseSignIn />;
   }
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
-      <Leaderboard />
-      <FeedLinks />
-      {currentProblems.length > 0 ? (
-        <>
-          {currentProblems.map((problem) => (
-            <Link
-              href={`/problem/${problem.id}`}
-              className="block p-2 lg:w-2/3 mx-auto sm:w-full"
-              key={problem.id}
-            >
-              <Problem problem={problem} />
-            </Link>
-          ))}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center space-x-2 mt-4">
-              {pageNumber > 1 && (
-                <Link
-                  href={`/Feed?page=${pageNumber - 1}`}
-                  className="pagination-link"
-                  aria-label="Previous page"
-                >
-                  Previous
-                </Link>
-              )}
-              {Array.from({ length: totalPages }, (_, index) => (
-                <Link
-                  key={index}
-                  href={`/Feed?page=${index + 1}`}
-                  className={`pagination-link ${
-                    index === pageNumber - 1
-                      ? "pagination-link--active font-bold"
-                      : ""
-                  }`}
-                  aria-current={index + 1 === pageNumber ? "page" : undefined}
-                >
-                  {index + 1}
-                </Link>
-              ))}
-              {pageNumber < totalPages && (
-                <Link
-                  href={`/Feed?page=${parseInt(pageNumber, 10) + 1}`}
-                  className="pagination-link"
-                  aria-label="Next page"
-                >
-                  Next
-                </Link>
-              )}
-            </div>
-          )}
-        </>
-      ) : null}
+    <div className="flex mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4  sm:w-full justify-center space-x-4">
+      {/* <div className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg w-1/6 hidden sm:block">
+        Categories
+      </div> */}
+      <div className="lg:w-1/2 sm:w-full">
+        {" "}
+        <FeedLinks />
+        {problems.length > 0 ? (
+          <FeedList
+            problems={problems}
+            pageNumber={pageNumber}
+            totalPages={totalPages}
+            pageSize={PAGE_SIZE}
+            type="Feed"
+          />
+        ) : null}
+      </div>
+      <div className="w-1/6 hidden sm:block">
+        {" "}
+        <Leaderboard />
+      </div>
     </div>
   );
 };

@@ -32,7 +32,8 @@ const Problem = ({ problem }) => {
   };
   return (
     <div
-      className={`max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
+      className={` mx-auto bg-white rounded-xl shadow-md overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg w-full 
+      ${
         isWebsiteProblem
           ? "bg-yellow-50 border-4 border-blue-500"
           : isAdminProblem
@@ -98,29 +99,29 @@ const Problem = ({ problem }) => {
 
         <div
           dangerouslySetInnerHTML={{ __html: problem.content }}
-          className="text-gray-700 break-words"
+          className="text-gray-700 break-words line-clamp-4"
         ></div>
 
         <div className="text-sm text-gray-500">{moment(utcDate).fromNow()}</div>
       </div>
 
+      <div className="text-sm text-blue-600 flex-wrap ml-4">
+        {problem.tags && (
+          <>
+            {problem.tags.split(",").map((tag, index) => (
+              <span
+                key={index}
+                className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+              >
+                #{tag.trim()}
+              </span>
+            ))}
+          </>
+        )}
+      </div>
+
       {/* Bottom bar for Votes and Tags */}
       <div className="flex justify-between items-center p-4">
-        <div className="text-sm text-blue-600 flex-wrap">
-          {problem.tags && (
-            <>
-              Tags:{" "}
-              {problem.tags.split(",").map((tag, index) => (
-                <span
-                  key={index}
-                  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-                >
-                  #{tag.trim()}
-                </span>
-              ))}
-            </>
-          )}
-        </div>
         <div className="text-lg font-semibold text-black flex items-center space-x-2">
           <Image src="/Solutions.png" height={35} width={35} alt="Solutions" />
           {problem.solutions.length}
@@ -130,13 +131,6 @@ const Problem = ({ problem }) => {
           {problem.voteSum}
         </div>
       </div>
-
-      {/* Admin Delete Button, if applicable */}
-      {/* {session?.user?.roles.includes("admin") && (
-        <div className="text-right p-4">
-          <DeleteProblemButton problemId={problem.id} />
-        </div>
-      )} */}
     </div>
   );
 };

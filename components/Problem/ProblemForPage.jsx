@@ -151,17 +151,16 @@ const Problem = async ({ problem, session }) => {
       <ProblemUpdateList problem={problem} />
 
       {session?.user?.id === problem.authorId && (
-        <div className="text-right p-4">
+        <div className="text-right mr-4">
           <ProblemUpdate problemId={problem.id} />
         </div>
       )}
 
       {/* Votes in bottom left and Tags in bottom right */}
-      <div className="p-4 flex justify-between items-center">
+      <div className="ml-4 mt-4 flex justify-between items-center">
         <div className="text-sm text-blue-600 flex-wrap">
           {problem.tags && (
             <>
-              Tags:{" "}
               {problem.tags.split(",").map((tag, index) => (
                 <span
                   key={index}

@@ -12,7 +12,7 @@ const NavBar = async () => {
 
   return (
     <nav className="bg-gray-800 text-white sticky top-0 z-50">
-      <div className="container justify-between flex items-center space-x-4 sm:space-x-6 lg:space-x-8 py-2 px-4 sm:px-6 lg:px-20">
+      <div className="container justify-between flex items-center space-x-4 sm:space-x-6 lg:space-x-32 py-2 px-4 sm:px-6 lg:px-20">
         <div className="flex items-center space-x-2 lg:space-x-10">
           <Link
             href="/Feed"

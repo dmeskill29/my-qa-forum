@@ -110,6 +110,78 @@ const page = async ({ params, searchParams }) => {
   const start = (pageNumber - 1) * PAGE_SIZE;
   const currentProblems = problems.slice(start, start + PAGE_SIZE);
 
+  const ProfileDetail = ({ title, content, session, Component }) => (
+    <div className="mb-4">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+        {session?.user?.id === user.id && <Component session={session} />}
+      </div>
+      <p className="text-gray-700 text-base mt-2 break-words">{content}</p>
+    </div>
+  );
+
+  const KeychainSection = ({ user, keyChain }) =>
+    user.id === session?.user?.id && (
+      <div className="mt-6">
+        <h2 className="text-xl font-semibold text-gray-800">Keychain</h2>
+        <p className="text-gray-700 flex items-center">
+          Circle Keys: {keyChain.circleKeys}{" "}
+          <Image src="/CircleKey.png" alt="Circle Key" width={28} height={28} />
+        </p>
+        <p className="text-gray-700 flex items-center mt-2">
+          Star Keys: {keyChain.starKeys}{" "}
+          <Image src="/StarKey.png" alt="Star Key" width={28} height={28} />
+        </p>
+      </div>
+    );
+
+  const ProblemList = ({ problems, totalPages, pageNumber, username }) => (
+    <div>
+      {problems.length > 0 ? (
+        problems.map((problem) => (
+          <Link
+            href={`/problem/${problem.id}`}
+            key={problem.id}
+            className="block p-2 w-full"
+          >
+            <Problem problem={problem} />
+          </Link>
+        ))
+      ) : (
+        <p>No problems found.</p>
+      )}
+      {totalPages > 1 && (
+        <Pagination
+          links={generatePaginationLinks(totalPages, pageNumber, username)}
+        />
+      )}
+    </div>
+  );
+
+  const generatePaginationLinks = (totalPages, pageNumber, username) =>
+    Array.from({ length: totalPages }, (_, index) => ({
+      pageNumber: index + 1,
+      href: `/user/${username}/problems?page=${index + 1}`,
+      isCurrent: index + 1 === pageNumber,
+    }));
+
+  const Pagination = ({ links }) => (
+    <div className="flex justify-center items-center space-x-2 mt-4">
+      {links.map((link) => (
+        <Link
+          href={link.href}
+          key={link.pageNumber}
+          className={`pagination-link ${
+            link.isCurrent ? "pagination-link--active" : ""
+          }`}
+          aria-current={link.isCurrent ? "page" : undefined}
+        >
+          {link.pageNumber}
+        </Link>
+      ))}
+    </div>
+  );
+
   if (!session) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
@@ -150,167 +222,61 @@ const page = async ({ params, searchParams }) => {
       </div>
     );
   }
-
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8 py-8">
-      <div className="flex flex-col sm:flex-row sm:items-center">
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
-          {user.username}&apos;s Profile
-        </h1>
-        <div className="flex flex-col sm:flex-row sm:items-center space-x-0 sm:space-x-4 mt-4 mb-4 sm:mt-0 sm:ml-4">
-          <Link
-            href={`/user/${user.username}/problems`}
-            className="flex items-center px-4 py-2 text-lg sm:text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-blue-50 rounded-lg"
-          >
-            Problems
-          </Link>
-
-          <Link
-            href={`/user/${user.username}/solutions`}
-            className="flex items-center px-4 py-2 text-lg sm:text-xl font-semibold text-gray-800 hover:text-green-600 transition duration-150 ease-in-out hover:underline bg-gray-100 hover:bg-green-50 rounded-lg mt-2 sm:mt-0"
-          >
-            Solutions
-          </Link>
-        </div>
-      </div>
-
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <div className="flex flex-col md:flex-row md:space-x-8">
         <div
-          className={`bg-white shadow rounded-lg p-6 mb-4 md:mb-0 w-full md:w-96 h-96 overflow-auto ${
+          className={`bg-white shadow rounded-lg p-6 mb-4 md:mb-0 w-full md:w-96 overflow-auto ${
             isAdmin ? "border-4 border-blue-500" : ""
           }`}
         >
-          {/* Username and its update button */}
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold text-gray-800">Username</h2>
-            {session?.user?.id === user.id && (
-              <UsernameUpdate session={session} />
-            )}
-          </div>
-          <p className="mb-4 text-gray-700">{user.username}</p>
-
-          {/* Bio and its update button */}
-          <div className="flex justify-between items-center mt-4">
-            <h2 className="text-xl font-semibold text-gray-800">Bio</h2>
-            {session?.user?.id === user.id && <BioUpdate session={session} />}
-          </div>
-          <p className="text-gray-700 text-base whitespace-pre-line mt-2">
-            {user.bio ? (
-              user.bio
-            ) : (
-              <span className="text-gray-400">No bio provided.</span>
-            )}
-          </p>
-
-          {/* Keychain Section */}
-          {user.id === session?.user?.id && (
-            <div className="mt-6">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">
-                  Keychain
-                </h2>
-                <Link
-                  href={`/user/${user.username}/keychain`}
-                  className="text-blue-600 hover:underline"
-                >
-                  Manage
-                </Link>
-              </div>
-              <div>
-                <p className="text-gray-700 flex items-center">
-                  Circle Keys: {keyChain.circleKeys}
-                  <span className="inline-flex ml-2">
-                    <Image
-                      src="/CircleKey.png"
-                      alt="Circle Key"
-                      width={28}
-                      height={28}
-                    />
-                  </span>
-                </p>
-                <p className="text-gray-700 flex items-center mt-2">
-                  Star Keys: {keyChain.starKeys}
-                  <span className="inline-flex ml-2">
-                    <Image
-                      src="/StarKey.png"
-                      alt="Star Key"
-                      width={28}
-                      height={28}
-                    />
-                  </span>
-                </p>
-              </div>
-            </div>
-          )}
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
+            {user.username}'s Profile
+          </h1>
+          <ProfileDetail
+            title="Username"
+            content={user.username}
+            session={session}
+            Component={UsernameUpdate}
+          />
+          <ProfileDetail
+            title="Bio"
+            content={user.bio || "No bio provided"}
+            session={session}
+            Component={BioUpdate}
+          />
+          <KeychainSection user={user} keyChain={keyChain} />
           {user.id === session?.user?.id && (
             <EmailToggle emailNotified={user.emailNotified} />
           )}
         </div>
 
-        {/* Problems and Solutions - Now positioned to the right of the bio/update section on larger screens */}
-        <div className="flex-1">
-          <h2 className="text-xl font-semibold max-w-md mx-auto md:max-w-2xl text-gray-800">
-            Problems
-          </h2>
-
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4">
-            {currentProblems.length > 0 ? (
-              <>
-                {currentProblems.map((problem) => (
-                  <Link
-                    href={`/problem/${problem.id}`}
-                    className="block p-2 w-9/10 mx-auto"
-                    key={problem.id}
-                  >
-                    <Problem problem={problem} />
-                  </Link>
-                ))}
-                {totalPages > 1 && (
-                  <div className="flex justify-center items-center space-x-2 mt-4">
-                    {pageNumber > 1 && (
-                      <Link
-                        href={`/user/${user.username}/problems?page=${
-                          pageNumber - 1
-                        }`}
-                        className="pagination-link"
-                        aria-label="Previous page"
-                      >
-                        Previous
-                      </Link>
-                    )}
-                    {Array.from({ length: totalPages }, (_, index) => (
-                      <Link
-                        key={index}
-                        href={`/user/${user.username}/problems?page=${
-                          index + 1
-                        }`}
-                        className={`pagination-link ${
-                          index + 1 === pageNumber
-                            ? "pagination-link--active"
-                            : ""
-                        }`}
-                        aria-current={
-                          index + 1 === pageNumber ? "page" : undefined
-                        }
-                      >
-                        {index + 1}
-                      </Link>
-                    ))}
-                    {pageNumber < totalPages && (
-                      <Link
-                        href={`/user/${user.username}/problems?page=${
-                          parseInt(pageNumber, 10) + 1
-                        }`}
-                        className="pagination-link"
-                        aria-label="Next page"
-                      >
-                        Next
-                      </Link>
-                    )}
-                  </div>
-                )}
-              </>
-            ) : null}
+        <div>
+          {" "}
+          <div className="flex flex-col sm:flex-row sm:items-center">
+            <div className="flex flex-col sm:flex-row sm:items-center space-x-0 sm:space-x-4 mt-4 mb-4 sm:mt-0 sm:ml-4">
+              <Link
+                href={`/user/${user.username}/problems`}
+                className="profile-link"
+              >
+                Problems
+              </Link>
+              <Link
+                href={`/user/${user.username}/solutions`}
+                className="profile-link"
+              >
+                Solutions
+              </Link>
+            </div>
+          </div>
+          <div className="flex-1">
+            <h2 className="text-xl font-semibold text-gray-800">Problems</h2>
+            <ProblemList
+              problems={currentProblems}
+              totalPages={totalPages}
+              pageNumber={pageNumber}
+              username={user.username}
+            />
           </div>
         </div>
       </div>
