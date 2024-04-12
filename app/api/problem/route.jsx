@@ -35,6 +35,7 @@ export async function POST(req) {
       });
     }
 
+    const newPrizeInCircleKeys = prizeInCircleKeys + 25;
     const circleKeyCost = 50 + prizeInCircleKeys;
 
     const starKeyCost = prizeInStarKeys;
@@ -56,7 +57,7 @@ export async function POST(req) {
         title,
         content,
         authorId: userId,
-        prizeInCircleKeys,
+        newPrizeInCircleKeys,
         prizeInStarKeys,
         tags, // Assuming tags is an array and needs to be stored as a string
       },
