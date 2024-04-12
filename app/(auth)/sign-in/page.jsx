@@ -13,7 +13,7 @@ const page = () => {
         </div>
         <div className="bg-gray-50 px-10 py-4">
           <p className="text-sm text-center text-gray-600">
-            New to SolveSuite?{" "}
+            New to SolveCircle?{" "}
             <Link
               href="/sign-up"
               className="font-medium text-blue-600 hover:text-blue-500"
