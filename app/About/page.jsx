@@ -32,9 +32,9 @@ const Page = () => {
           <h2 className="text-3xl font-bold mb-4">Thank You!</h2>
           <p className="text-lg mb-4">Thank you!</p>
           <p className="text-lg">
-            We want to thank you so much for being a test user and we know we
-            will appreciate the feedback you are able to give us in developing
-            our product! Thank youuuuu!
+            We want to thank you so much for being one of our first users and we
+            know we will appreciate the feedback you are able to give us in
+            developing our product! Thank youuuuu!
           </p>
           <p className="text-lg mt-4">
             If you have any questions or concerns, please don&apos;t hesitate to

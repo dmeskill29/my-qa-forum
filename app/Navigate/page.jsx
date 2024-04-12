@@ -9,10 +9,8 @@ const page = () => {
         </h2>
         <p className="pt-4 text-gray-600">
           Need help navigating the brand new website? You&apos;ve come to the
-          right place! You are our very special test user which means that only
-          your email (and the others on the list) are eligible to sign up. This
-          means that those of your friends who want to be added to the website
-          must contact me at{" "}
+          right place! If you need anything that hasn't been answered below,
+          contact me at{" "}
           <a href="tel:9192726610" className="text-blue-500">
             919.272.6610
           </a>{" "}
@@ -25,15 +23,13 @@ const page = () => {
         <div className="pt-4">
           <h3 className="font-semibold text-xl text-gray-800">View Feed</h3>
           <p className="text-gray-600">
-            Once you&apos;ve got into the home page, look for the dark blue
-            button that says &quot;View Feed&quot;. This will allow you to view
-            the feed of problems and solutions. You can also use the search bar
-            at the top of the page to look for specific queries.
+            Once you&apos;ve got into the home page, you should immediately be
+            able to see a feed of recently asked problems. You can also use the
+            search bar at the top of the page to look for specific queries.
           </p>
           <p className="text-gray-600 mt-4">
-            After you click &quot;View Feed&quot; and pull up the scrollable
-            list of problems, you may notice that some of these problems have a
-            blue border. That means that they were asked by an Admin user!
+            You may notice that some of these problems have a blue border. That
+            means that they were asked by an Admin user!
           </p>
           <p className="text-gray-600 mt-4">
             Though we don&apos;t yet have many users and a large interface, we
@@ -55,8 +51,9 @@ const page = () => {
             To post a problem, notice the &quot;Post a Problem&quot; button near
             the top left of your feed page. Once you click that, you will be
             taken to the draft page. Here, you can add a title and body for your
-            problem. Add tags if you feel that it would help your problem be
-            more findable!
+            problem.There is also a &quot;+&quot; to the right of the search bar
+            that leads to the same page. Add tags if you feel that it would help
+            your problem be more findable!
           </p>
         </div>
         <div className="pt-4">
@@ -65,9 +62,7 @@ const page = () => {
             You may have been wondering how the key/ prize system works. All of
             you have been given 1000 circle keys (the silver ones)! It costs 50
             circle keys to post a problem, and on top of that initial fee, you
-            can attach a reward for however many keys you would like. Right now,
-            test users start with only circle keys, which hold value by allowing
-            you to post more problems.
+            can attach a reward for however many keys you would like.
           </p>
           <p className="text-gray-600 mt-4">
             However, there will be some star keys (the gold ones) attached to a

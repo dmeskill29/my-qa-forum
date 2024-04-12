@@ -12,7 +12,10 @@ const NavBar = async () => {
 
   return (
     <nav className="bg-gray-800 text-white sticky top-0 z-50">
-      <div className="container justify-between flex items-center space-x-4 sm:space-x-6 lg:space-x-32 py-2 px-4 sm:px-6 lg:px-20">
+      <div
+        className="container justify-between flex items-center space-x-4 sm:space-x-6 md:space-x-10
+       lg:space-x-32 py-2 px-4 sm:px-6 lg:px-20"
+      >
         <div className="flex items-center space-x-2 lg:space-x-10">
           <Link
             href="/"
@@ -37,7 +40,7 @@ const NavBar = async () => {
         </div>
 
         {session && (
-          <div className="lg:flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
             <Link
               href="/CreateProblem"
               className="inline-flex items-center px-2 py-2 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-white hover:bg-gray-200 transition duration-150 ease-in-out"
