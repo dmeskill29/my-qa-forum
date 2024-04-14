@@ -57,7 +57,7 @@ export async function POST(req) {
         title,
         content,
         authorId: userId,
-        newPrizeInCircleKeys,
+        prizeInCircleKeys: newPrizeInCircleKeys,
         prizeInStarKeys,
         tags, // Assuming tags is an array and needs to be stored as a string
       },
