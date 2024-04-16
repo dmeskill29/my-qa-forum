@@ -14,6 +14,11 @@ export async function PATCH(req) {
     where: { userId: userId, solutionId: solutionId },
   });
 
+  const solutionUser = await db.solution.findUnique({
+    where: { id: solutionId },
+    select: { authorId: true },
+  });
+
   let voteValue = 0;
 
   if (type === "UP") {
@@ -44,7 +49,7 @@ export async function PATCH(req) {
       const leaderboardDecrement = await db.leaderboard.update({
         where: {
           userId_month_leaderboardId: {
-            userId: session.user.id,
+            userId: solutionUser.authorId,
             month: new Date().toISOString().slice(0, 7),
             leaderboardId: "socialButterfly",
           },
@@ -69,7 +74,7 @@ export async function PATCH(req) {
       const leaderboardIncrement = await db.leaderboard.update({
         where: {
           userId_month_leaderboardId: {
-            userId: session.user.id,
+            userId: solutionUser.authorId,
             month: new Date().toISOString().slice(0, 7),
             leaderboardId: "socialButterfly",
           },
@@ -92,7 +97,7 @@ export async function PATCH(req) {
     const leaderboardIncrement = await db.leaderboard.update({
       where: {
         userId_month_leaderboardId: {
-          userId: session.user.id,
+          userId: solutionUser.authorId,
           month: new Date().toISOString().slice(0, 7),
           leaderboardId: "socialButterfly",
         },
