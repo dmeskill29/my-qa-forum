@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const { db } = require('@/lib/db');
+import { db } from "@/lib/db";
 
 async function resetLeaderboards() {
   const currentMonth = new Date().toISOString().slice(0, 7);
