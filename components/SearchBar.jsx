@@ -23,7 +23,7 @@ const SearchBar = ({ session }) => {
       onSubmit={handleSubmit}
       className="flex items-center justify-center w-full mx-auto mt-3 mb-2"
     >
-      <div className="relative w-full">
+      <div className="relative w-3/4">
         <input
           type="text"
           placeholder="Search"

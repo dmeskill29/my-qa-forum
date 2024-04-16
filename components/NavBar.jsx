@@ -40,7 +40,7 @@ const NavBar = async () => {
         </div>
 
         {session && (
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 lg:absolute right-36">
             <Link
               href="/CreateProblem"
               className="inline-flex items-center px-2 py-2 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-white hover:bg-gray-200 transition duration-150 ease-in-out"

@@ -46,7 +46,7 @@ const Leaderboard = async () => {
         Leaderboard for {currentMonth}
       </h1>
       <div className="flex flex-wrap justify-center gap-8">
-        <div className="bg-white p-4 rounded-lg shadow w-64">
+        <div className="bg-white p-4 rounded-lg shadow w-full">
           <h2 className="text-lg font-semibold text-gray-700 mb-2 text-center">
             Smart Cookie
           </h2>
@@ -64,7 +64,7 @@ const Leaderboard = async () => {
             ))}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow w-64">
+        <div className="bg-white p-4 rounded-lg shadow w-full">
           <h2 className="text-lg font-semibold text-gray-700 mb-2 text-center">
             Fat Cat
           </h2>
@@ -82,7 +82,7 @@ const Leaderboard = async () => {
             ))}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow w-64">
+        <div className="bg-white p-4 rounded-lg shadow w-full">
           <h2 className="text-lg font-semibold text-gray-700 mb-2 text-center">
             Social Butterfly
           </h2>
@@ -100,7 +100,7 @@ const Leaderboard = async () => {
             ))}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow w-64">
+        <div className="bg-white p-4 rounded-lg shadow w-full">
           <h2 className="text-lg font-semibold text-gray-700 mb-2 text-center">
             Problem Child
           </h2>
@@ -118,7 +118,7 @@ const Leaderboard = async () => {
             ))}
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow w-64">
+        <div className="bg-white p-4 rounded-lg shadow w-full">
           <h2 className="text-lg font-semibold text-gray-700 mb-2 text-center">
             Try Hard
           </h2>
