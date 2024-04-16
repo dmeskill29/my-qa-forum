@@ -50,6 +50,29 @@ export async function PUT(req) {
       where: { id: problemId },
       data: { topSolution: solutionId },
     });
+
+    const leaderboardDecrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId: topSolution.authorId,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "smartCookie",
+        },
+      },
+      data: { score: { decrement: 1 } },
+    });
+
+    const leaderboardIncrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId: solution.authorId,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "smartCookie",
+        },
+      },
+      data: { score: { increment: 1 } },
+    });
+
     // const resend = new Resend(process.env.RESEND_EMAIL_SECRET);
     // if (solution.author.emailNotified) {
     //   resend.emails.send({
@@ -85,7 +108,18 @@ export async function PUT(req) {
         where: { id: problemId },
         data: { topSolution: solutionId },
       });
-      const resend = new Resend(process.env.RESEND_EMAIL_SECRET);
+
+      const leaderboardIncrement = await db.leaderboard.update({
+        where: {
+          userId_month_leaderboardId: {
+            userId: solution.authorId,
+            month: new Date().toISOString().slice(0, 7),
+            leaderboardId: "smartCookie",
+          },
+        },
+        data: { score: { increment: 1 } },
+      });
+      // const resend = new Resend(process.env.RESEND_EMAIL_SECRET);
       // resend.emails.send({
       //   from: process.env.EMAIL_FROM,
       //   to: solution.author.email,

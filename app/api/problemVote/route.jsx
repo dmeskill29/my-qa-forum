@@ -39,6 +39,17 @@ export async function PATCH(req) {
         where: { id: problemId },
         data: { voteSum: { decrement: voteValue } },
       });
+
+      const leaderboardDecrement = await db.leaderboard.update({
+        where: {
+          userId_month_leaderboardId: {
+            userId: session.user.id,
+            month: new Date().toISOString().slice(0, 7),
+            leaderboardId: "socialButterfly",
+          },
+        },
+        data: { score: { decrement: voteValue } },
+      });
     } else {
       // If changing the vote type, we need to adjust the voteSum accordingly
       const adjustment = type === "UP" ? 2 : -2;
@@ -53,6 +64,17 @@ export async function PATCH(req) {
         where: { userId_problemId: { userId, problemId } },
         data: { type },
       });
+
+      const leaderboardIncrement = await db.leaderboard.update({
+        where: {
+          userId_month_leaderboardId: {
+            userId: session.user.id,
+            month: new Date().toISOString().slice(0, 7),
+            leaderboardId: "socialButterfly",
+          },
+        },
+        data: { score: { increment: adjustment } },
+      });
     }
   } else {
     // Create a new vote
@@ -64,6 +86,17 @@ export async function PATCH(req) {
     await db.problem.update({
       where: { id: problemId },
       data: { voteSum: { increment: voteValue } },
+    });
+
+    const leaderboardIncrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId: session.user.id,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "socialButterfly",
+        },
+      },
+      data: { score: { increment: voteValue } },
     });
   }
 

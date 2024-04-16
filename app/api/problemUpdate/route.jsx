@@ -99,6 +99,18 @@ export async function POST(req) {
     const result = await db.problemUpdate.create({
       data: { content, problemId, circleKeysAdded, starKeysAdded },
     });
+
+    const leaderboardIncrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId: user?.id,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "fatCat",
+        },
+      },
+      data: { score: { increment: circleKeysAdded + starKeysAdded } },
+    });
+
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code
       headers: {

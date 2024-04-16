@@ -64,6 +64,7 @@ model User {
   solutionVote      SolutionVote[]
   replies           Reply[]
   replyVote         ReplyVote[]
+  leaderboards      Leaderboard[]
 }
 
 model KeyChain {
@@ -71,6 +72,19 @@ model KeyChain {
   starKeys          Int       @default(0)
   circleKeys        Int       @default(1000)
   user              User?     
+}
+
+model Leaderboard {
+  id            String   @id @default(cuid())
+  userId        String
+  score         Int      @default(0)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  month         String
+  leaderboardId String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([userId, month, leaderboardId])
 }
 
 model Problem {

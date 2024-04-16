@@ -80,6 +80,12 @@ const More = () => {
           >
             Navigate
           </Link>
+          <Link
+            href="/Leaderboard"
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
+            Leaderboard
+          </Link>
         </div>
       )}
     </div>

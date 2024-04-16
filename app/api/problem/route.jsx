@@ -71,6 +71,28 @@ export async function POST(req) {
       },
     });
 
+    const leaderboardIncrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "fatCat",
+        },
+      },
+      data: { score: { increment: newPrizeInCircleKeys + prizeInStarKeys } },
+    });
+
+    const problemChildIncrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "problemChild",
+        },
+      },
+      data: { score: { increment: 1 } },
+    });
+
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
@@ -116,12 +138,39 @@ export async function DELETE(req) {
   }
 
   try {
+    const fatCatDecrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "fatCat",
+        },
+      },
+      data: {
+        score: {
+          decrement: problem.prizeInCircleKeys + problem.prizeInStarKeys,
+        },
+      },
+    });
+
+    const problemChildDecrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "problemChild",
+        },
+      },
+      data: { score: { decrement: 1 } },
+    });
+
     await Promise.all([
       db.problemUpdate.deleteMany({ where: { problemId } }),
       db.solution.deleteMany({ where: { problemId } }),
       db.problemVote.deleteMany({ where: { problemId } }),
       db.problem.delete({ where: { id: problemId } }),
     ]);
+
     return new Response(JSON.stringify({ message: "OK" }), {
       status: 200, // HTTP status code
       headers: {

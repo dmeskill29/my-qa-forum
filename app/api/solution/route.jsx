@@ -40,7 +40,7 @@ export async function POST(req) {
     },
   });
 
-  const posterEmail = await db.user.findUnique({
+  const poster = await db.user.findUnique({
     where: {
       id: problem.authorId,
     },
@@ -53,18 +53,28 @@ export async function POST(req) {
 
     const resend = new Resend(process.env.RESEND_EMAIL_SECRET);
 
-    if (posterEmail.emailNotified) {
+    if (poster.emailNotified) {
       resend.emails.send({
         from: process.env.EMAIL_FROM,
-        to: posterEmail.email,
+        to: poster.email,
         subject: "New Solution on Your Problem!",
         html: `
       <p>Someone has posted a solution to your problem. Check it out!</p>
       <p>Click <a href="https://solvecircle.app/problem/${problemId}" target="_blank">here</a> to view your solution.</p>
     `,
       });
-      console.log("Email sent!");
     }
+
+    const leaderboardIncrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId: authorId,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "tryHard",
+        },
+      },
+      data: { score: { increment: 1 } },
+    });
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code
       headers: {
@@ -95,6 +105,16 @@ export async function DELETE(req) {
   }
 
   try {
+    const leaderboardDecrement = await db.leaderboard.update({
+      where: {
+        userId_month_leaderboardId: {
+          userId: solution.authorId,
+          month: new Date().toISOString().slice(0, 7),
+          leaderboardId: "tryHard",
+        },
+      },
+      data: { score: { decrement: 1 } },
+    });
     // Delete associated votes and updates before deleting the solution
     await Promise.all([
       db.solutionUpdate.deleteMany({ where: { solutionId } }),
