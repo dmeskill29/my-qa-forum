@@ -38,17 +38,11 @@ export async function POST(req) {
     where: {
       id: problemId,
     },
-    select: {
-      authorId: true,
-    },
   });
 
   const posterEmail = await db.user.findUnique({
     where: {
       id: problem.authorId,
-    },
-    select: {
-      email: true,
     },
   });
 
@@ -69,6 +63,7 @@ export async function POST(req) {
       <p>Click <a href="https://solvecircle.app/problem/${problemId}" target="_blank">here</a> to view your solution.</p>
     `,
       });
+      console.log("Email sent!");
     }
     return new Response(JSON.stringify({ message: "OK", result }), {
       status: 200, // HTTP status code
