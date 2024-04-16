@@ -52,6 +52,7 @@ const CreateSolution = ({ problemId }) => {
     } catch (error) {
       console.error("Failed to submit the solution:", error);
       // Handle error - e.g., displaying an error message
+      alert("Failed to submit the solution. Please try again.");
     }
   };
 
