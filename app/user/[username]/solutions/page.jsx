@@ -138,15 +138,17 @@ const page = async ({ params, searchParams }) => {
   }
 
   const ProfileDetail = ({ title, content, component: Component, session }) => (
-    <div className="mb-4">
-      <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+    <div className="mb-4  ">
+      <div className="justify-between items-center flex">
+        <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+        {session?.user?.id === user.id && <Component session={session} />}
+      </div>
       <p
         className="text-gray-700 mb-4 break-words
       "
       >
         {content}
       </p>
-      {session?.user?.id === user.id && <Component session={session} />}
     </div>
   );
 
@@ -247,7 +249,9 @@ const page = async ({ params, searchParams }) => {
             component={BioUpdate}
             session={session}
           />
-          <KeychainInfo keyChain={keyChain} session={session} />
+          {user.id === session?.user?.id && (
+            <KeychainInfo keyChain={keyChain} />
+          )}
           {user.id === session?.user?.id && (
             <EmailToggle emailNotified={user.emailNotified} />
           )}

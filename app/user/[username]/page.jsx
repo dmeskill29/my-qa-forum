@@ -185,16 +185,20 @@ const ProfilePage = async ({ params }) => {
             {user.username}&apos;s Profile
           </h1>
           <ProfileSection title="Username" content={user.username} editable>
-            <UsernameUpdate session={session} />
+            {user.id === session?.user?.id && (
+              <UsernameUpdate session={session} />
+            )}
           </ProfileSection>
           <ProfileSection
             title="Bio"
             content={user.bio || "No bio provided."}
             editable
           >
-            <BioUpdate session={session} />
+            {user.id === session?.user?.id && <BioUpdate session={session} />}
           </ProfileSection>
-          <KeychainInfo keyChain={keyChain} />
+          {user.id === session?.user?.id && (
+            <KeychainInfo keyChain={keyChain} />
+          )}
           {user.id === session?.user?.id && (
             <EmailToggle emailNotified={user.emailNotified} />
           )}
