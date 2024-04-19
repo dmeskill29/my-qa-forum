@@ -176,7 +176,11 @@ const page = async ({ params, searchParams }) => {
           }`}
           aria-current={link.isCurrent ? "page" : undefined}
         >
-          {link.pageNumber}
+          {link.isCurrent ? (
+            <strong>{link.pageNumber}</strong>
+          ) : (
+            link.pageNumber
+          )}
         </Link>
       ))}
     </div>

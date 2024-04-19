@@ -221,7 +221,7 @@ const page = async ({ params, searchParams }) => {
             index + 1 === pageNumber ? "pagination-link--active" : ""
           }`}
         >
-          {index + 1}
+          {index + 1 === pageNumber ? <strong>{index + 1}</strong> : index + 1}
         </Link>
       ))}
     </div>

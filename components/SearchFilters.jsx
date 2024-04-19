@@ -5,7 +5,7 @@ import Link from "next/link";
 const SearchFilters = ({ query }) => {
   return (
     <div className="flex justify-center space-x-4 mb-4">
-      {["all", "title", "content", "tags"].map((type) => (
+      {["problems", "users"].map((type) => (
         <Link
           key={type}
           href={`/search-results?query=${encodeURIComponent(
