@@ -179,7 +179,7 @@ const page = async ({ params, searchParams }) => {
   );
 
   const SolutionList = ({ solutions, totalPages, pageNumber, username }) => (
-    <div>
+    <div className="space-y-4">
       {solutions.length > 0 ? (
         solutions.map((solution) => (
           <Link
@@ -187,7 +187,10 @@ const page = async ({ params, searchParams }) => {
             key={solution.id}
             className="block p-4 rounded-lg bg-white hover:shadow-md"
           >
-            <p className="text-gray-700">{solution.content}</p>
+            <div
+              dangerouslySetInnerHTML={{ __html: solution.content }}
+              className="text-gray-700"
+            ></div>
             <p className="text-sm text-gray-500">
               At {new Date(solution.createdAt).toLocaleString()}
             </p>
@@ -250,8 +253,8 @@ const page = async ({ params, searchParams }) => {
           )}
         </section>
 
-        <section className="flex-1">
-          <div className="flex flex-col sm:flex-row sm:items-center space-x-0 sm:space-x-4 mt-4 mb-4 sm:mt-0">
+        <section className="flex flex-col w-1/2 ">
+          <div className="flex space-x-4 mb-4">
             <Link
               href={`/user/${user.username}/problems`}
               className="profile-link"
@@ -265,7 +268,9 @@ const page = async ({ params, searchParams }) => {
               Solutions
             </Link>
           </div>
-          <h2 className="text-xl font-semibold text-gray-800">Solutions</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            Solutions
+          </h2>
           <SolutionList
             solutions={currentSolutions}
             totalPages={totalPages}

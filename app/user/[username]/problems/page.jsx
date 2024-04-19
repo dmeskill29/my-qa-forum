@@ -250,11 +250,9 @@ const page = async ({ params, searchParams }) => {
             <EmailToggle emailNotified={user.emailNotified} />
           )}
         </div>
-
-        <div>
-          {" "}
-          <div className="flex flex-col sm:flex-row sm:items-center">
-            <div className="flex flex-col sm:flex-row sm:items-center space-x-0 sm:space-x-4 mt-4 mb-4 sm:mt-0 sm:ml-4">
+        <div className="flex flex-col w-1/2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
+            <div className="flex space-x-4">
               <Link
                 href={`/user/${user.username}/problems`}
                 className="profile-link"
@@ -269,7 +267,7 @@ const page = async ({ params, searchParams }) => {
               </Link>
             </div>
           </div>
-          <div className="flex-1">
+          <div>
             <h2 className="text-xl font-semibold text-gray-800">Problems</h2>
             <ProblemList
               problems={currentProblems}

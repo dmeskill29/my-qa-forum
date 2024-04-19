@@ -74,7 +74,7 @@ export async function POST(req) {
     const leaderboardIncrement = await db.leaderboard.update({
       where: {
         userId_month_leaderboardId: {
-          userId,
+          userId: userId,
           month: new Date().toISOString().slice(0, 7),
           leaderboardId: "fatCat",
         },
@@ -85,7 +85,7 @@ export async function POST(req) {
     const problemChildIncrement = await db.leaderboard.update({
       where: {
         userId_month_leaderboardId: {
-          userId,
+          userId: userId,
           month: new Date().toISOString().slice(0, 7),
           leaderboardId: "problemChild",
         },
@@ -130,6 +130,8 @@ export async function DELETE(req) {
     where: { id: problemId },
   });
 
+  const userId = problem.authorId;
+
   if (!session.user.roles.includes("admin")) {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
@@ -141,7 +143,7 @@ export async function DELETE(req) {
     const fatCatDecrement = await db.leaderboard.update({
       where: {
         userId_month_leaderboardId: {
-          userId,
+          userId: userId,
           month: new Date().toISOString().slice(0, 7),
           leaderboardId: "fatCat",
         },
@@ -156,7 +158,7 @@ export async function DELETE(req) {
     const problemChildDecrement = await db.leaderboard.update({
       where: {
         userId_month_leaderboardId: {
-          userId,
+          userId: userId,
           month: new Date().toISOString().slice(0, 7),
           leaderboardId: "problemChild",
         },

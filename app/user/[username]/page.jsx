@@ -127,17 +127,11 @@ const ProfilePage = async ({ params }) => {
   }
 
   const ProfileLinks = ({ username }) => (
-    <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 mt-4 mb-4 sm:mt-0">
-      <Link
-        href={`/user/${username}/problems`}
-        className="profile-link text-blue-600"
-      >
+    <div className="flex flex-col sm:flex-row space-x-0 sm:space-x-4 mt-4 mb-4 sm:mt-0">
+      <Link href={`/user/${username}/problems`} className="profile-link ">
         Problems
       </Link>
-      <Link
-        href={`/user/${username}/solutions`}
-        className="profile-link text-green-600"
-      >
+      <Link href={`/user/${username}/solutions`} className="profile-link ">
         Solutions
       </Link>
     </div>
@@ -180,16 +174,16 @@ const ProfilePage = async ({ params }) => {
   );
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center px-4 sm:px-6 lg:px-8 py-8 space-y-4 lg:space-y-0 lg:space-x-4">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 lg:flex-row flex">
       <div className="lg:w-1/4 lg:flex lg:flex-col lg:items-start sm:w-full">
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
-          {user.username}&apos;s Profile
-        </h1>
         <div
           className={`bg-white shadow rounded-lg p-6 w-full ${
             isAdmin ? "border-4 border-blue-500" : ""
           }`}
         >
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
+            {user.username}&apos;s Profile
+          </h1>
           <ProfileSection title="Username" content={user.username} editable>
             <UsernameUpdate session={session} />
           </ProfileSection>
