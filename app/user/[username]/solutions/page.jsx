@@ -8,7 +8,9 @@ import EmailToggle from "@/components/Profile/EmailToggle";
 
 import UsernameUpdate from "@/components/Profile/UsernameUpdate";
 import BioUpdate from "@/components/Profile/BioUpdate";
-import Image from "next/image";
+import Keychain from "@/components/Profile/KeyChain";
+import PleaseSignIn from "@/components/PleaseSignIn";
+import NoUser from "@/components/Profile/NoUser";
 
 const PAGE_SIZE = 5; // Number of solutions per page
 
@@ -32,52 +34,20 @@ const page = async ({ params, searchParams }) => {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      problem: true,
+    },
   });
 
-  const keychainId = user?.keychainId;
-
-  const keyChain = keychainId
-    ? await db.keyChain.findUnique({
-        where: {
-          id: keychainId,
-        },
-      })
-    : null;
-
   if (!user) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <svg
-            className="w-24 h-24 mx-auto text-indigo-500"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M12 9v2m0 4h.01m-6.938 4h13.856C18.448 19 19 18.105 19 17V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10c0 1.105.552 2 1.062 2zM9 21h6a2 2 0 002-2v-1H7v1a2 2 0 002 2z"></path>
-          </svg>
-          <h1 className="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl">
-            User not found
-          </h1>
-          <p className="mt-2 text-base text-gray-500 dark:text-gray-400 sm:text-lg">
-            The user you are looking for does not exist. Please check the URL
-            and try again.
-          </p>
-          <div className="mt-6">
-            <Link
-              href="/"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Go back to the homepage<span aria-hidden="true"> &rarr;</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
+    return <NoUser />;
   }
+
+  const keyChain = await db.keyChain.findUnique({
+    where: {
+      id: user.keychainId,
+    },
+  });
 
   if (!Array.isArray(solutions)) {
     console.error("solutions is not an array:", solutions);
@@ -97,44 +67,7 @@ const page = async ({ params, searchParams }) => {
   const currentSolutions = solutions.slice(start, start + PAGE_SIZE);
 
   if (!session) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <svg
-            className="w-24 h-24 mx-auto text-indigo-500"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM4 8a8 8 0 1016 0 8 8 0 00-16 0zM16 16a8 8 0 01-16 0v-1a3 3 0 013-3h10a3 3 0 013 3v1z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <h1 className="mt-2 text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl">
-            Sign in to view profile
-          </h1>
-          <p className="mt-2 text-base text-gray-500 dark:text-gray-400 sm:text-lg">
-            You need to sign in to view your profile. If you don&apos;t have an
-            account, you can sign up for free.
-          </p>
-          <div className="mt-6">
-            <Link
-              href="/sign-in"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/sign-up"
-              className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Sign Up
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
+    return <PleaseSignIn />;
   }
 
   const ProfileDetail = ({ title, content, component: Component, session }) => (
@@ -152,34 +85,6 @@ const page = async ({ params, searchParams }) => {
     </div>
   );
 
-  const KeychainInfo = ({ keyChain, session }) => (
-    <div>
-      <h2 className="text-xl font-semibold text-gray-800">Keychain</h2>
-      <div>
-        <p className="text-gray-700 flex items-center">
-          Circle Keys: {keyChain.circleKeys}
-          <Image
-            src="/CircleKey.png"
-            alt="Circle Key"
-            width={28}
-            height={28}
-            className="ml-2"
-          />
-        </p>
-        <p className="text-gray-700 flex items-center">
-          Star Keys: {keyChain.starKeys}
-          <Image
-            src="/StarKey.png"
-            alt="Star Key"
-            width={28}
-            height={28}
-            className="ml-2"
-          />
-        </p>
-      </div>
-    </div>
-  );
-
   const SolutionList = ({ solutions, totalPages, pageNumber, username }) => (
     <div className="space-y-4">
       {solutions.length > 0 ? (
@@ -187,8 +92,16 @@ const page = async ({ params, searchParams }) => {
           <Link
             href={`/problem/${solution.problemId}`}
             key={solution.id}
-            className="block p-4 rounded-lg bg-white hover:shadow-md"
+            className={`block p-4 rounded-lg bg-white hover:shadow-md border border-gray-200 
+            ${
+              solution.problem.topSolution === solution.id
+                ? "border-yellow-500"
+                : "border-gray-200"
+            }`}
           >
+            <h3 className="text-xl font-semibold text-indigo-700">
+              Solution for: {solution.problem.title}
+            </h3>
             <div
               dangerouslySetInnerHTML={{ __html: solution.content }}
               className="text-gray-700"
@@ -218,14 +131,16 @@ const page = async ({ params, searchParams }) => {
           key={index}
           href={`${basePath}?page=${index + 1}`}
           className={`pagination-link ${
-            index + 1 === pageNumber ? "pagination-link--active" : ""
+            index + 1 === pageNumber ? "pagination-link--active font-bold" : ""
           }`}
+          aria-current={index + 1 === pageNumber ? "page" : undefined}
         >
-          {index + 1 === pageNumber ? <strong>{index + 1}</strong> : index + 1}
+          {index + 1}
         </Link>
       ))}
     </div>
   );
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <div className="flex flex-col md:flex-row md:space-x-8">
@@ -250,7 +165,7 @@ const page = async ({ params, searchParams }) => {
             session={session}
           />
           {user.id === session?.user?.id && (
-            <KeychainInfo keyChain={keyChain} />
+            <Keychain keyChain={keyChain} user={user} />
           )}
           {user.id === session?.user?.id && (
             <EmailToggle emailNotified={user.emailNotified} />

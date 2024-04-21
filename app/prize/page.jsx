@@ -17,7 +17,7 @@ const page = async ({ searchParams }) => {
     },
   });
 
-  const problems = startProblems.sort((a, b) => {
+  const problemsNext = startProblems.sort((a, b) => {
     // Calculate total prize by combining both types of keys, defaulting to 0 if they're not set
     const totalPrizeA = (a.prizeInCircleKeys || 0) + (a.prizeInStarKeys || 0);
     const totalPrizeB = (b.prizeInCircleKeys || 0) + (b.prizeInStarKeys || 0);
@@ -25,6 +25,8 @@ const page = async ({ searchParams }) => {
     // Sort by total prize in descending order
     return totalPrizeB - totalPrizeA;
   });
+
+  const problems = problemsNext.filter((problem) => problem.open === true);
 
   const page = searchParams;
   const pageNumber = page.page === undefined ? 1 : page.page;

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import SearchBar from "./SearchBar";
-import ProfileMenu from "./Profile/ProfileMenu";
+import ProfileMenu from "../Profile/ProfileMenu";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Image from "next/image";

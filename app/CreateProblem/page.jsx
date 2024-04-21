@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation"; // Corrected the import path
-import Link from "next/link";
 import Image from "next/image";
+import PleaseSignIn from "@/components/PleaseSignIn";
 
 const CreateProblem = () => {
   const TITLE_LIMIT = 100;
@@ -21,6 +21,7 @@ const CreateProblem = () => {
   const [tagsArray, setTagsArray] = useState([]);
   const [displayCircleValue, setDisplayCricleValue] = useState("");
   const [displayStarValue, setDisplayStarValue] = useState("");
+  const [duration, setDuration] = useState(7);
 
   const handleCricleChange = (e) => {
     const newValue = e.target.value;
@@ -88,13 +89,23 @@ const CreateProblem = () => {
       return;
     }
 
+    if (duration <= 0) {
+      alert("Duration must be a positive number.");
+      return;
+    }
+    if (duration > 14) {
+      alert("Duration must be less than or equal to 14 days.");
+      return;
+    }
+
     const body = {
       title,
       content: contentWithBreaks,
-      session: session, // Update the type of session?.user to include the 'id' property
+      session: session,
       prizeInCircleKeys,
       prizeInStarKeys,
       tags,
+      duration: Number(duration), // Convert duration to a number
     };
 
     try {
@@ -105,18 +116,17 @@ const CreateProblem = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json();
+        throw new Error(errorData.message); // Throw an error with the server's error message
       }
 
       // On success
       const data = await response.json();
       router.push(`/problem/${data.result.id}`);
       router.refresh();
-      // Consider using router.push for navigation instead of router.refresh()
     } catch (error) {
       console.error("Failed to submit the problem:", error);
-      alert("Insufficient funds. Please try again.");
-      // Handle error
+      alert(error.message); // Display the error message from the server in an alert
     }
   };
 
@@ -151,35 +161,7 @@ const CreateProblem = () => {
   }
 
   if (!session) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="text-center space-y-4">
-          <svg
-            className="mx-auto h-12 w-12 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            ></path>
-          </svg>
-          <p className="text-xl font-medium text-gray-600">
-            Please sign in to ask a problem
-          </p>
-          <Link
-            href="/sign-in"
-            className="text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Sign in
-          </Link>
-        </div>
-      </div>
-    );
+    return <PleaseSignIn />;
   }
 
   return (
@@ -281,7 +263,24 @@ const CreateProblem = () => {
           placeholder="Enter prize amount"
         />
       </div>
-
+      <div>
+        <label
+          htmlFor="duration"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Duration (in days):
+        </label>
+        <input
+          id="duration"
+          type="number"
+          value={duration}
+          onChange={(e) => setDuration(e.target.value)}
+          placeholder="Enter the number of days the problem should be open"
+          className="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-black block w-full sm:text-sm border-gray-300 rounded-md"
+          min="1"
+          max="14"
+        />
+      </div>
       {/* Submit button */}
       <div className="flex space-x-2">
         <button
@@ -290,75 +289,9 @@ const CreateProblem = () => {
         >
           Post
         </button>
-        {/* <button
-          onClick={handleCreateWithStarKeys}
-          type="button"
-          className="inline-flex justify-center px-2 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition duration-300 ease-in-out"
-        >
-          Ask with Star Keys
-        </button> */}
       </div>
     </form>
   );
 };
 
 export default CreateProblem;
-
-// const handleCreateWithStarKeys = async (event) => {
-//   event.preventDefault();
-
-//   // Split tags by commas, trim whitespace, and check each tag's length
-//   const tagsArray = tags.split(",").map((tag) => tag.trim());
-//   const invalidTag = tagsArray.some(
-//     (tag) => tag.length > INDIVIDUAL_TAG_LIMIT
-//   );
-
-//   if (invalidTag) {
-//     alert(`Each tag must be under ${INDIVIDUAL_TAG_LIMIT} characters.`);
-//     return;
-//   }
-
-//   if (
-//     title.length > TITLE_LIMIT ||
-//     content.length > CONTENT_LIMIT ||
-//     tags.length > TAGS_LIMIT
-//   ) {
-//     alert(
-//       `Please ensure your title is under ${TITLE_LIMIT} characters, your content under ${CONTENT_LIMIT} characters, and your tags under ${TAGS_LIMIT} characters.`
-//     );
-//     return;
-//   }
-
-//   const body = {
-//     title,
-//     content,
-//     userId: session?.user?.id,
-//     feeInCircleKeys: 0,
-//     feeInStarKeys: 50, // [2]
-//     prizeInCircleKeys,
-//     prizeInStarKeys,
-//     tags,
-//   };
-
-//   try {
-//     const response = await fetch("/api/problem", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(body),
-//     });
-
-//     // if (!response.ok) {
-//     //   throw new Error("Network response was not ok");
-//     // }
-
-//     // On success
-//     const data = await response.json();
-//     alert(data.message);
-//     router.push(`/problem/${data.result.id}`);
-//     router.refresh();
-//     // Consider using router.push for navigation instead of router.refresh()
-//   } catch (error) {
-//     console.error("Failed to submit the problem:", error);
-//     // Handle error
-//   }
-// };

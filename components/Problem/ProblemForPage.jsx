@@ -37,6 +37,11 @@ const Problem = async ({ problem, session }) => {
     userVote = null;
   }
 
+  // Calculate the remaining time
+  const expirationDate = moment(utcDate).add(problem.duration, "days");
+  const timeLeft = moment(expirationDate).fromNow(true);
+  const isOvertime = problem.open && moment().isAfter(expirationDate);
+
   const ProfileImage = ({ username }) => {
     const firstLetter = username.charAt(0).toUpperCase();
 
@@ -46,7 +51,7 @@ const Problem = async ({ problem, session }) => {
           width: "36px",
           height: "36px",
           borderRadius: "50%",
-          backgroundColor: "#307e79", // Your chosen color
+          backgroundColor: "#307e79",
           color: "white",
           display: "flex",
           justifyContent: "center",
@@ -58,6 +63,7 @@ const Problem = async ({ problem, session }) => {
       </div>
     );
   };
+
   return (
     <div
       className={`max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
@@ -71,6 +77,18 @@ const Problem = async ({ problem, session }) => {
       <div className="flex justify-between items-center p-4">
         {/* Status in top left */}
         <div className="flex items-center space-x-2">
+          {/* Display the remaining time */}
+          <div className="text-sm text-gray-500 mr-2">
+            {problem.open ? (
+              isOvertime ? (
+                <span className="text-red-500">Overtime</span>
+              ) : (
+                `Time left: ${timeLeft}`
+              )
+            ) : (
+              "Closed"
+            )}
+          </div>
           <div
             className={`uppercase tracking-wide text-sm ${
               problem.open ? "text-green-500" : "text-red-500"
@@ -127,7 +145,6 @@ const Problem = async ({ problem, session }) => {
       </div>
 
       {/* Title and Posted Date on same line */}
-
       <div className="flex items-center space-x-4 mr-4 ml-4 mb-4">
         <div className="flex flex-col items-center">
           <UpVoteButton problemId={problem.id} userVote={userVote} />
@@ -178,8 +195,6 @@ const Problem = async ({ problem, session }) => {
           </div>
         )}
       </div>
-
-      {/* Admin Delete Button */}
     </div>
   );
 };

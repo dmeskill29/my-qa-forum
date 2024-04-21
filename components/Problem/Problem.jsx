@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import moment from "moment";
+import exp from "constants";
 
 const Problem = ({ problem }) => {
   const utcDate = new Date(problem.createdAt);
@@ -8,6 +9,11 @@ const Problem = ({ problem }) => {
   const isAdminProblem = problem.author.roles.includes("admin");
 
   const isWebsiteProblem = problem.author.roles.includes("website");
+
+  // Calculate the remaining time
+  const expirationDate = moment(utcDate).add(problem.duration, "days");
+  const timeLeft = moment(expirationDate).fromNow(true);
+  const isOvertime = problem.open && moment().isAfter(expirationDate);
 
   const ProfileImage = ({ username }) => {
     const firstLetter = username.charAt(0).toUpperCase();
@@ -18,7 +24,7 @@ const Problem = ({ problem }) => {
           width: "36px",
           height: "36px",
           borderRadius: "50%",
-          backgroundColor: "#307e79", // Your chosen color
+          backgroundColor: "#307e79",
           color: "white",
           display: "flex",
           justifyContent: "center",
@@ -30,6 +36,7 @@ const Problem = ({ problem }) => {
       </div>
     );
   };
+
   return (
     <div
       className={` mx-auto bg-white rounded-xl shadow-md overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg w-full 
@@ -44,7 +51,18 @@ const Problem = ({ problem }) => {
       {/* Top bar for Status and Prize */}
       <div className="flex justify-between items-center p-4">
         <div className="flex items-center space-x-2">
-          {" "}
+          {/* Display the remaining time */}
+          <div className="text-sm text-gray-500 mr-2">
+            {problem.open ? (
+              isOvertime ? (
+                <span className="text-red-500">Overtime</span>
+              ) : (
+                `Time left: ${timeLeft}`
+              )
+            ) : (
+              "Closed"
+            )}
+          </div>
           <div
             className={`uppercase tracking-wide text-sm ${
               problem.open ? "text-green-500" : "text-red-500"
@@ -102,7 +120,9 @@ const Problem = ({ problem }) => {
           className="text-gray-700 break-words line-clamp-4"
         ></div>
 
-        <div className="text-sm text-gray-500">{moment(utcDate).fromNow()}</div>
+        <div className="text-sm text-gray-500 mt-2">
+          Posted {moment(utcDate).fromNow()}
+        </div>
       </div>
 
       <div className="text-sm text-blue-600 flex-wrap ml-4">

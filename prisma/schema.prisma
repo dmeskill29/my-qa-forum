@@ -50,7 +50,8 @@ model User {
   image             String?
   bio               String?
   email             String?        @unique
-  emailVerified     DateTime?
+  emailVerified     Boolean        @default(false)
+  verificationToken String?        @unique
   emailNotified     Boolean        @default(true)
   password          String?
   roles             String[]       @default(["user"])
@@ -95,6 +96,7 @@ model Problem {
   createdAt         DateTime        @default(now())
   prizeInCircleKeys Int
   prizeInStarKeys   Int
+  duration          Int             @default(7)
   updatedAt         DateTime        @updatedAt
   author            User            @relation(fields: [authorId], references: [id])
   authorId          String

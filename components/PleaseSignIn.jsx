@@ -8,7 +8,7 @@ const PleaseSignIn = () => {
       <Link href="/sign-in" className="text-blue-600 hover:underline">
         sign in
       </Link>{" "}
-      to view the feed.
+      .
     </p>
   );
 };

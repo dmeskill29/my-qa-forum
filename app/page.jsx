@@ -6,8 +6,6 @@ import Leaderboard from "@/components/Leaderboard";
 import FeedList from "@/components/Feed";
 import { db } from "@/lib/db";
 
-require("@/schedulers/leaderboardScheduler.js");
-
 const PAGE_SIZE = 10; // Number of problems per page
 
 export default async function Home({ searchParams }) {

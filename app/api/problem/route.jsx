@@ -1,17 +1,34 @@
 // pages/api/problems.js
 
-import { db } from "@/lib/db"; // Assuming you have a db utility for database connection
+import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { title, content, prizeInCircleKeys, prizeInStarKeys, tags } = body;
+    const {
+      title,
+      content,
+      prizeInCircleKeys,
+      prizeInStarKeys,
+      tags,
+      duration,
+    } = body;
 
     if (prizeInCircleKeys < 0 || prizeInStarKeys < 0) {
       return new Response(
         JSON.stringify({ message: "Prizes cannot be negative" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    if (duration <= 0 || duration > 14) {
+      return new Response(
+        JSON.stringify({ message: "Duration must be between 1 and 14 days" }),
         {
           status: 400,
           headers: { "Content-Type": "application/json" },
@@ -59,7 +76,8 @@ export async function POST(req) {
         authorId: userId,
         prizeInCircleKeys: newPrizeInCircleKeys,
         prizeInStarKeys,
-        tags, // Assuming tags is an array and needs to be stored as a string
+        tags,
+        duration, // Add the duration field
       },
     });
 
@@ -108,12 +126,10 @@ export async function POST(req) {
 
 export async function GET(req) {
   const problems = await db.problem.findMany({
-    // where: { subredditId },
-    // include: { author: true, subreddit: true },
     orderBy: { createdAt: "desc" },
   });
   return new Response(JSON.stringify(problems), {
-    status: 200, // HTTP status code
+    status: 200,
     headers: {
       "Content-Type": "application/json",
     },
@@ -174,7 +190,7 @@ export async function DELETE(req) {
     ]);
 
     return new Response(JSON.stringify({ message: "OK" }), {
-      status: 200, // HTTP status code
+      status: 200,
       headers: {
         "Content-Type": "application/json",
       },
