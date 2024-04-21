@@ -140,13 +140,14 @@ async function checkProblemDurations() {
             },
           },
         });
-      }
-
+        
       // Update problem status
       await db.problem.update({
         where: { id: problem.id },
         data: { open: false },
       });
+      }
+
 
       // Add the problem ID to the set of processed problems
       processedProblems.add(problem.id);
