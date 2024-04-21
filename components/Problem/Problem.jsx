@@ -69,9 +69,14 @@ const Problem = ({ problem }) => {
             } font-semibold`}
           >
             {problem.open ? (
-              <img src="/Open.png" height={30} width={30} alt="Open Problem" />
+              <Image
+                src="/Open.png"
+                height={30}
+                width={30}
+                alt="Open Problem"
+              />
             ) : (
-              <img
+              <Image
                 src="/Closed.png"
                 height={30}
                 width={30}

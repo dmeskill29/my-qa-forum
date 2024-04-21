@@ -26,16 +26,14 @@ async function checkProblemDurations() {
     });
 
     const expiredProblems = problems.filter(problem => {
-      const duration = problem.duration;
+      const durationInMinutes = problem.duration * 24 * 60; // Convert duration in days to minutes
       const createdAt = new Date(problem.createdAt);
-      const expirationDate = new Date(createdAt.getTime() + duration * 60000);
-
+      const expirationDate = new Date(createdAt.getTime() + durationInMinutes * 60000);
+      const currentDate = new Date();
       if (currentDate > expirationDate && !processedProblems.has(problem.id)) {
         return true;
       }
     });
-
-    console.log('Expired problems:', expiredProblems.length);
 
     // Process the expired problems
     for (const problem of expiredProblems) {
