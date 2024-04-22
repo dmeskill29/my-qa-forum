@@ -15,28 +15,6 @@ const Problem = ({ problem }) => {
   const timeLeft = moment(expirationDate).fromNow(true);
   const isOvertime = problem.open && moment().isAfter(expirationDate);
 
-  const ProfileImage = ({ username }) => {
-    const firstLetter = username.charAt(0).toUpperCase();
-
-    return (
-      <div
-        style={{
-          width: "36px",
-          height: "36px",
-          borderRadius: "50%",
-          backgroundColor: "#307e79",
-          color: "white",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "20px",
-        }}
-      >
-        {firstLetter}
-      </div>
-    );
-  };
-
   return (
     <div
       className={` mx-auto bg-white rounded-xl shadow-md overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg w-full 
@@ -85,7 +63,14 @@ const Problem = ({ problem }) => {
             )}
           </div>
           <div className="flex  items-center">
-            <ProfileImage username={problem.author.username} />
+            {problem.author.image && (
+              <Image
+                src={problem.author.image}
+                height={30}
+                width={30}
+                alt="User"
+              />
+            )}
             <span className="ml-2">{problem.author.username}</span>
           </div>
         </div>

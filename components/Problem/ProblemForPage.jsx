@@ -42,28 +42,6 @@ const Problem = async ({ problem, session }) => {
   const timeLeft = moment(expirationDate).fromNow(true);
   const isOvertime = problem.open && moment().isAfter(expirationDate);
 
-  const ProfileImage = ({ username }) => {
-    const firstLetter = username.charAt(0).toUpperCase();
-
-    return (
-      <div
-        style={{
-          width: "36px",
-          height: "36px",
-          borderRadius: "50%",
-          backgroundColor: "#307e79",
-          color: "white",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "20px",
-        }}
-      >
-        {firstLetter}
-      </div>
-    );
-  };
-
   return (
     <div
       className={`max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg ${
@@ -114,7 +92,14 @@ const Problem = async ({ problem, session }) => {
             href={`/user/${poster.username}`}
             className="text-lg text-indigo-600 hover:text-indigo-900 transition duration-300 ease-in-out font-medium flex items-center p-2 "
           >
-            <ProfileImage username={poster.username} />
+            {poster.image && (
+              <Image
+                src={poster.image}
+                width={30}
+                height={30}
+                className="rounded-full"
+              />
+            )}
             <span className="ml-2">{poster.username}</span>
           </Link>
         </div>

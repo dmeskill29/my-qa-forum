@@ -9,6 +9,8 @@ import EmailToggle from "@/components/Profile/EmailToggle";
 import KeyChain from "@/components/Profile/KeyChain";
 import PleaseSignIn from "@/components/PleaseSignIn";
 import NoUser from "@/components/Profile/NoUser";
+import ProfilePicUpdate from "@/components/Profile/ProfilePicUpdate";
+import Image from "next/image";
 
 const ProfilePage = async ({ params }) => {
   const session = await getServerSession(authOptions);
@@ -71,6 +73,15 @@ const ProfilePage = async ({ params }) => {
           <h1 className="text-2xl sm:text-4xl font-extrabold text-indigo-700 mb-2">
             {user.username}&apos;s Profile
           </h1>
+          <ProfileSection
+            title="Profile Pic"
+            content={
+              user.image && <Image src={user.image} width={35} height={35} />
+            }
+            editable
+          >
+            {user.id === session?.user?.id && <ProfilePicUpdate />}
+          </ProfileSection>
           <ProfileSection title="Username" content={user.username} editable>
             {user.id === session?.user?.id && (
               <UsernameUpdate session={session} />

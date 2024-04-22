@@ -12,6 +12,7 @@ import PinTopSolutionButton from "./PinTopSolutionButton";
 import ReplyButton from "../Reply/ReplyButton";
 import Reply from "../Reply/Reply";
 import moment from "moment";
+import Image from "next/image";
 
 const Solution = async ({ solution }) => {
   const isRelated = false;
@@ -61,27 +62,6 @@ const Solution = async ({ solution }) => {
     replies = [];
   }
 
-  const ProfileImage = ({ username }) => {
-    const firstLetter = username.charAt(0).toUpperCase();
-
-    return (
-      <div
-        style={{
-          width: "36px",
-          height: "36px",
-          borderRadius: "50%",
-          backgroundColor: "#307e79", // Your chosen color
-          color: "white",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "20px",
-        }}
-      >
-        {firstLetter}
-      </div>
-    );
-  };
   const isTopSolution = problem.topSolution === solution.id;
 
   const isAdminSolution = user.roles.includes("admin");
@@ -105,7 +85,9 @@ const Solution = async ({ solution }) => {
             href={`/user/${username}`}
             className="flex items-center text-blue-600 hover:text-blue-800 font-semibold transition duration-150 ease-in-out ml-16"
           >
-            <ProfileImage username={username} />
+            {user.image && (
+              <Image src={user.image} height={30} width={30} alt="User" />
+            )}
             <span className="ml-2">{username}</span>
           </Link>
         </div>

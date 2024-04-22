@@ -8,6 +8,7 @@ import Link from "next/link";
 import ReplyUpVoteButton from "./ReplyUpVoteButton";
 import ReplyDownVoteButton from "./ReplyDownVoteButton";
 import moment from "moment";
+import Image from "next/image";
 
 const Reply = async ({ reply, problemId }) => {
   const isRelated = false;
@@ -47,28 +48,6 @@ const Reply = async ({ reply, problemId }) => {
     replies = [];
   }
 
-  const ProfileImage = ({ username }) => {
-    const firstLetter = username.charAt(0).toUpperCase();
-
-    return (
-      <div
-        style={{
-          width: "36px",
-          height: "36px",
-          borderRadius: "50%",
-          backgroundColor: "#307e79", // Your chosen color
-          color: "white",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "20px",
-        }}
-      >
-        {firstLetter}
-      </div>
-    );
-  };
-
   return (
     <div className="bg-white p-4 rounded-lg shadow-md mb-4 border border-gray-200">
       <div className="flex items-center mb-2 justify-between w-full">
@@ -78,7 +57,9 @@ const Reply = async ({ reply, problemId }) => {
             href={`/user/${username}`}
             className="flex items-center text-blue-600 hover:text-blue-800 font-semibold transition duration-150 ease-in-out ml-16"
           >
-            <ProfileImage username={username} />
+            {reply.user.image && (
+              <Image src={reply.user.image} height={30} width={30} alt="User" />
+            )}
             <span className="ml-2">{username}</span>
           </Link>
         </div>
