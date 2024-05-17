@@ -32,7 +32,7 @@ const NavBar = async () => {
             </span>
           </Link>
 
-          {session && <More />}
+          <More />
         </div>
 
         <div className="flex-1">

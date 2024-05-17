@@ -25,7 +25,9 @@ async function resetLeaderboards() {
 // Check if leaderboards have been initialized
 
 async function main() {
-  const existingLeaderboards = await db.leaderboard.findMany();
+  const existingLeaderboards = await db.leaderboard.findMany(
+    {where : { month: new Date().toISOString().slice(0, 7) }}
+  );
   if (existingLeaderboards.length === 0) {
     await resetLeaderboards();
   }
