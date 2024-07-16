@@ -6,14 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-}
-
-enum VoteType {
-  UP
-  DOWN
 }
 
 model Account {
@@ -35,28 +30,28 @@ model Account {
 }
 
 model Session {
-  id                String   @id @default(cuid())
-  sessionToken      String   @unique
-  userId            String
-  expires           DateTime
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id                String         @id @default(cuid())
-  createdAt         DateTime       @default(now())
+  id                String             @id @default(cuid())
+  createdAt         DateTime           @default(now())
   name              String?
-  username          String?        @unique
+  username          String?            @unique
   image             String?
   bio               String?
-  email             String?        @unique
-  emailVerified     Boolean        @default(false)
-  verificationToken String?        @unique
-  emailNotified     Boolean        @default(true)
+  email             String?            @unique
+  emailVerified     Boolean            @default(false)
+  verificationToken String?            @unique
+  emailNotified     Boolean            @default(true)
   password          String?
-  roles             String[]       @default(["user"])
-  keychainId        String?        @unique
-  keychain          KeyChain?      @relation(fields: [keychainId], references: [id])
+  roles             String[]           @default(["user"])
+  keychainId        String?            @unique
+  keychain          KeyChain?          @relation(fields: [keychainId], references: [id])
   accounts          Account[]
   sessions          Session[]
   problems          Problem[]
@@ -66,13 +61,34 @@ model User {
   replies           Reply[]
   replyVote         ReplyVote[]
   leaderboards      Leaderboard[]
+  circlesCreated    Circle[]           @relation("CirclesCreated")
+  circleMemberships CircleMembership[]
+  prizeRedemptions  PrizeRedemption[]
+  announcements     Announcement[]
+  tasksCreated      Task[]             @relation("CreatedTasks")
+  tasksAssigned     TaskAssignment[]   
 }
 
 model KeyChain {
-  id                String    @id @default(uuid())
-  starKeys          Int       @default(0)
-  circleKeys        Int       @default(1000)
-  user              User?     
+  id         String @id @default(uuid())
+  starKeys   Int    @default(0)
+  circleKeys Int    @default(1000)
+  user       User?
+}
+
+model CircleMembership {
+  id                        String            @id @default(cuid())
+  joinedAt                  DateTime          @default(now())
+  tokens                    Int               @default(0)
+  role                      String[]          @default(["member"])
+  circleId                  String
+  userId                    String
+  user                      User              @relation(fields: [userId], references: [id])
+  circle                    Circle            @relation(fields: [circleId], references: [id])
+  groupPublicNotifications  String[]
+  groupPrivateNotifications String[]
+  groupAccess               String[]
+  prizeRedemptions          PrizeRedemption[]
 }
 
 model Leaderboard {
@@ -84,106 +100,243 @@ model Leaderboard {
   leaderboardId String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  circleId      String?
+  circle        Circle?  @relation(fields: [circleId], references: [id], onDelete: Cascade)
+  public        Boolean?
 
   @@unique([userId, month, leaderboardId])
+}
+
+model Circle {
+  id           String             @id @default(cuid())
+  name         String             @unique
+  description  String?
+  creatorId    String
+  createdAt    DateTime           @default(now())
+  creator      User               @relation("CirclesCreated", fields: [creatorId], references: [id])
+  members      CircleMembership[]
+  leaderboards Leaderboard[]
+  groups       Group[]
+  prizes       Prize[]
+  Problem      Problem[]
+  Announcement Announcement[]
+  Task         Task[]
+}
+
+model Group {
+  id             String        @id @default(cuid())
+  name           String
+  description    String?
+  createdAt      DateTime      @default(now())
+  circleId       String
+  circle         Circle        @relation(fields: [circleId], references: [id], onDelete: Cascade)
+  public         Boolean       @default(false)
+  problems       Problem[]
+  Announcement   Announcement? @relation(fields: [announcementId], references: [id])
+  announcementId String?
+  Task           Task?         @relation(fields: [taskId], references: [id])
+  taskId         String?
+}
+
+model Prize {
+  id          String            @id @default(cuid())
+  name        String
+  description String?
+  tokensCost  Int
+  circleId    String
+  circle      Circle            @relation(fields: [circleId], references: [id], onDelete: Cascade)
+  public      Boolean           @default(false)
+  endDate     DateTime
+  expDate     DateTime
+  stock       Int
+  redemptions PrizeRedemption[]
+}
+
+model PrizeRedemption {
+  id                 String           @id @default(cuid())
+  prizeId            String
+  userId             String
+  circleMembershipId String
+  redeemedAt         DateTime         @default(now())
+  expDate            DateTime
+  prize              Prize            @relation(fields: [prizeId], references: [id], onDelete: Cascade)
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  circleMembership   CircleMembership @relation(fields: [circleMembershipId], references: [id], onDelete: Cascade)
 }
 
 model Problem {
   id                String          @id @default(cuid())
   title             String
   content           String?
-  tags              String?
+  tags              Tag[]
   createdAt         DateTime        @default(now())
-  prizeInCircleKeys Int
-  prizeInStarKeys   Int
-  duration          Int             @default(7)
+  prizeInCircleKeys Int?
+  prizeInStarKeys   Int?
+  prizeInTokens     Int?
+  duration          Int?
   updatedAt         DateTime        @updatedAt
   author            User            @relation(fields: [authorId], references: [id])
   authorId          String
   topSolution       String?
-  open              Boolean         @default(true)
+  open              Boolean?
+  anonymous         Boolean         @default(false)
   problemUpdate     ProblemUpdate[]
-  solutions         Solution[] 
+  solutions         Solution[]
   votes             ProblemVote[]
-  voteSum           Int             @default(0)
+  voteSum           Int?
+  circleId          String?
+  circle            Circle?         @relation(fields: [circleId], references: [id])
+  public            Boolean?
+  groups            Group[]
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  circle    Circle   @relation(fields: [circleId], references: [id])
+  circleId  String
+  public    Boolean?
+  groups    Group[]
+}
+
+model Task {
+  id                String           @id @default(cuid())
+  title             String
+  content           String?
+  prizeInCircleKeys Int?
+  prizeInStarKeys   Int?
+  prizeInTokens     Int?
+  status            TaskStatus       @default(TODO)
+  priority          Int              @default(5)
+  dueDate           DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  employeeNumber    Int              @default(1)
+  createdBy         User             @relation("CreatedTasks", fields: [createdById], references: [id])
+  createdById       String
+  circle            Circle           @relation(fields: [circleId], references: [id])
+  circleId          String
+  groups            Group[]
+  TaskAssignment    TaskAssignment[]
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+}
+
+model TaskAssignment {
+  id         String           @id @default(cuid())
+  taskId     String
+  task       Task             @relation(fields: [taskId], references: [id])
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedAt DateTime         @default(now())
+  status     AssignmentStatus
+}
+
+enum AssignmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model Tag {
+  id            String          @id @default(cuid())
+  name          String
+  createdAt     DateTime        @default(now())
+  problems      Problem[]
+  announcements Announcement[]
+  tasks         Task[]
 }
 
 model ProblemVote {
-  user              User        @relation(fields: [userId], references: [id])
-  userId            String
-  problem           Problem     @relation(fields: [problemId], references: [id], onDelete: Cascade)
-  problemId         String
-  type              VoteType
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  problemId String
+  type      VoteType
 
   @@id([userId, problemId])
 }
 
+enum VoteType {
+  UP
+  DOWN
+}
+
 model ProblemUpdate {
-  id                String    @id @default(cuid())
-  content           String?
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  circleKeysAdded   Int
-  starKeysAdded     Int
-  problem           Problem   @relation(fields: [problemId], references: [id])
-  problemId         String
+  id              String   @id @default(cuid())
+  content         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  circleKeysAdded Int
+  starKeysAdded   Int
+  problem         Problem  @relation(fields: [problemId], references: [id])
+  problemId       String
 }
 
 model Solution {
-  id                String          @id @default(cuid())
-  content           String
-  createdAt         DateTime        @default(now())
-  author            User            @relation(fields: [authorId], references: [id])
-  authorId          String
-  problem           Problem         @relation(fields: [problemId], references: [id], onDelete: Cascade)
-  problemId         String
-  solutionUpdate    SolutionUpdate[]
-  votes             SolutionVote[]
-  voteSum           Int             @default(0)
-  solutionId        String?
-  replies           Reply[]
+  id             String           @id @default(cuid())
+  content        String
+  createdAt      DateTime         @default(now())
+  author         User             @relation(fields: [authorId], references: [id])
+  authorId       String
+  problem        Problem          @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  problemId      String
+  solutionUpdate SolutionUpdate[]
+  votes          SolutionVote[]
+  voteSum        Int              @default(0)
+  solutionId     String?
+  replies        Reply[]
 }
 
 model SolutionVote {
-  user              User      @relation(fields: [userId], references: [id])
-  userId            String
-  solution          Solution  @relation(fields: [solutionId], references: [id], onDelete: Cascade)
-  solutionId        String
-  type              VoteType
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  solution   Solution @relation(fields: [solutionId], references: [id], onDelete: Cascade)
+  solutionId String
+  type       VoteType
 
   @@id([userId, solutionId])
 }
 
 model SolutionUpdate {
-  id                String    @id @default(cuid())
-  content           String
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-  solution          Solution  @relation(fields: [solutionId], references: [id])
-  solutionId        String
+  id         String   @id @default(cuid())
+  content    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  solution   Solution @relation(fields: [solutionId], references: [id])
+  solutionId String
 }
 
 model Reply {
-  id                String          @id @default(cuid())
-  content           String
-  createdAt         DateTime        @default(now())
-  solutionId        String?
-  authorId          String
-  parentReplyId     String?
-  solution          Solution?       @relation(fields: [solutionId], references: [id])
-  user              User            @relation(fields: [authorId], references: [id])
-  parentReply       Reply?          @relation("ReplyToReply", fields: [parentReplyId], references: [id])
-  childReplies      Reply[]         @relation("ReplyToReply")
-  votes             ReplyVote[]
-  voteSum           Int             @default(0)
+  id            String      @id @default(cuid())
+  content       String
+  createdAt     DateTime    @default(now())
+  solutionId    String?
+  authorId      String
+  parentReplyId String?
+  solution      Solution?   @relation(fields: [solutionId], references: [id])
+  user          User        @relation(fields: [authorId], references: [id])
+  parentReply   Reply?      @relation("ReplyToReply", fields: [parentReplyId], references: [id])
+  childReplies  Reply[]     @relation("ReplyToReply")
+  votes         ReplyVote[]
+  voteSum       Int         @default(0)
 }
 
 model ReplyVote {
-  type              VoteType
-  userId            String
-  replyId           String
-  user              User            @relation(fields: [userId], references: [id])
-  reply             Reply           @relation(fields: [replyId], references: [id])
+  type    VoteType
+  userId  String
+  replyId String
+  user    User     @relation(fields: [userId], references: [id])
+  reply   Reply    @relation(fields: [replyId], references: [id])
 
   @@unique([userId, replyId]) // Ensures a user can only vote once per reply
 }

@@ -30,7 +30,7 @@ const Problem = ({ problem }) => {
       <div className="flex justify-between items-center p-4">
         <div className="flex items-center space-x-2">
           {/* Display the remaining time */}
-          <div className="text-sm text-gray-500 mr-2">
+          {/* <div className="text-sm text-gray-500 mr-2">
             {problem.open ? (
               isOvertime ? (
                 <span className="text-red-500">Overtime</span>
@@ -40,7 +40,7 @@ const Problem = ({ problem }) => {
             ) : (
               "Closed"
             )}
-          </div>
+          </div> */}
           <div
             className={`uppercase tracking-wide text-sm ${
               problem.open ? "text-green-500" : "text-red-500"
@@ -62,7 +62,10 @@ const Problem = ({ problem }) => {
               />
             )}
           </div>
-          <div className="flex  items-center">
+          {problem.circle ? (
+            <div className="text-sm text-gray-500">/{problem.circle.name}</div>
+          ) : null}
+          {/* <div className="flex  items-center">
             {problem.author.image && (
               <Image
                 src={problem.author.image}
@@ -72,7 +75,7 @@ const Problem = ({ problem }) => {
               />
             )}
             <span className="ml-2">{problem.author.username}</span>
-          </div>
+          </div> */}
         </div>
         {/* Wrap the Keys and Star Keys in a div and use flex-col for vertical stacking */}
         <div className="flex justify-center items-end">

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Intro = () => {
+const Intro = ({ session }) => {
   return (
     <div className="space-y-4 mb-8">
       <div className="container mx-auto px-4 py-8">
@@ -19,10 +19,12 @@ const Intro = () => {
           </div>
         </div>
       </div>
-      <p className="text-sm text-gray-700 mb-4 bg-blue-100 p-4 rounded-lg shadow-md text-center">
-        You need to be signed in to create a problem, solve a problem, search
-        for a problem, or to view problems and profiles.
-      </p>
+      {session ? null : (
+        <p className="text-sm text-gray-700 mb-4 bg-blue-100 p-4 rounded-lg shadow-md text-center">
+          You need to be signed in to create a problem, solve a problem, search
+          for a problem, or to view problems and profiles.
+        </p>
+      )}
     </div>
   );
 };

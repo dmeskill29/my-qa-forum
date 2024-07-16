@@ -6,6 +6,7 @@ import FeedList from "@/components/Feed";
 import PleaseSignIn from "@/components/PleaseSignIn";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import Circles from "@/components/Circles";
 
 const page = async ({ searchParams }) => {
   const session = await getServerSession(authOptions);
@@ -50,9 +51,10 @@ const page = async ({ searchParams }) => {
   }
   return (
     <div className="flex mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4  py-4  sm:w-full justify-center space-x-4">
-      {/* <div className="bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg w-1/5 hidden sm:block">
-Categories
-</div> */}
+      <div className="w-1/5 hidden sm:block">
+        {" "}
+        <Circles />
+      </div>
       <div className="lg:w-1/2 sm:w-full">
         {" "}
         <FeedLinks />

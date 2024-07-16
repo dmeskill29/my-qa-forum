@@ -1,5 +1,3 @@
-// pages/api/problems.js
-
 import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -14,6 +12,7 @@ export async function POST(req) {
       prizeInStarKeys,
       tags,
       duration,
+      circleName,
     } = body;
 
     if (prizeInCircleKeys < 0 || prizeInStarKeys < 0) {
@@ -36,7 +35,21 @@ export async function POST(req) {
       );
     }
 
+    let circle;
+    if (circleName !== "N/A") {
+      circle = await db.circle.findUnique({
+        where: { name: circleName },
+      });
+    }
+
     const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new Response(JSON.stringify({ message: "Unauthorized" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
 
     const userId = session.user.id;
 
@@ -54,7 +67,6 @@ export async function POST(req) {
 
     const newPrizeInCircleKeys = prizeInCircleKeys + 25;
     const circleKeyCost = 50 + prizeInCircleKeys;
-
     const starKeyCost = prizeInStarKeys;
 
     const keychain = user.keychain;
@@ -69,17 +81,21 @@ export async function POST(req) {
       });
     }
 
-    const result = await db.problem.create({
-      data: {
-        title,
-        content,
-        authorId: userId,
-        prizeInCircleKeys: newPrizeInCircleKeys,
-        prizeInStarKeys,
-        tags,
-        duration, // Add the duration field
-      },
-    });
+    const data = {
+      title,
+      content,
+      authorId: userId,
+      prizeInCircleKeys: newPrizeInCircleKeys,
+      prizeInStarKeys,
+      tags,
+      duration,
+    };
+
+    if (circle) {
+      data.circleId = circle.id;
+    }
+
+    const result = await db.problem.create({ data });
 
     await db.keyChain.update({
       where: { id: keychain.id },
@@ -89,7 +105,7 @@ export async function POST(req) {
       },
     });
 
-    const leaderboardIncrement = await db.leaderboard.update({
+    await db.leaderboard.update({
       where: {
         userId_month_leaderboardId: {
           userId: userId,
@@ -100,7 +116,7 @@ export async function POST(req) {
       data: { score: { increment: newPrizeInCircleKeys + prizeInStarKeys } },
     });
 
-    const problemChildIncrement = await db.leaderboard.update({
+    await db.leaderboard.update({
       where: {
         userId_month_leaderboardId: {
           userId: userId,
@@ -142,6 +158,13 @@ export async function DELETE(req) {
 
   const session = await getServerSession(authOptions);
 
+  if (!session) {
+    return new Response(JSON.stringify({ message: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const problem = await db.problem.findUnique({
     where: { id: problemId },
   });
@@ -156,7 +179,7 @@ export async function DELETE(req) {
   }
 
   try {
-    const fatCatDecrement = await db.leaderboard.update({
+    await db.leaderboard.update({
       where: {
         userId_month_leaderboardId: {
           userId: userId,
@@ -171,7 +194,7 @@ export async function DELETE(req) {
       },
     });
 
-    const problemChildDecrement = await db.leaderboard.update({
+    await db.leaderboard.update({
       where: {
         userId_month_leaderboardId: {
           userId: userId,
@@ -197,6 +220,9 @@ export async function DELETE(req) {
     });
   } catch (error) {
     console.error(error);
-    return new Response("OK");
+    return new Response(JSON.stringify({ message: "Internal Server Error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
